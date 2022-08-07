@@ -9,7 +9,7 @@ require "time"
 
 class SlackProcessor < Processor
 
-    attr_accessor :botToken, :inCommingWebHookURL, :targetChannel, :timeZoneOffset
+    attr_accessor :botToken, :inCommingWebHookURL, :targetChannel, :timeZoneOffset, :attachmentGroupByNumber
 
     def initialize(config, configFilePath, baseExecutePath)
         @config = config
@@ -20,6 +20,11 @@ class SlackProcessor < Processor
         @inCommingWebHookURL = config["slackInCommingWebHookURL"]
         @targetChannel = config["slackBotTargetChannel"]
         @timeZoneOffset = Helper.unwrapRequiredParameter(config, "slackTimeZoneOffset")
+        @attachmentGroupByNumber = 1
+
+        if !config['slackAttachmentGroupByNumber'].nil? && config['slackAttachmentGroupByNumber'] != "" && config['slackAttachmentGroupByNumber'].to_i > 0  && config['slackAttachmentGroupByNumber'].to_i < 100
+            @attachmentGroupByNumber = config['slackAttachmentGroupByNumber'].to_i
+        end
 
         if (botToken.nil? && inCommingWebHookURL.nil?) || (botToken == "" && inCommingWebHookURL == "")
             raise "must specify slackBotToken or slackInCommingWebHookURL in SlackProcessor."
@@ -30,35 +35,51 @@ class SlackProcessor < Processor
 
     def processReviews(reviews, platform)
 
-        # 1 review 1 message
-        reviews.each do |review|
+        pendingPayloads = []
+
+        # Slack Message Limit: posting one message per second per channel
+        reviews.each_slice(attachmentGroupByNumber) do |reviewGroup|
             payload = Payload.new()
             payload.attachments = []
-            
-            attachment = Payload::Attachment.new()
 
-            stars = "★" * review.rating + "☆" * (5 - review.rating)
-            color = review.rating >= 4 ? "good" : (review.rating > 2 ? "warning" : "danger")
-            date = Time.at(review.createdDateTimestamp).getlocal(timeZoneOffset)
-            
-            title = "#{stars}"
-            if !review.title.nil?
-                title = "#{review.title} - #{stars}"
-            end
+            reviewGroup.each do |review|
+                attachment = Payload::Attachment.new()
+
+                stars = "★" * review.rating + "☆" * (5 - review.rating)
+                color = review.rating >= 4 ? "good" : (review.rating > 2 ? "warning" : "danger")
+                date = Time.at(review.createdDateTimestamp).getlocal(timeZoneOffset)
                 
-            attachment.color = color
-            attachment.author_name = review.userName
-            attachment.fallback = title
-            attachment.title = title
-            attachment.text = review.body
-            attachment.footer = "#{platform} - #{review.platform} - #{review.appVersion} - #{review.territory} - <#{review.url}|#{date}>"
-            
-            payload.attachments.append(attachment)
+                title = "#{stars}"
+                if !review.title.nil?
+                    title = "#{review.title} - #{stars}"
+                end
+                    
+                attachment.color = color
+                attachment.author_name = review.userName
+                attachment.fallback = title
+                attachment.title = title
+                attachment.text = review.body
+                attachment.footer = "#{platform} - #{review.platform} - #{review.appVersion} - #{review.territory} - <#{review.url}|#{date}>"
+                
+                payload.attachments.append(attachment)
+            end
+
+            pendingPayloads.append(payload)
+        end
+
+        loop do
+            payload = pendingPayloads.pop
 
             result = request(payload)
-            if !result
+            if !result[:ok]
                 Helper.logError(result)
+                if result[:message] == "ratelimited"
+                    sleep(1)
+                    pendingPayloads.append(payload)
+                end
             end
+
+            break if pendingPayloads.length < 1
         end
 
         return reviews
@@ -108,10 +129,10 @@ class SlackProcessor < Processor
         res = http.request(req)
 
         if isInCommingWebHook
-            return res.body == "ok"
+            return {"ok":res.body == "ok", "message":nil}
         else
             result = JSON.parse(res.body)
-            return result["ok"] == true
+            return {"ok":result["ok"] == true, "message":result['error']}
         end
         
     end
