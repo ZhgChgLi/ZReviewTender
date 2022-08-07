@@ -29,31 +29,31 @@ class SlackProcessor < Processor
     end
 
     def processReviews(reviews, platform)
-        reviews.each_slice(10) do |reviewGroup|
+
+        # 1 review 1 message
+        reviews.each do |review|
             payload = Payload.new()
             payload.attachments = []
+            
+            attachment = Payload::Attachment.new()
 
-            reviewGroup.each do |review|
-                attachment = Payload::Attachment.new()
-
-                stars = "★" * review.rating + "☆" * (5 - review.rating)
-                color = review.rating >= 4 ? "good" : (review.rating > 2 ? "warning" : "danger")
-                date = Time.at(review.createdDateTimestamp).getlocal(timeZoneOffset)
-                
-                title = "#{stars}"
-                if !review.title.nil?
-                    title = "#{review.title} - #{stars}"
-                end
-                    
-                attachment.color = color
-                attachment.author_name = review.userName
-                attachment.fallback = title
-                attachment.title = title
-                attachment.text = review.body
-                attachment.footer = "#{platform} - #{review.platform} - #{review.appVersion} - #{review.territory} - <#{review.url}|#{date}>"
-                
-                payload.attachments.append(attachment)
+            stars = "★" * review.rating + "☆" * (5 - review.rating)
+            color = review.rating >= 4 ? "good" : (review.rating > 2 ? "warning" : "danger")
+            date = Time.at(review.createdDateTimestamp).getlocal(timeZoneOffset)
+            
+            title = "#{stars}"
+            if !review.title.nil?
+                title = "#{review.title} - #{stars}"
             end
+                
+            attachment.color = color
+            attachment.author_name = review.userName
+            attachment.fallback = title
+            attachment.title = title
+            attachment.text = review.body
+            attachment.footer = "#{platform} - #{review.platform} - #{review.appVersion} - #{review.territory} - <#{review.url}|#{date}>"
+            
+            payload.attachments.append(attachment)
 
             result = request(payload)
             if !result
