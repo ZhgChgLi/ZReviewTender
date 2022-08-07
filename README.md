@@ -50,6 +50,8 @@ under Beta.
 6. Rename `android.example.yml` to `android.yml` and `apple.example.yml` to `apple.yml`
 7. init ZReviewTender by execute `ZReviewTender -r`
 
+⚠️⚠️⚠️ MAKE SURE `config` folder with credentials file (config.yml/private key..) SAFE, won't upload to the internet ⚠️⚠️⚠️
+
 ## Remove Google Translate Processor
 If your don't need Google Translate Processor, you can remove it!
 
