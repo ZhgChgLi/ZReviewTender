@@ -1,0 +1,96 @@
+#!/usr/bin/env ruby
+# -*- coding: utf-8 -*-
+
+$lib = File.expand_path('../lib', File.dirname(__FILE__))
+$LOAD_PATH.unshift($lib)
+
+require "Models/AppleConfig"
+require "Models/AndroidConfig"
+require "Models/Processor"
+require "Helper"
+require "AppleFetcher"
+require "AndroidFetcher"
+require "optparse"
+require "yaml"
+
+class Main
+    def initialize
+
+        ARGV << '-r' if ARGV.empty?
+
+        OptionParser.new do |opts|
+            opts.banner = "Usage: ZReviewTender [options]"
+
+            basePath = ENV['PWD'] || ::Dir.pwd
+        
+            opts.on('-a', '--apple[=CONFIGYMLFILEPATH]', 'execute apple platform with config yml file') do |configYMLFilePath|
+                if configYMLFilePath.nil?
+                    configYMLFilePath = "#{basePath}/config/apple.yml"
+                end
+                fetcher = parseConfigYMLFile(configYMLFilePath)
+                fetcher.execute()
+            end 
+
+            opts.on('-g', '--googleAndroid[=CONFIGYMLFILEPATH]', 'execute apple platform with config yml file') do |configYMLFilePath|
+                if configYMLFilePath.nil?
+                    configYMLFilePath = "#{basePath}/config/android.yml"
+                end
+                fetcher = parseConfigYMLFile(configYMLFilePath)
+                fetcher.execute()
+            end 
+            
+            opts.on('-r', '--run', 'execute with config yml file') do
+                appleConfigFilePath = "#{basePath}/config/android.yml"
+                fetcher = parseConfigYMLFile(appleConfigFilePath)
+                fetcher.execute()
+
+                appleConfigFilePath = "#{basePath}/config/apple.yml"
+                fetcher = parseConfigYMLFile(appleConfigFilePath)
+                fetcher.execute()
+            end 
+        end.parse!
+    end
+
+    private
+    def parseConfigYMLFile(configFilePath)
+        configYMLObj = YAML.load_file(configFilePath)
+        begin
+            platform = Helper.unwrapRequiredParameter(configYMLObj, 'platform')
+            
+            fetcher = nil
+            if platform.downcase == "apple"
+                fetcher = AppleFetcher.new(AppleConfig.new(configYMLObj, configFilePath, ENV['PWD'] || ::Dir.pwd))
+            elsif platform.downcase == "android"
+                fetcher = AndroidFetcher.new(AndroidConfig.new(configYMLObj, configFilePath, ENV['PWD'] || ::Dir.pwd))
+            else
+                raise "unknow platform #{platform} in yml file #{configFilePath}."
+            end
+
+            processors = Helper.unwrapRequiredParameter(configYMLObj, 'processors')
+            
+            if processors.length < 1
+                raise "must specify at least one processor."
+            end
+
+            processors.each do |processor|
+                processor.each do |key, value|
+                    processorClass = Helper.unwrapRequiredParameter(value, "class")
+                    require "Processors/#{processorClass}"
+                    fetcher.registerProcessor(eval("#{processorClass}.new(#{value}, '#{configFilePath}', '#{ENV['PWD'] || ::Dir.pwd}')"))
+                end
+            end
+
+
+            return fetcher
+        rescue => e
+            raise "#{e.message} in yml file #{configFilePath}."
+        end        
+    end
+end
+
+begin 
+    Main.new()
+rescue => e
+    puts "#Error: #{e.class} #{e.message}\n"
+    puts e.backtrace
+end

@@ -1,0 +1,17 @@
+platform: 'android'
+packageName: '' # Android App Package Name
+keyFilePath: '' # Google Android Publisher API Credential .json File Path
+playConsoleDeveloperAccountID: '' # Google Console Developer Account ID
+playConsoleAppID: '' # Google Console App ID
+processors:
+    - GoogleTranslateProcessor: # Google Translate Processor, will translate review text to your language, you can remove whole block if you don't needed it.
+        class: "GoogleTranslateProcessor"
+        googleTranslateAPIKeyFilePath: '' # Google Translate API Credential .json File Path
+        googleTranslateTargetLang: 'zh-TW' # Translate to what Language
+        googleTranslateWhiteListTerritories: ["TWN","CHN"] # Review origin Territory (language) that you don't want to translate.
+    - SlackProcessor: # Slack Processor, resend App Review to Slack.
+        class: "SlackProcessor"
+        slackTimeZoneOffset: "+08:00" # Review Created Date TimeZone
+        slackBotToken: "" # Slack Bot Token, send slack message throught Slack Bot.
+        slackBotTargetChannel: "" # Slack Bot Token, send slack message throught Slack Bot. (recommended, first priority)
+        slackInCommingWebHookURL: "" # Slack In-Comming WebHook URL, Send slack message throught In-Comming WebHook, not recommended, deprecated.
