@@ -1,0 +1,8 @@
+/vendor/
+/config/
+!/config/KEEP_THIS_DIR_CONFIDENTIAL
+!/config/apple.example.yml
+!/config/apple.example.yml
+!/config/android.example.yml
+/.cache/
+!/.cache/.keep
