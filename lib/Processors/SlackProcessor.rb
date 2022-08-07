@@ -68,14 +68,14 @@ class SlackProcessor < Processor
         end
 
         loop do
-            payload = pendingPayloads.pop
+            payload = pendingPayloads.shift
 
             result = request(payload)
             if !result[:ok]
                 Helper.logError(result)
                 if result[:message] == "ratelimited"
                     sleep(1)
-                    pendingPayloads.append(payload)
+                    pendingPayloads.insert(0, payload)
                 end
             end
 
