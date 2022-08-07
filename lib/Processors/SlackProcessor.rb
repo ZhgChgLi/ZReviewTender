@@ -29,7 +29,7 @@ class SlackProcessor < Processor
     end
 
     def processReviews(reviews, platform)
-        reviews.each_slice(50) do |reviewGroup|
+        reviews.each_slice(10) do |reviewGroup|
             payload = Payload.new()
             payload.attachments = []
 
@@ -74,11 +74,11 @@ class SlackProcessor < Processor
         body = "#{platform} Init Success!, will resend App Review to this channel automatically."
         
         attachment.color = "good"
-        attachment.author_name = "<https://zhgchg.li|ZhgChgLi>"
+        attachment.author_name = "ZhgChgLi"
         attachment.fallback = title
         attachment.title = title
         attachment.text = body
-        attachment.footer = "Powered by <https://github.com/ZhgChgLi/ZReviewTender|ZReviewTender>, <https://github.com/ZhgChgLi/ZReviewTender/issues|Report an issue.>"
+        attachment.footer = "<https://github.com/ZhgChgLi/ZReviewTender|ZReviewTender>, <https://github.com/ZhgChgLi/ZReviewTender/issues|Report an issue>, Powered by <https://zhgchg.li|ZhgChgLi>."
         
         payload.attachments.append(attachment)
 
