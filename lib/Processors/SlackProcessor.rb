@@ -78,7 +78,7 @@ class SlackProcessor < Processor
         attachment.fallback = title
         attachment.title = title
         attachment.text = body
-        attachment.footer = "Powered by "
+        attachment.footer = "Powered by <https://github.com/ZhgChgLi/ZReviewTender|ZReviewTender>, <https://github.com/ZhgChgLi/ZReviewTender/issues|Report an issue.>"
         
         payload.attachments.append(attachment)
 

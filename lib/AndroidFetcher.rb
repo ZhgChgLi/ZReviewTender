@@ -5,7 +5,6 @@ require "Helper"
 require "Models/ReviewFetcher"
 require "time"
 require "google/apis/androidpublisher_v3"
-require "google/apis/content_v2"
 
 class AndroidFetcher < ReviewFetcher
 
