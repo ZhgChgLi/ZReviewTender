@@ -56,7 +56,7 @@ class SlackProcessor < Processor
             end
 
             result = request(payload)
-            if result["ok"] != true
+            if !result
                 Helper.logError(result)
             end
         end
@@ -87,14 +87,18 @@ class SlackProcessor < Processor
 
     private
     def request(payload)
+
+        isInCommingWebHook = false
         if !botToken.nil? && botToken != ""
             uri = URI("https://slack.com/api/chat.postMessage")
             payload.channel = targetChannel
             headers = {'Content-Type': 'application/json; charset=utf-8', 'Authorization': "Bearer #{botToken}"}
+            isInCommingWebHook = false
         else
             uri = URI(inCommingWebHookURL)
             payload.channel = nil
             headers = {'Content-Type': 'application/json; charset=utf-8'}
+            isInCommingWebHook = true
         end
         
         http = Net::HTTP.new(uri.host, uri.port)
@@ -102,7 +106,14 @@ class SlackProcessor < Processor
         req = Net::HTTP::Post.new(uri.request_uri, headers)
         req.body = payload.to_json
         res = http.request(req)
-        JSON.parse(res.body)
+
+        if isInCommingWebHook
+            return res.body == "ok"
+        else
+            result = JSON.parse(res.body)
+            return result["ok"] == true
+        end
+        
     end
 
     private
