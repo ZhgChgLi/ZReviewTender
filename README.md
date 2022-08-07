@@ -15,6 +15,7 @@ Beta.
 # To Do
 - [ ] Documentation for How to create App Store Private Key & Google Console `android_publisher_key.json`
 - [ ] Filter Processor (let you filter review e.g. only resend rating > 3 or content not contain special string review to Slack Channel)
+- [ ] Upload Github Action to Marketplace
 
 # Result
 ![ZhgChgLi_2022-08-07_21-02-30](https://user-images.githubusercontent.com/33706588/183293375-c426d865-fedf-4ff9-9740-222e71dbda6b.jpg)
