@@ -6,3 +6,4 @@
 /.cache/*
 !/.cache/.keep
 .DS_Store
+*.gem
