@@ -68,7 +68,7 @@ These integrations lack newer features and they will be deprecated and possibly 
 We do not recommend their use.
 Instead, we suggest that you check out their replacement: Slack apps.
 ```
-messagage from [Slack](https://api.slack.com/messaging/webhooks#posting_with_webhooks).
+message from [Slack](https://api.slack.com/messaging/webhooks#posting_with_webhooks).
 
 System will detect if you've specify slack bot token, than it's ignore In-Comming WebHook.
 
