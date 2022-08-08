@@ -3,18 +3,20 @@ $lib = File.expand_path('../lib', File.dirname(__FILE__))
 require "Models/Review"
 require "Models/Processor"
 require "Helper"
+require "ZLogger"
 require "net/http"
 require "json"
 require "time"
 
 class SlackProcessor < Processor
 
-    attr_accessor :botToken, :inCommingWebHookURL, :targetChannel, :timeZoneOffset, :attachmentGroupByNumber
+    attr_accessor :botToken, :inCommingWebHookURL, :targetChannel, :timeZoneOffset, :attachmentGroupByNumber, :logger
 
     def initialize(config, configFilePath, baseExecutePath)
         @config = config
         @configFilePath = configFilePath
         @baseExecutePath = baseExecutePath
+        @logger = ZLogger.new(baseExecutePath)
 
         @botToken = config["slackBotToken"]
         @inCommingWebHookURL = config["slackInCommingWebHookURL"]
@@ -34,6 +36,9 @@ class SlackProcessor < Processor
     end
 
     def processReviews(reviews, platform)
+        if reviews.length < 1
+            return reviews
+        end
 
         pendingPayloads = []
 
@@ -72,7 +77,7 @@ class SlackProcessor < Processor
 
             result = request(payload)
             if !result[:ok]
-                Helper.logError(result)
+                logger.logError(result)
                 if result[:message] == "ratelimited"
                     sleep(1)
                     pendingPayloads.insert(0, payload)

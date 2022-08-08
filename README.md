@@ -6,6 +6,7 @@ Beta.
 # Features
 - [x] Support fetch App Store (iOS App/Mac OS App...) Reviews
 - [x] Support Google Console (Android App) Reviews
+- [x] Support Filter, you can add custom filter condition to filter out which reviews you need
 - [x] Base on Official API(`AndroidpublisherV3`, `AppStoreConnect API`), no more workaround or [session expired](https://docs.fastlane.tools/getting-started/ios/authentication/)
 - [x] Flexible extension, you can develop your own Processor(a.k.a plugin) for suit your workflow.
 - [x] Resend latest Review to your Slack Channel automatically.
@@ -14,8 +15,8 @@ Beta.
 
 # To Do
 - [ ] Documentation for How to create App Store Private Key & Google Console `android_publisher_key.json`
-- [ ] Filter Processor (let you filter review e.g. only resend rating > 3 or content not contain special string review to Slack Channel)
-- [ ] Upload Github Action to Marketplace
+- [ ] Documentation for How to create custom Processor
+- [ ] Create Marketplace Github Action
 
 # Result
 ![ZhgChgLi_2022-08-07_21-02-30](https://user-images.githubusercontent.com/33706588/183293375-c426d865-fedf-4ff9-9740-222e71dbda6b.jpg)

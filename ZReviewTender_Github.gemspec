@@ -1,12 +1,12 @@
 Gem::Specification.new do |gem|
     gem.authors       = ['ZhgChgLi']
-    gem.description   = 'ZReviewTender - Monitor your App reviews in your Slack channel'
+    gem.description   = 'ZReviewTender - App Reviews Automatic Bot'
     gem.summary       = 'ZReviewTender uses brand new App Store & Google Play API to resend App reviews to your Slack channel automatically.'
     gem.homepage      = 'https://github.com/ZhgChgLi/ZReviewTender'
     gem.files         = Dir['lib/**/*.*']
     gem.executables   = ['ZReviewTender']
     gem.name          = 'zreviewtender'
-    gem.version       = '0.0.7'
+    gem.version       = '1.0.1'
   
     gem.license       = "MIT"
   

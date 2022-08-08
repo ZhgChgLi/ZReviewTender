@@ -2,6 +2,7 @@ $lib = File.expand_path('../lib', File.dirname(__FILE__))
 
 require "Models/Review"
 require "Helper"
+require "ZLogger"
 require "Models/ReviewFetcher"
 require "jwt"
 require "time"
@@ -14,6 +15,7 @@ class AppleFetcher < ReviewFetcher
     def initialize(config)
         @processors = []
         @config = config
+        @logger = ZLogger.new(config.baseExecutePath)
         @platform = 'Apple'
         @token = generateJWT()
     end
@@ -34,7 +36,7 @@ class AppleFetcher < ReviewFetcher
 
         if reviews.length > 0
             reviews.sort! { |a, b|  a.createdDateTimestamp <=> b.createdDateTimestamp }
-            setPlatformLatestCheckTimestamp(reviews.first.createdDateTimestamp)
+            setPlatformLatestCheckTimestamp(reviews.last.createdDateTimestamp)
 
             reviews = fullfillAppInfo(reviews)
             processReviews(reviews, platform)
@@ -65,7 +67,7 @@ class AppleFetcher < ReviewFetcher
                     customerReviewCreatedDateTimestamp = Time.parse(customerReviewCreatedDate).to_i
                 end
 
-                if latestCheckTimestamp > customerReviewCreatedDateTimestamp
+                if latestCheckTimestamp >= customerReviewCreatedDateTimestamp
                     customerReviewsLink = nil
                     break
                 else
@@ -166,7 +168,7 @@ class AppleFetcher < ReviewFetcher
                 raise "Could not connect to api.appstoreconnect.apple.com, error message: #{response}"
             else
                 @token = generateJWT()
-                Helper.logWarn("JWT Expired, refresh a new one. (#{retryCount + 1})")
+                logger.logWarn("JWT Expired, refresh a new one. (#{retryCount + 1})")
                 return request(url, retryCount + 1)
             end
         else

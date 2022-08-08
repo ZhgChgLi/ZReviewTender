@@ -8,7 +8,7 @@ require "time"
 
 class ReviewFetcher
 
-    attr_accessor :config, :platform, :processors
+    attr_accessor :config, :platform, :processors, :logger
 
     def execute()
 

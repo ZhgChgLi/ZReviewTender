@@ -52,7 +52,7 @@ class AndroidFetcher < ReviewFetcher
             end
             customerReviewPlatform = "Android #{customerReview.comments[0].user_comment.android_os_version}"
             
-            if latestCheckTimestamp > customerReviewCreatedDateTimestamp
+            if latestCheckTimestamp >= customerReviewCreatedDateTimestamp
                 break
             else
                 url = "https://play.google.com/store/apps/details?id=#{config.packageName}&reviewId=#{customerReviewID}"
@@ -66,7 +66,7 @@ class AndroidFetcher < ReviewFetcher
       
         if reviews.length > 0
             reviews.sort! { |a, b|  a.createdDateTimestamp <=> b.createdDateTimestamp }
-            setPlatformLatestCheckTimestamp(reviews.first.createdDateTimestamp)
+            setPlatformLatestCheckTimestamp(reviews.last.createdDateTimestamp)
 
             processReviews(reviews, platform)
         end

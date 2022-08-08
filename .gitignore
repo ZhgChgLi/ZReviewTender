@@ -6,4 +6,5 @@
 /latestCheckTimestamp/*
 !/latestCheckTimestamp/.keep
 .DS_Store
+execute.log
 *.gem

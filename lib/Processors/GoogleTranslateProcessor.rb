@@ -9,7 +9,7 @@ require "google/cloud/translate/v2"
 
 class GoogleTranslateProcessor < Processor
 
-    attr_accessor :client, :targetLang, :whiteListTerritories
+    attr_accessor :client, :targetLang, :territoriesExclude
 
     def initialize(config, configFilePath, baseExecutePath)
         @config = config
@@ -26,15 +26,19 @@ class GoogleTranslateProcessor < Processor
         ENV["TRANSLATE_CREDENTIALS"] = keyFilePath
         @client = Google::Cloud::Translate::V2.new
         @targetLang = Helper.unwrapRequiredParameter(config, "googleTranslateTargetLang")
-        @whiteListTerritories = []
-        if !config['googleTranslateWhiteListTerritories'].nil? && config['googleTranslateWhiteListTerritories'].length > 0
-            @whiteListTerritories = config['googleTranslateWhiteListTerritories']
+        @territoriesExclude = []
+        if !config['googleTranslateTerritoriesExclude'].nil? && config['googleTranslateTerritoriesExclude'].length > 0
+            @territoriesExclude = config['googleTranslateTerritoriesExclude']
         end
     end
 
     def processReviews(reviews, platform)
+        if reviews.length < 1
+            return reviews
+        end
+        
         reviews.each_index do |index|
-            if whiteListTerritories.include? reviews[index].territory
+            if territoriesExclude.include? reviews[index].territory
                 next
             end
 
