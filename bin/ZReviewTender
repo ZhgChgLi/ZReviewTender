@@ -27,6 +27,8 @@ class Main
                 if configYMLFilePath.nil?
                     configYMLFilePath = "#{basePath}/config/apple.yml"
                 end
+                configFileCheck(configYMLFilePath, "--apple=CONFIG_YML_FILE_PATH")
+
                 fetcher = parseConfigYMLFile(configYMLFilePath)
                 fetcher.execute()
             end 
@@ -35,20 +37,37 @@ class Main
                 if configYMLFilePath.nil?
                     configYMLFilePath = "#{basePath}/config/android.yml"
                 end
+                configFileCheck(configYMLFilePath, "--googleAndroid=CONFIG_YML_FILE_PATH")
+
                 fetcher = parseConfigYMLFile(configYMLFilePath)
                 fetcher.execute()
             end 
             
             opts.on('-r', '--run', 'execute with config yml file') do
-                appleConfigFilePath = "#{basePath}/config/android.yml"
-                fetcher = parseConfigYMLFile(appleConfigFilePath)
+                androidConfigFilePath = "#{basePath}/config/android.yml"
+                configFileCheck(androidConfigFilePath, "--googleAndroid=CONFIG_YML_FILE_PATH")
+                
+                fetcher = parseConfigYMLFile(androidConfigFilePath)
                 fetcher.execute()
-
+                
+                #
+                
                 appleConfigFilePath = "#{basePath}/config/apple.yml"
+                configFileCheck(appleConfigFilePath, "--apple=CONFIG_YML_FILE_PATH")
+
                 fetcher = parseConfigYMLFile(appleConfigFilePath)
                 fetcher.execute()
             end 
         end.parse!
+    end
+
+    private
+    def configFileCheck(path, command)
+        if !File.exists? path
+            puts "Make sure you have vaild config file at #{path}"
+            puts "Or use ZReviewTender #{command} specify config.yml file path"
+            raise "Config file not found: #{path}"
+        end
     end
 
     private
