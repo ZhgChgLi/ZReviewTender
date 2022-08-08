@@ -1,8 +1,5 @@
 ![ZReviewTender](https://user-images.githubusercontent.com/33706588/183299972-7d546eae-b7be-4006-974c-b878c5b46935.jpg)
 
-# Project Status
-Beta.
-
 # Features
 - [x] Support fetch App Store (iOS App/Mac OS App...) Reviews
 - [x] Support Google Console (Android App) Reviews
