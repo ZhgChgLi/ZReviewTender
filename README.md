@@ -120,9 +120,13 @@ This repository is for research purposes only, the use of this code is your resp
 ## List of companies that use ZReviewTender
 [![ZhgChgLi_2022-08-07_22-09-59](https://user-images.githubusercontent.com/33706588/183295003-6ba388d3-86a3-4dd1-a1ed-a122deebda0e.jpg)](https://www.pinkoi.com)
 
+## More Tools
+- [ZMediumToMarkdown](https://github.com/ZhgChgLi/ZMediumToMarkdown) lets you download Medium post and convert it to markdown format easily.
 
 ## Made In Taiwan 🇹🇼🇹🇼🇹🇼
+- [ZhgChg.Li (CH)](https://zhgchg.li/)
 - [ZhgChgLi's Medium (CH)](https://blog.zhgchg.li/)
+
 
 [![Buy Me A Coffe](https://img.buymeacoffee.com/button-api/?text=Buy%20me%20a%20beer!&emoji=%F0%9F%8D%BA&slug=zhgchgli&button_colour=FFDD00&font_colour=000000&font_family=Bree&outline_colour=000000&coffee_colour=ffffff)](https://www.buymeacoffee.com/zhgchgli)
 
