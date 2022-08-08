@@ -26,7 +26,7 @@ class AppleFetcher < ReviewFetcher
         # init first time, send welcome message
         if latestCheckTimestamp == 0 
             sendWelcomMessage()
-            setPlatformLatestCheckTimestamp()
+            setPlatformLatestCheckTimestamp(Time.now().to_i)
             return;
         end
 
@@ -34,12 +34,11 @@ class AppleFetcher < ReviewFetcher
 
         if reviews.length > 0
             reviews.sort! { |a, b|  a.createdDateTimestamp <=> b.createdDateTimestamp }
-            reviews = fullfillAppInfo(reviews)
+            setPlatformLatestCheckTimestamp(reviews.first.createdDateTimestamp)
 
+            reviews = fullfillAppInfo(reviews)
             processReviews(reviews, platform)
         end
-
-        setPlatformLatestCheckTimestamp()
     end
 
     private

@@ -3,7 +3,7 @@
 !/config/KEEP_THIS_DIR_CONFIDENTIAL.md
 !/config/android.example.yml
 !/config/apple.example.yml
-/.cache/*
-!/.cache/.keep
+/latestCheckTimestamp/*
+!/latestCheckTimestamp/.keep
 .DS_Store
 *.gem

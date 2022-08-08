@@ -26,7 +26,7 @@ class AndroidFetcher < ReviewFetcher
         # init first time, send welcome message
         if latestCheckTimestamp == 0 
             sendWelcomMessage()
-            setPlatformLatestCheckTimestamp()
+            setPlatformLatestCheckTimestamp(Time.now().to_i)
             return
         end
 
@@ -66,9 +66,9 @@ class AndroidFetcher < ReviewFetcher
       
         if reviews.length > 0
             reviews.sort! { |a, b|  a.createdDateTimestamp <=> b.createdDateTimestamp }
+            setPlatformLatestCheckTimestamp(reviews.first.createdDateTimestamp)
+
             processReviews(reviews, platform)
         end
-
-        setPlatformLatestCheckTimestamp()
     end
 end

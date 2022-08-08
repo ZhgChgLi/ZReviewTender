@@ -31,14 +31,14 @@ class ReviewFetcher
         end
     end
 
-    def setPlatformLatestCheckTimestamp()
-        basePath = "#{config.baseExecutePath}/.cache"
+    def setPlatformLatestCheckTimestamp(timestamp)
+        basePath = "#{config.baseExecutePath}/latestCheckTimestamp/"
         Helper.createDirIfNotExist(basePath)
-        File.open("#{basePath}/#{platform}-latestCheckTimestamp", 'w') { |file| file.write(Time.now().to_i) }
+        File.open("#{basePath}/#{platform}", 'w') { |file| file.write(timestamp) }
     end
 
     def getPlatformLatestCheckTimestamp()
-        filePath = "#{config.baseExecutePath}/.cache/#{platform}-latestCheckTimestamp"
+        filePath = "#{config.baseExecutePath}/latestCheckTimestamp/#{platform}"
         if File.exists?(filePath)
             return File.read(filePath).to_i
         else
