@@ -24,19 +24,17 @@ class AppleFetcher < ReviewFetcher
 
         latestCheckTimestamp = getPlatformLatestCheckTimestamp()
 
-
-        # init first time, send welcome message
-        if latestCheckTimestamp == 0 
-            sendWelcomMessage()
-            setPlatformLatestCheckTimestamp(Time.now().to_i)
-            return;
-        end
-
         reviews = fetchReviews(latestCheckTimestamp)
 
         if reviews.length > 0
             reviews.sort! { |a, b|  a.createdDateTimestamp <=> b.createdDateTimestamp }
             setPlatformLatestCheckTimestamp(reviews.last.createdDateTimestamp)
+
+            # init first time, send welcome message
+            if latestCheckTimestamp == 0 
+                sendWelcomMessage()
+                return;
+            end
 
             reviews = fullfillAppInfo(reviews)
             processReviews(reviews, platform)
@@ -73,6 +71,12 @@ class AppleFetcher < ReviewFetcher
                 else
                     url = "https://appstoreconnect.apple.com/apps/#{config.appID}/appstore/activity/ios/ratingsResponses"
                     reviews.append(Review.new(nil, customerReviewID, customerReviewReviewerNickname, customerReviewRating, customerReviewTitle, customerReviewBody, customerReviewCreatedDateTimestamp, url, nil, customerReviewTerritory))
+                    
+                    # init first time, need first review to set as latestCheckTimestamp
+                    if latestCheckTimestamp == 0
+                        customerReviewsLink = nil
+                        break
+                    end
                 end
             end
 

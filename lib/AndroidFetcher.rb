@@ -23,13 +23,6 @@ class AndroidFetcher < ReviewFetcher
 
         latestCheckTimestamp = getPlatformLatestCheckTimestamp()
 
-        # init first time, send welcome message
-        if latestCheckTimestamp == 0 
-            sendWelcomMessage()
-            setPlatformLatestCheckTimestamp(Time.now().to_i)
-            return
-        end
-
         reviews = []
         
         # Google API Bug, couldn't specify limit/offse/pagination, google only return a few recent reviews.
@@ -52,21 +45,24 @@ class AndroidFetcher < ReviewFetcher
             end
             customerReviewPlatform = "Android #{customerReview.comments[0].user_comment.android_os_version}"
             
-            if latestCheckTimestamp >= customerReviewCreatedDateTimestamp
-                break
-            else
-                url = "https://play.google.com/store/apps/details?id=#{config.packageName}&reviewId=#{customerReviewID}"
-                if !config.accountID.nil? && !config.appID.nil?
-                    url = "https://play.google.com/console/developers/#{config.accountID}/app/#{config.appID}/user-feedback/review-details?reviewId=#{customerReviewID}"
-                end
-                reviews.append(Review.new(customerReviewPlatform, customerReviewID, customerReviewReviewerNickname, customerReviewRating, customerReviewTitle, customerReviewBody, customerReviewCreatedDateTimestamp, url, customerReviewVersionString, customerReviewTerritory))
+            url = "https://play.google.com/store/apps/details?id=#{config.packageName}&reviewId=#{customerReviewID}"
+            if !config.accountID.nil? && !config.appID.nil?
+                url = "https://play.google.com/console/developers/#{config.accountID}/app/#{config.appID}/user-feedback/review-details?reviewId=#{customerReviewID}"
             end
-
+            reviews.append(Review.new(customerReviewPlatform, customerReviewID, customerReviewReviewerNickname, customerReviewRating, customerReviewTitle, customerReviewBody, customerReviewCreatedDateTimestamp, url, customerReviewVersionString, customerReviewTerritory))
         end
+
+        reviews = reviews.reject{ |review| latestCheckTimestamp >= review.createdDateTimestamp }.sort! { |a, b|  a.createdDateTimestamp <=> b.createdDateTimestamp }
       
         if reviews.length > 0
-            reviews.sort! { |a, b|  a.createdDateTimestamp <=> b.createdDateTimestamp }
+
             setPlatformLatestCheckTimestamp(reviews.last.createdDateTimestamp)
+
+            # init first time, send welcome message
+            if latestCheckTimestamp == 0 
+                sendWelcomMessage()
+                return
+            end
 
             processReviews(reviews, platform)
         end
