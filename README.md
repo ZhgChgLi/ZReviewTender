@@ -16,7 +16,6 @@ Beta.
 # To Do
 - [ ] Documentation for How to create App Store Private Key & Google Console `android_publisher_key.json`
 - [ ] Documentation for How to create custom Processor
-- [ ] Create Marketplace Github Action
 
 # Result
 ![ZhgChgLi_2022-08-07_21-02-30](https://user-images.githubusercontent.com/33706588/183293375-c426d865-fedf-4ff9-9740-222e71dbda6b.jpg)
@@ -104,6 +103,14 @@ bundle exec ruby bin/ZReviewTender -g
 ```
 bundle exec ruby bin/ZReviewTender --googleAndroid=PATH_TO_ANDROID_CONFIG_YAML_FILE
 ```
+
+## Develop your custom Processor
+- Manually this project (clone & install & modify)
+- Copy [Processor.rb](https://github.com/ZhgChgLi/ZReviewTender/blob/main/lib/Processors/ProcessorTemplate.rb) and modify to the feature you want.
+- Add your Processor to config.yml, insert in `processors:` section
+- Test & Release!
+
+*processors are sort sensitive.
 
 ## Disclaimer
 This repository is for research purposes only, the use of this code is your responsibility.
