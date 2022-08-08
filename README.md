@@ -1,7 +1,7 @@
-![messageImage_1659872002381](https://user-images.githubusercontent.com/33706588/183288627-209506d5-1e77-4ab9-b9c2-029e291fc06c.jpg)
+![ZReviewTender](https://user-images.githubusercontent.com/33706588/183299972-7d546eae-b7be-4006-974c-b878c5b46935.jpg)
 
 # Project Status
-under Beta.
+Beta.
 
 # Features
 - [x] Support fetch App Store (iOS App/Mac OS App...) Reviews
@@ -11,6 +11,11 @@ under Beta.
 - [x] Resend latest Review to your Slack Channel automatically.
 - [x] Google Translate API Support, translate Review to your language automatically. (By Default)
 - [x] Lightweight implementation, no local storage.
+
+# To Do
+- [ ] Documentation for How to create App Store Private Key & Google Console `android_publisher_key.json`
+- [ ] Filter Processor (let you filter review e.g. only resend rating > 3 or content not contain special string review to Slack Channel)
+- [ ] Upload Github Action to Marketplace
 
 # Result
 ![ZhgChgLi_2022-08-07_21-02-30](https://user-images.githubusercontent.com/33706588/183293375-c426d865-fedf-4ff9-9740-222e71dbda6b.jpg)
