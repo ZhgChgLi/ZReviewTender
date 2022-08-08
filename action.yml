@@ -1,0 +1,28 @@
+name: 'ZReviewTender - App Reviews Automatic Bot'
+author: 'ZhgChgLi'
+description: 'ZReviewTender uses brand new App Store & Google Play API to resend App reviews to your Slack channel automatically.'
+branding:
+  icon: 'download-cloud'
+  color: 'gray-dark'
+inputs:
+  command:
+    description: '[ZReviewTender Command]'
+    required: true
+    default: '-r'
+runs:
+  using: "composite"
+  steps:
+    - uses: actions/checkout@v3
+    - uses: ruby/setup-ruby@v1
+        with:
+        ruby-version: 2.6.5
+    - run: gem install ZReviewTender
+        shell: bash
+    - run: ZReviewTender
+        shell: bash
+    - uses: stefanzweifel/git-auto-commit-action@v4
+        with:
+          commit_message: "Update latest check timestamp log file."
+          commit_user_name: "ZReviewTender"
+          commit_user_email: "zhgchgli@gmail.com"
+          commit_author: ZReviewTender <zhgchgli@gmail.com>
