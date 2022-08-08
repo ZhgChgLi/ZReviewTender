@@ -1,4 +1,4 @@
-name: 'ZReviewTender - App Reviews Automatic Bot'
+name: 'ZReviewTender App Reviews Automatic Bot'
 author: 'ZhgChgLi'
 description: 'ZReviewTender uses brand new App Store & Google Play API to resend App reviews to your Slack channel automatically.'
 branding:
