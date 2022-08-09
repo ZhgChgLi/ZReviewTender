@@ -6,7 +6,7 @@ Gem::Specification.new do |gem|
     gem.files         = Dir['lib/**/*.*']
     gem.executables   = ['ZReviewTender']
     gem.name          = 'ZReviewTender'
-    gem.version       = '1.0.7'
+    gem.version       = '1.0.8'
   
     gem.license       = "MIT"
   
