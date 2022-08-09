@@ -22,10 +22,13 @@ class Main
             opts.banner = "Usage: ZReviewTender [options]"
 
             basePath = ENV['PWD'] || ::Dir.pwd
+            defaultConfigDirName = "config"
+            defaultAppleConfigFileName = "apple.yml"
+            defaultAndroidConfigFileName = "android.yml"
         
             opts.on('-a', '--apple[=CONFIGYMLFILEPATH]', 'execute apple platform with config yml file') do |configYMLFilePath|
                 if configYMLFilePath.nil?
-                    configYMLFilePath = "#{basePath}/config/apple.yml"
+                    configYMLFilePath = "#{basePath}/#{defaultConfigDirName}/#{defaultAppleConfigFileName}"
                 end
                 configFileCheck(configYMLFilePath, "--apple=CONFIG_YML_FILE_PATH")
 
@@ -33,9 +36,9 @@ class Main
                 fetcher.execute()
             end 
 
-            opts.on('-g', '--googleAndroid[=CONFIGYMLFILEPATH]', 'execute apple platform with config yml file') do |configYMLFilePath|
+            opts.on('-g', '--googleAndroid[=CONFIGYMLFILEPATH]', 'execute android platform with config yml file') do |configYMLFilePath|
                 if configYMLFilePath.nil?
-                    configYMLFilePath = "#{basePath}/config/android.yml"
+                    configYMLFilePath = "#{basePath}/#{defaultConfigDirName}/#{defaultAndroidConfigFileName}"
                 end
                 configFileCheck(configYMLFilePath, "--googleAndroid=CONFIG_YML_FILE_PATH")
 
@@ -43,8 +46,11 @@ class Main
                 fetcher.execute()
             end 
             
-            opts.on('-r', '--run', 'execute with config yml file') do
-                androidConfigFilePath = "#{basePath}/config/android.yml"
+            opts.on('-r', '--run=[=CONFIGFOLDERNAME]', 'execute both android and apple, specify an /config folder name') do |configFolderName|
+                if configFolderName.nil?
+                    configFolderName = defaultConfigDirName
+                end
+                androidConfigFilePath = "#{basePath}/#{configFolderName}/#{defaultAndroidConfigFileName}"
                 configFileCheck(androidConfigFilePath, "--googleAndroid=CONFIG_YML_FILE_PATH")
                 
                 fetcher = parseConfigYMLFile(androidConfigFilePath)
@@ -52,7 +58,7 @@ class Main
                 
                 #
                 
-                appleConfigFilePath = "#{basePath}/config/apple.yml"
+                appleConfigFilePath = "#{basePath}/#{configFolderName}/#{defaultAppleConfigFileName}"
                 configFileCheck(appleConfigFilePath, "--apple=CONFIG_YML_FILE_PATH")
 
                 fetcher = parseConfigYMLFile(appleConfigFilePath)
@@ -86,9 +92,14 @@ class Main
             end
 
             processors = Helper.unwrapRequiredParameter(configYMLObj, 'processors')
-            
+            if processors.nil?
+                processors = []
+            else
+                processors = processors.select{ |processor| processor.select{ |key, value| value["enable"] == true }}
+            end
+
             if processors.length < 1
-                raise "must specify at least one processor."
+                raise "must specify/enable at least one processor."
             end
 
             processors.each do |processor|

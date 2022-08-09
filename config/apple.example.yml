@@ -6,16 +6,22 @@ appID: '' # APP ID
 processors:
     - FilterProcessor:
         class: "FilterProcessor"
+        specifyClassPath: null # speficy Processor class path, set if you are using custom Processor
+        enable: true # enable
         keywordsInclude: [] # keywords you want to filter out
         ratingsInclude: [] # ratings you want to filter out
         territoriesInclude: [] # territories you want to filter out
     - GoogleTranslateProcessor: # Google Translate Processor, will translate review text to your language, you can remove whole block if you don't needed it.
         class: "GoogleTranslateProcessor"
+        specifyClassPath: null # speficy Processor class path, set if you are using custom Processor
+        enable: false # enable
         googleTranslateAPIKeyFilePath: '' # Google Translate API Credential .json File Path
         googleTranslateTargetLang: 'zh-TW' # Translate to what Language
         googleTranslateTerritoriesExclude: ["TWN","CHN"] # Review origin Territory (language) that you don't want to translate.
     - SlackProcessor: # Slack Processor, resend App Review to Slack.
         class: "SlackProcessor"
+        specifyClassPath: null # speficy Processor class path, set if you are using custom Processor
+        enable: true # enable
         slackTimeZoneOffset: "+08:00" # Review Created Date TimeZone
         slackAttachmentGroupByNumber: "1" # 1~100, how many review message in 1 slack message.
         slackBotToken: "" # Slack Bot Token, send slack message throught Slack Bot.
