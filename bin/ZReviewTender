@@ -8,6 +8,7 @@ require "Models/AppleConfig"
 require "Models/AndroidConfig"
 require "Models/Processor"
 require "Helper"
+require "ZLogger"
 require "AppleFetcher"
 require "AndroidFetcher"
 require "optparse"
@@ -121,6 +122,15 @@ end
 begin 
     Main.new()
 rescue => e
-    puts "#Error: #{e.class} #{e.message}\n"
-    puts e.backtrace
+    logger = ZLogger.new(ENV['PWD'] || ::Dir.pwd)
+    title = "#Error: #{e.class} #{e.message}"
+    body = e.backtrace
+    
+    logger.logError("===RUNTIME EXCEPTION START===")
+    logger.logError(title)
+    logger.logError(body)
+    logger.logError("===RUNTIME EXCEPTION END===")
+        
+    puts title
+    puts body
 end
