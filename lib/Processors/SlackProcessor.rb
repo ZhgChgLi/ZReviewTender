@@ -77,6 +77,7 @@ class SlackProcessor < Processor
 
             result = request(payload)
             if !result[:ok]
+                logger.logError(payload)
                 logger.logError(result)
                 if result[:message] == "ratelimited"
                     sleep(1)

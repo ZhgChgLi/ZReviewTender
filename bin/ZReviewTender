@@ -8,6 +8,7 @@ require "Models/AppleConfig"
 require "Models/AndroidConfig"
 require "Models/Processor"
 require "Helper"
+require "ZLogger"
 require "AppleFetcher"
 require "AndroidFetcher"
 require "optparse"
@@ -94,8 +95,6 @@ class Main
             processors = Helper.unwrapRequiredParameter(configYMLObj, 'processors')
             if processors.nil?
                 processors = []
-            else
-                processors = processors.select{ |processor| processor.select{ |key, value| value["enable"] == true }}
             end
 
             if processors.length < 1
@@ -104,6 +103,9 @@ class Main
 
             processors.each do |processor|
                 processor.each do |key, value|
+                    if value["enable"] != true
+                        next
+                    end
                     processorClass = Helper.unwrapRequiredParameter(value, "class")
                     require "Processors/#{processorClass}"
                     fetcher.registerProcessor(eval("#{processorClass}.new(#{value}, '#{configFilePath}', '#{ENV['PWD'] || ::Dir.pwd}')"))
@@ -121,6 +123,15 @@ end
 begin 
     Main.new()
 rescue => e
-    puts "#Error: #{e.class} #{e.message}\n"
-    puts e.backtrace
+    logger = ZLogger.new(ENV['PWD'] || ::Dir.pwd)
+    title = "#Error: #{e.class} #{e.message}"
+    body = e.backtrace
+    
+    logger.logError("===RUNTIME EXCEPTION START===")
+    logger.logError(title)
+    logger.logError(body)
+    logger.logError("===RUNTIME EXCEPTION END===")
+        
+    puts title
+    puts body
 end
