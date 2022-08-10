@@ -1,7 +1,7 @@
 ![ZReviewTender](https://user-images.githubusercontent.com/33706588/183299972-7d546eae-b7be-4006-974c-b878c5b46935.jpg)
 ZReviewTender uses brand new App Store & Google Play API to fetch App reviews and integration your workflow.
 
-- [CH Readme ZReviewTender - 免費開源的 App Reviews 監控機器人](https://medium.com/p/e36e48bb9265)
+- [\[CH Readme\] ZReviewTender - 免費開源的 App Reviews 監控機器人](https://medium.com/p/e36e48bb9265)
 
 # Features
 - [x] Support fetch App Store (iOS App/Mac OS App...) Reviews
