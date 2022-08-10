@@ -185,11 +185,11 @@ bundle exec ruby bin/ZReviewTender --googleAndroid=PATH_TO_ANDROID_CONFIG_YAML_F
 you will received an init success message in your Slack Channel!
 
 
-## latestCheckTimestamp folder & files
+## latestCheckTimestamp folder & execute.log
 
 ![1_U8vjWSHvY2RzUBcUbQoBvQ](https://user-images.githubusercontent.com/33706588/183839283-bd836917-f4a9-467e-97ff-238d947c2fad.png)
 
-ZReviewTender will also created latestCheckTimestamp/Apple, latestCheckTimestamp/Android to log ZReviewTender latest checked Review Timestamp.
+ZReviewTender will also created latestCheckTimestamp/Apple, latestCheckTimestamp/Android to log ZReviewTender latest checked Review Timestamp and created execute.log for log excute error.
 
 # Develop Custom Processor
 - Clone this repo project
