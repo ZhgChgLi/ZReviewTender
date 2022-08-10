@@ -142,6 +142,27 @@ ZReviewTender will use slackBotToken by default.
 
 ![1_UjE_LxtZ0adwS6tr2-vgbw](https://user-images.githubusercontent.com/33706588/183836304-a968b42a-c9ed-4edc-a8f1-34e458d5ab26.png)
 
+### Custom Processor
+1. Clone this repo project (due to ZReviewTedner is a completely Gem, you can't modify it dynamically)
+2. Reference [Processor.rb](https://github.com/ZhgChgLi/ZReviewTender/blob/main/lib/Processors/ProcessorTemplate.rb), make a copy and devlop the feature you want
+
+`initialize`
+- `config`: config yml parameter
+- `configFilePath`: config yml file path
+- `baseExecutePath` the path that user execute ZReviewTender
+
+`processReviews(reviews, platform)`
+- Input Function 
+- you will receive latest reviews list, you can decide what you want to do, e.g. transform or filter...
+- Review Struct: [lib/Models/Review.rb](https://github.com/ZhgChgLi/ZReviewTender/blob/main/lib/Models/Review.rb)
+- Remember return the result reviews, for next Processor uses
+
+3. Add your Processor & Processor Parameter needed to config.yml, `processors:` section
+4. Test & Run!
+5. Done!
+
+*processors are data flow chain and sort sensitive.
+
 ### If you don't need Some Processor (like Google Translate Processor)
 
 - set `enable` to `false` or just remove that Processor Setting Block in config yml
@@ -190,15 +211,6 @@ you will received an init success message in your Slack Channel!
 ![1_U8vjWSHvY2RzUBcUbQoBvQ](https://user-images.githubusercontent.com/33706588/183839283-bd836917-f4a9-467e-97ff-238d947c2fad.png)
 
 ZReviewTender will also created latestCheckTimestamp/Apple, latestCheckTimestamp/Android to log ZReviewTender latest checked Review Timestamp and created execute.log for log excute error.
-
-# Develop Custom Processor
-- Clone this repo project
-- Reference [Processor.rb](https://github.com/ZhgChgLi/ZReviewTender/blob/main/lib/Processors/ProcessorTemplate.rb), make a copy and devlop the feature you want
-- Add your Processor/Parameter needed to config.yml, insert in `processors:` section
-- Access processor parameter define throught initialize config Object
-- Test & Run!
-
-*processors are sort sensitive.
 
 # ⚠️️️️️ Attention
 ⚠️️️️️ MUST KEEP YOUR CREDENTIAL FILES SAFE, DO NOT EXPOSE ON THE INTERNET. ⚠️️️️️
