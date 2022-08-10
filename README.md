@@ -1,30 +1,32 @@
 ![ZReviewTender](https://user-images.githubusercontent.com/33706588/183299972-7d546eae-b7be-4006-974c-b878c5b46935.jpg)
+ZReviewTender uses brand new App Store & Google Play API to fetch App reviews and integration your workflow.
+
+- [CH Readme ZReviewTender - 免費開源的 App Reviews 監控機器人](https://medium.com/p/e36e48bb9265)
 
 # Features
 - [x] Support fetch App Store (iOS App/Mac OS App...) Reviews
-- [x] Support Google Console (Android App) Reviews
+- [x] [Default Processor] Resend newst Reviews to specify Slack Channel
+- [x] [Default Processor] Auto-translate Review's content to your language by Google Translate
+- [x] Flexible extension, you can develop your own Processor(a.k.a plugin) for suit your workflow.
+- [x] Lightweight implementation, only log latest review timestamp, not save all reviews in local storage.
 - [x] Support Filter, you can add custom filter condition to filter out which reviews you need
 - [x] Base on Official API(`AndroidpublisherV3`, `AppStoreConnect API`), no more workaround or [session expired](https://docs.fastlane.tools/getting-started/ios/authentication/)
-- [x] Flexible extension, you can develop your own Processor(a.k.a plugin) for suit your workflow.
-- [x] Resend latest Review to your Slack Channel automatically.
-- [x] Google Translate API Support, translate Review to your language automatically. (By Default)
-- [x] Lightweight implementation, no local storage.
-
-# To Do
-- [ ] Documentation for How to create App Store Private Key & Google Console `android_publisher_key.json`
-- [ ] Documentation for How to create custom Processor
+- [x] Quick depoly with Github Repo Template/Github Action
+- [x] 100% Ruby
 
 # Result
-![ZhgChgLi_2022-08-07_21-02-30](https://user-images.githubusercontent.com/33706588/183293375-c426d865-fedf-4ff9-9740-222e71dbda6b.jpg)
+![1_wlGNbHopjPwFsP8j9LpKcw](https://user-images.githubusercontent.com/33706588/183830615-60f5ab30-0e61-4725-be6e-f917fb9589f8.jpeg)
 
-# Setup
+# Setup - Only need Default Proceesor(Slack/Filter/Google Translate)
 
 ## Strongly Recommended
 
-- [\[FREE\] Deploy with Gitub Action](https://github.com/ZhgChgLi/ZReviewTender-deploy-with-github-action)
+- [Deploy with Gitub Repo Template](https://github.com/ZhgChgLi/ZReviewTender-deploy-with-github-action)
 
-### Using Gem
-#### If you are familiar with ruby:
+⚠️️️️️ MUST CREATE PRIVATE REPO, TO KEEP YOUR CREDENTIAL FILES SAFE. ⚠️️️️️
+
+## Using Gem
+### If you are familiar with ruby:
 1. make sure you have Ruby in your environment (I use `2.6.5p114`)
 2. make sure you have Bundle in your environment (I use `2.3.13`)
 3. type `gem install ZReviewTender` in terminal
@@ -37,56 +39,130 @@
 5. type `which ruby` in terminal to make sure current Ruby is **NOT** `/usr/bin/ruby`
 6. type `gem install ZReviewTender` in terminal
 
-### Manually
+# Setup - Manually(You can create your own Processor)
 1. Clone this repo
 2. Setup ruby environment
 3. run `bundle install`
 4. execute with `bundle exec bin/ZReviewTender`
 
 # Configuration
-1. Create a `config` folder
-2. Download the [apple.example.yml](https://github.com/ZhgChgLi/ZReviewTender/blob/main/config/apple.example.yml) for Apple(iOS App/Mac OS App...) example config yaml file.
-3. Download the [android.example.yml](https://github.com/ZhgChgLi/ZReviewTender/blob/main/config/android.example.yml) for Android App example config yaml file.
-4. Fullfill the config value in config yaml file.
-5. Place the dependency credentials file to `config` folder and use relative path to point path in config yaml file. e.g. `keyFilePath: '/android_publisher_key.json'`
-6. Rename `android.example.yml` to `android.yml` and `apple.example.yml` to `apple.yml`
-7. init ZReviewTender by execute `ZReviewTender -r`
+ZReviewTender uses yaml file to config Apple/Google Review Bot Setting.
 
-⚠️ MAKE SURE KEE YOUR `config` folder contains credentials file (config.yml/private key..) SAFE, won't upload to the internet ⚠️
+[Recommended] First, create a `config` folder to place all config releated files.
 
-## Remove Google Translate Processor
-If your don't need Google Translate Processor, you can remove it!
+## Apple (iOS/macOS App)
 
-![image](https://user-images.githubusercontent.com/33706588/183294084-65b1fe12-f4c1-4713-94f9-512c87d41ebe.png)
+1. Reference the [apple.example.yml](https://github.com/ZhgChgLi/ZReviewTender/blob/main/config/apple.example.yml) example config yaml file.
+2. fill configuration in yaml file:
 
-just remove the Google Translate Processor code block, like above.
+Go to App Store Connect -> Keys -> [App Store Connect API](https://appstoreconnect.apple.com/access/api)
 
-## Send Message to Slack Channel through Slack Bot or In-Comming WebHook?
+**appStoreConnectIssueID：**
 
-Strongly Recommended **use Slack Bot** instead of In-Comming WebHook:
+![1_FsgHMeCGLVbuetBC4gIP_w](https://user-images.githubusercontent.com/33706588/183832148-538d0077-45c0-47d1-939b-bea9b9a67f0c.png)
+
+**appStoreConnectP8PrivateKeyID & appStoreConnectP8PrivateKeyFilePath：**
+
+Create a new API Key:
+
+![1_xBtkRFEKO2xHU26TMdXJZQ](https://user-images.githubusercontent.com/33706588/183832320-f809668a-2d13-40a3-bc81-a3d3c1fd9a3c.png)
+
+- Name: `ZReviewTender`
+- Access: `App Manager`
+
+![1_DvjiO3IkHEiPXp0M_dnnww](https://user-images.githubusercontent.com/33706588/183832422-32d5a41b-6f2e-4395-858d-258afe657b51.png)
+
+- appStoreConnectP8PrivateKeyID: `Key ID`
+- appStoreConnectP8PrivateKeyFilePath: `/AuthKey_XXXXXXXXXX.p8`, Download API Key and placed it to /config/ folder (releated path with config yml file)
+
+**appID:**
+
+![1_Ov2pyW9anRVqNCpbxhHtJQ](https://user-images.githubusercontent.com/33706588/183832690-c4fe2e2b-d184-48e6-add4-740b018256b4.png)
+
+appID: [App Store Connect](https://appstoreconnect.apple.com/apps) -> App Store -> General -> App Information -> Apple ID
+
+3. after filled out configuration in yaml file, rename `apple.example.yml` to `apple.yml`
+
+## Google Play Console (Android App)
+
+1. Download the [android.example.yml](https://github.com/ZhgChgLi/ZReviewTender/blob/main/config/android.example.yml) config yaml file.
+2. fill configuration in yaml file:
+
+**packageName:**
+
+![1_XRzKNGhVbBef7Hl9XPcaWw](https://user-images.githubusercontent.com/33706588/183833107-5fa58cd2-3901-411d-91a1-a4ccdcda57dc.png)
+
+packageName: find Android App packageName in [Google Play Console](https://play.google.com/console/) -> Dashboard -> App
+
+**playConsoleDeveloperAccountID & playConsoleAppID:**
+
+find in [Google Play Console](https://play.google.com/console/) -> Dashboard -> App -> Page URL:
+
+https://play.google.com/console/developers/**playConsoleDeveloperAccountID**/app/**playConsoleAppID**/app-dashboard
+
+**keyFilePath:**
+
+Follow the [GCP Started Document](https://developers.google.com/android-publisher/getting_started) to created a Google Cloud Project and linked it to your Google Play Console, enable Google Play Android Developer API in Google Play Console -> Setup -> API Access.
+
+![1_yQhAVOuF_CvM49Vayl40zA](https://user-images.githubusercontent.com/33706588/183833645-b2071d6b-d3c5-4841-8293-ce6c07a69098.png)
+
+![1_-AKvlk9P6R0YkuZwsXJaLA](https://user-images.githubusercontent.com/33706588/183833654-b0889e82-c8d0-4b2b-92ab-0f8f953d5c5b.png)
+
+keyFilePath: `/gcp_key.json` the key path of GCP JSON Private Key, placed it to /config/ folder (releated path with config yml file).
+
+## Default Processor
+### FilterProcessor
+- class: `FilterProcessor`, no need to chane, it's point to lib/Processors/`FilterProcessor`.rb
+- enable: true/false enable this Processor or Not
+- keywordsInclude: ["KEYWORD1","KEYWORD2"…] filter out the Review that contains those keywords
+- ratingsInclude: [1,2…] 1~5 filter out the Review that contains rating
+- territoriesInclude: ["zh-hant","TWN"…] filter out the Review that from those territories (Territor(TWN/JPN...) for Apple / Language(zh-hant,en...) For Android)
+
+### GoogleTranslateProcessor
+- class: `GoogleTranslateProcessor`, no need to chane, it's point to lib/Processors/`GoogleTranslateProcessor`.rb
+- enable: true/false enable this Processor or Not
+- googleTranslateAPIKeyFilePath: `/gcp_key.json` Google Translate GCP JSON Private Key File Path `*.json`,placed it to /config/ folder (releated path with config yml file)
+- googleTranslateTargetLang: `zh-TW` Target translated language
+- googleTranslateTerritoriesExclude: ["zh-hant","TWN"…] (Territor(TWN/JPN...) for Apple or Language(zh-hant,en...) For Android review that didn't need to translate.
+
+### SlackProcessor
+- class: `SlackProcessor`, no need to chane, it's point to lib/Processors/`SlackProcessor`.rb
+- enable: true/false enable this Processor or Not
+- slackTimeZoneOffset: `+08:00` timezone of display review created time
+- slackAttachmentGroupByNumber: `1` specify how many Reviews will group by in same Slack Message (in Attacment)
+- slackBotToken: `xoxb-xxxx-xxxx-xxxx` [Slack Bot](https://slack.com/help/articles/115005265703-Create-a-bot-for-your-workspace) Token
+- slackBotTargetChannel: `CXXXXXX` Channel ID (Not Channel Name), and you need to add Slack Bot to this Channel
+- slackInCommingWebHookURL: `https://hooks.slack.com/services/XXXXX` the old send message to slack way, will deprecated.
 ```
-Please note, this is a legacy custom integration - an outdated way for teams to integrate with Slack.
-These integrations lack newer features and they will be deprecated and possibly removed in the future.
-We do not recommend their use.
-Instead, we suggest that you check out their replacement: Slack apps.
+Please note, this is a legacy custom integration - an outdated way for teams to integrate with Slack. These integrations lack newer features and they will be deprecated and possibly removed in the future. We do not recommend their use. Instead, we suggest that you check out their replacement: Slack apps.
 ```
-message from [Slack](https://api.slack.com/messaging/webhooks#posting_with_webhooks).
+ZReviewTender will use slackBotToken by default.
 
-System will detect if you've specify slack bot token, than it's ignore In-Comming WebHook.
+![1_D1kt_6jH0UaJo2kvf9l5Qw (1)](https://user-images.githubusercontent.com/33706588/183836286-2a8d8bce-432e-4962-a24c-d6e09e6601ea.png)
 
-#### Usage
+![1_UjE_LxtZ0adwS6tr2-vgbw](https://user-images.githubusercontent.com/33706588/183836304-a968b42a-c9ed-4edc-a8f1-34e458d5ab26.png)
+
+### If you don't need Some Processor (like Google Translate Processor)
+
+- set `enable` to `false` or just remove that Processor Setting Block in config yml
+
+# Usage
+
+if you're not install with Gems, you should use `bundle exec ruby bin/ZReviewTender` to excute.
 
 **Check Both Apple & Android App's latest Reviews**
 ```
-bundle exec ruby bin/ZReviewTender -r
+ZReviewTender -r
 ```
+will uses `apple.yml` and `android.yml` in `config` folder.
 
 **Check Apple App's latest Reviews**
 ```
 bundle exec ruby bin/ZReviewTender -a
 ```
+will uses `apple.yml` in `config` folder.
 
-**Check Apple App's latest Reviews [Specify Config YAML File Path]**
+**Check Apple App's latest Reviews, specify Config YAML file path**
 ```
 bundle exec ruby bin/ZReviewTender --apple=PATH_TO_APPLE_CONFIG_YAML_FILE
 ```
@@ -95,19 +171,37 @@ bundle exec ruby bin/ZReviewTender --apple=PATH_TO_APPLE_CONFIG_YAML_FILE
 ```
 bundle exec ruby bin/ZReviewTender -g
 ```
+will uses `android.yml` in `config` folder.
 
-**Check Android App's latest Reviews [Specify Config YAML File Path]**
+**Check Android App's latest Reviews, specify Config YAML file path**
 ```
 bundle exec ruby bin/ZReviewTender --googleAndroid=PATH_TO_ANDROID_CONFIG_YAML_FILE
 ```
 
-## Develop your custom Processor
-- Manually this project (clone & install & modify)
-- Copy [Processor.rb](https://github.com/ZhgChgLi/ZReviewTender/blob/main/lib/Processors/ProcessorTemplate.rb) and modify to the feature you want.
-- Add your Processor to config.yml, insert in `processors:` section
-- Test & Release!
+## Init (first time execute)
+
+![1_62VO8mbJWxXHSeFo3fEUog](https://user-images.githubusercontent.com/33706588/183838813-4f8f3caa-b62d-42a1-a1e2-945a758de8a9.png)
+
+you will received an init success message in your Slack Channel!
+
+
+## latestCheckTimestamp folder & files
+
+![1_U8vjWSHvY2RzUBcUbQoBvQ](https://user-images.githubusercontent.com/33706588/183839283-bd836917-f4a9-467e-97ff-238d947c2fad.png)
+
+ZReviewTender will also created latestCheckTimestamp/Apple, latestCheckTimestamp/Android to log ZReviewTender latest checked Review Timestamp.
+
+# Develop Custom Processor
+- Clone this repo project
+- Reference [Processor.rb](https://github.com/ZhgChgLi/ZReviewTender/blob/main/lib/Processors/ProcessorTemplate.rb), make a copy and devlop the feature you want
+- Add your Processor/Parameter needed to config.yml, insert in `processors:` section
+- Access processor parameter define throught initialize config Object
+- Test & Run!
 
 *processors are sort sensitive.
+
+# ⚠️️️️️ Attention
+⚠️️️️️ MUST KEEP YOUR CREDENTIAL FILES SAFE, DO NOT EXPOSE ON THE INTERNET. ⚠️️️️️
 
 ## Disclaimer
 This repository is for research purposes only, the use of this code is your responsibility.
