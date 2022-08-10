@@ -10,7 +10,7 @@ ZReviewTender uses brand new App Store & Google Play API to fetch App reviews an
 - [x] Flexible extension, you can develop your own Processor(a.k.a plugin) for suit your workflow.
 - [x] Lightweight implementation, only log latest review timestamp, not save all reviews in local storage.
 - [x] Support Filter, you can add custom filter condition to filter out which reviews you need
-- [x] Base on Official API(AndroidpublisherV3 & [Brand New AppStoreConnect API](https://developer.apple.com/news/?id=yqf4kgwb)), no more workaround or [session expired](https://docs.fastlane.tools/getting-started/ios/authentication/)
+- [x] Based on Official API(AndroidpublisherV3 & [Brand New AppStoreConnect API](https://developer.apple.com/news/?id=yqf4kgwb)), no more workaround or [session expired](https://docs.fastlane.tools/getting-started/ios/authentication/)
 - [x] Quick depoly with Github Repo Template/Github Action
 - [x] 100% Ruby
 
