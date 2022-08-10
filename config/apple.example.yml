@@ -15,7 +15,7 @@ processors:
         enable: false # enable
         googleTranslateAPIKeyFilePath: '' # Google Translate API Credential .json File Path
         googleTranslateTargetLang: 'zh-TW' # Translate to what Language
-        googleTranslateTerritoriesExclude: ["TWN","CHN"] # Review origin Territory (language) that you don't want to translate.
+        googleTranslateTerritoriesExclude: ["TWN","CHN"] # Review origin Territory that you don't want to translate.
     - SlackProcessor: # Slack Processor, resend App Review to Slack.
         class: "SlackProcessor"
         enable: true # enable
