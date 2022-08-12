@@ -1,6 +1,8 @@
 ![ZReviewTender](https://user-images.githubusercontent.com/33706588/183299972-7d546eae-b7be-4006-974c-b878c5b46935.jpg)
 ZReviewTender uses brand new App Store & Google Play API to fetch App reviews and integration your workflow.
 
+![ZReviewTender](https://ruby-gem-downloads-badge.herokuapp.com/ZReviewTender?color=green&type=total&total_label=Total-downloads&label=ZReviewTender@RubyGem)
+
 - [\[CH Readme\] ZReviewTender - 免費開源的 App Reviews 監控機器人](https://medium.com/p/e36e48bb9265)
 
 # Features
@@ -12,7 +14,7 @@ ZReviewTender uses brand new App Store & Google Play API to fetch App reviews an
 - [x] Support Filter, you can add custom filter condition to filter out which reviews you need
 - [x] Based on Official API(AndroidpublisherV3 & [Brand New AppStoreConnect API](https://developer.apple.com/news/?id=yqf4kgwb)), no more workaround or [session expired](https://docs.fastlane.tools/getting-started/ios/authentication/)
 - [x] Quick depoly with Github Repo Template/Github Action
-- [x] 100% Ruby
+- [x] 100% Ruby@RubyGem
 
 # Result
 ![1_wlGNbHopjPwFsP8j9LpKcw](https://user-images.githubusercontent.com/33706588/183830615-60f5ab30-0e61-4725-be6e-f917fb9589f8.jpeg)
