@@ -82,11 +82,14 @@ class Main
             end
 
             opts.on('-i', '--init', 'init config yml file from template.') do
+                Helper.createDirIfNotExist("#{basePath}/latestCheckTimestamp/")
+                Helper.createDirIfNotExist("#{basePath}/config/")
+
                 configTemplateFolder = "#{File.expand_path("..", __dir__)}/config"
                 appleSourceExampleYML = "#{configTemplateFolder}/apple.example.yml"
                 androidSourceExampleYML = "#{configTemplateFolder}/android.example.yml"
-                appleDestExampleYML = "#{configTemplateFolder}/apple.yml"
-                androidDestExampleYML = "#{configTemplateFolder}/android.yml"
+                appleDestExampleYML = "#{basePath}/#{defaultConfigDirName}/#{defaultAppleConfigFileName}"
+                androidDestExampleYML = "#{basePath}/#{defaultConfigDirName}/#{defaultAndroidConfigFileName}"
                 
                 if File.exists?(appleSourceExampleYML)
                     if File.exists?(appleDestExampleYML)
@@ -118,6 +121,13 @@ class Main
                     puts "You're using the latest version of ZReviewTender!"
                 end
             end
+
+            opts.on('-v', '--versopm', 'show current version of ZReivewTender') do
+                version = Version.new
+                puts "Current ZReviewTender Version: #{version.getLocalVersion()}"
+
+                checkLatestVersionOfZReviewTender()
+            end
         end.parse!
     end
 
@@ -127,8 +137,10 @@ class Main
         if version.getRemoteVersion() > version.getLocalVersion()
             puts "##########################################################"
             puts "#####           New Version Available!!!             #####"
-            puts "#####   Please type `ZReviewTender -n` to update!!   #####"
+            puts "#####  Please type `ZReviewTender -n` to update!!    #####"
             puts "##########################################################"
+            puts "Local Verson: #{version.getLocalVersion()}"
+            puts "Remote Verson: #{version.getRemoteVersion()}"
         end
     end
 
@@ -187,7 +199,9 @@ end
 begin
     puts "#https://github.com/ZhgChgLi/ZReviewTender"
     puts "You have read and agree with the Disclaimer."
+    puts "============================================"
     Main.new()
+    puts "============================================"
     puts "Execute Successfully!!!"
     puts "#https://github.com/ZhgChgLi/ZReviewTender"
     puts "#Thanks for using this tool."
