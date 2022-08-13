@@ -170,43 +170,38 @@ class Main
     private
     def parseConfigYMLFile(configFilePath)
         configYMLObj = YAML.load_file(configFilePath)
-        begin
-            platform = Helper.unwrapRequiredParameter(configYMLObj, 'platform')
+        platform = Helper.unwrapRequiredParameter(configYMLObj, 'platform')
             
-            fetcher = nil
-            if platform.downcase == "apple"
-                fetcher = AppleFetcher.new(AppleConfig.new(configYMLObj, configFilePath, ENV['PWD'] || ::Dir.pwd))
-            elsif platform.downcase == "android"
-                fetcher = AndroidFetcher.new(AndroidConfig.new(configYMLObj, configFilePath, ENV['PWD'] || ::Dir.pwd))
-            else
-                raise "unknow platform #{platform} in yml file #{configFilePath}."
-            end
+        fetcher = nil
+        if platform.downcase == "apple"
+            fetcher = AppleFetcher.new(AppleConfig.new(configYMLObj, configFilePath, ENV['PWD'] || ::Dir.pwd))
+        elsif platform.downcase == "android"
+            fetcher = AndroidFetcher.new(AndroidConfig.new(configYMLObj, configFilePath, ENV['PWD'] || ::Dir.pwd))
+        else
+            raise "unknow platform #{platform} in yml file #{configFilePath}."
+        end
 
-            processors = Helper.unwrapRequiredParameter(configYMLObj, 'processors')
-            if processors.nil?
-                processors = []
-            end
+        processors = Helper.unwrapRequiredParameter(configYMLObj, 'processors')
+        if processors.nil?
+            processors = []
+        end
 
-            if processors.length < 1
-                raise "must specify/enable at least one processor."
-            end
+        if processors.length < 1
+            raise "must specify/enable at least one processor."
+        end
 
-            processors.each do |processor|
-                processor.each do |key, value|
-                    if value["enable"] != true
-                        next
-                    end
-                    processorClass = Helper.unwrapRequiredParameter(value, "class")
-                    require "Processors/#{processorClass}"
-                    fetcher.registerProcessor(eval("#{processorClass}.new(#{value}, '#{configFilePath}', '#{ENV['PWD'] || ::Dir.pwd}')"))
+        processors.each do |processor|
+            processor.each do |key, value|
+                if value["enable"] != true
+                    next
                 end
+                processorClass = Helper.unwrapRequiredParameter(value, "class")
+                require "Processors/#{processorClass}"
+                fetcher.registerProcessor(eval("#{processorClass}.new(#{value}, '#{configFilePath}', '#{ENV['PWD'] || ::Dir.pwd}')"))
             end
+        end
 
-
-            return fetcher
-        rescue => e
-            raise "#{e.message} in yml file #{configFilePath}."
-        end        
+        return fetcher  
     end
 end
 
@@ -222,14 +217,17 @@ begin
     puts "#If this is helpful, please help to star the repo or recommend it to your friends."
 rescue => e
     logger = ZLogger.new(ENV['PWD'] || ::Dir.pwd)
-    title = "#Error: #{e.class} #{e.message}"
-    body = e.backtrace
-    
-    logger.logError("===RUNTIME EXCEPTION START===")
-    logger.logError(title)
-    logger.logError(body)
-    logger.logError("===RUNTIME EXCEPTION END===")
-        
-    puts title
-    puts body
+    errorMessage = "#Error Message:  #{e.message}\n"
+    errorMessage += "#Error Class: #{e.class}\n"
+    errorMessage += "#Backtrace Start#\n#{e.backtrace.join("\n")}\n#Backtrace End#\n"
+    logger.logError(errorMessage)
+
+    puts "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"
+    puts "XXXXX  Excute Failed, Error Occurred!  XXXXX"
+    puts "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"
+    puts "X https://github.com/ZhgChgLi/ZReviewTender"
+    puts "X Please create an issue on above repo, and provide error log, thanks!"
+    puts "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"
+
+    raise e
 end
