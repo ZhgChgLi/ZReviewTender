@@ -91,6 +91,10 @@ class Main
                 appleDestExampleYML = "#{basePath}/#{defaultConfigDirName}/#{defaultAppleConfigFileName}"
                 androidDestExampleYML = "#{basePath}/#{defaultConfigDirName}/#{defaultAndroidConfigFileName}"
                 
+                if !File.exists?("#{basePath}/latestCheckTimestamp/.keep")
+                    File.open("#{basePath}/latestCheckTimestamp/.keep", 'w') { |file| file.write("") }
+                end
+                #
                 if File.exists?(appleSourceExampleYML)
                     if File.exists?(appleDestExampleYML)
                         puts "Failed! Config YML File Exists: #{appleDestExampleYML}"
