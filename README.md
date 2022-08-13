@@ -24,7 +24,19 @@ ZReviewTender uses brand new App Store & Google Play API to fetch App reviews an
 
 ## Strongly Recommended
 
-- [Deploy with Gitub Repo Template](https://github.com/ZhgChgLi/ZReviewTender-deploy-with-github-action)
+[![image](https://user-images.githubusercontent.com/33706588/184472064-1cd36b40-9e6f-481a-bce3-164dfb379771.png)](https://github.com/ZhgChgLi/ZReviewTender-deploy-with-github-action)
+
+
+[Deploy with Gitub Repo Template](https://github.com/ZhgChgLi/ZReviewTender-deploy-with-github-action) 🚀🚀🚀
+
+- no need host/server ✅
+- no need environment requirement ✅
+- no engineering background knowledge ✅
+- only need configuration ✅
+- total free ✅
+
+Github Action Proivde 2,000+ mins/month for free.
+ZReviewTender will cost ~= 30s per time, default run every 6 hours will cost 4 times/day * 30s/per time * 30days = 60 mins/month
 
 ⚠️️️️️ MUST CREATE PRIVATE REPO, TO KEEP YOUR CREDENTIAL FILES SAFE. ⚠️️️️️
 
@@ -51,11 +63,12 @@ ZReviewTender uses brand new App Store & Google Play API to fetch App reviews an
 # Configuration
 ZReviewTender uses yaml file to config Apple/Google Review Bot Setting.
 
-[Recommended] First, create a `config` folder to place all config releated files.
+[Recommended] use `ZReviewTender -i` generator apple.yml & android.yml config yml files.
 
 ## Apple (iOS/macOS App)
 
 1. Reference the [apple.example.yml](https://github.com/ZhgChgLi/ZReviewTender/blob/main/config/apple.example.yml) example config yaml file.
+(Please rename `apple.example.yml` to `apple.yml` if you've downloaded from reference.)
 2. fill configuration in yaml file:
 
 Go to App Store Connect -> Keys -> [App Store Connect API](https://appstoreconnect.apple.com/access/api)
@@ -88,7 +101,7 @@ appID: [App Store Connect](https://appstoreconnect.apple.com/apps) -> App Store 
 
 ## Google Play Console (Android App)
 
-1. Download the [android.example.yml](https://github.com/ZhgChgLi/ZReviewTender/blob/main/config/android.example.yml) config yaml file.
+1. Download the [android.example.yml](https://github.com/ZhgChgLi/ZReviewTender/blob/main/config/android.example.yml) config yaml file. (Please rename `android.example.yml` to `android.yml` if you've downloaded from reference.)
 2. fill configuration in yaml file:
 
 **packageName:**
@@ -166,6 +179,112 @@ ZReviewTender will use slackBotToken by default.
 
 *processors are data flow chain and sort sensitive.
 
+### \[Demo Custom Processor\] LogAppIssueProcessor
+
+#### /lib/Processors/LogAppIssueProcessor.rb:
+
+Goal: log review that rating is less than 5 to google sheet.
+
+```ruby
+#$lib = File.expand_path('../lib', File.dirname(__FILE__))
+
+require "Models/Review"
+require "Models/Processor"
+require "Helper"
+require "ZLogger"
+
+require "pathname"
+require "google_drive"
+
+
+class LogAppIssueProcessor < Processor
+
+    attr_accessor :client, :googleSheetIndex, :timeZoneOffset
+
+    def initialize(config, configFilePath, baseExecutePath)
+        # init Processor
+        # get paraemter from config e.g. config["parameter1"]
+        # configFilePath: file path of config file (apple.yml/android.yml)
+        # baseExecutePath: user excute path
+
+
+        keyFilePath = Helper.unwrapRequiredParameter(config, "googleSheetAPIKeyFilePath")
+        googleSheetKey = Helper.unwrapRequiredParameter(config, "googleSheetID")
+        
+        if Pathname.new(keyFilePath).absolute?
+            configDir = File.dirname(configFilePath)
+            keyFilePath = "#{configDir}#{keyFilePath}"
+        end
+        
+        @timeZoneOffset = Helper.unwrapRequiredParameter(config, "googleSheetTimeZoneOffset")
+        @googleSheetIndex = Helper.unwrapRequiredParameter(config, "googleSheetIndex")
+        @client = GoogleDrive::Session.from_service_account_key(keyFilePath).spreadsheet_by_key(googleSheetKey)
+    end
+
+    def processReviews(reviews, platform)
+        if reviews.length < 1
+            return reviews
+        end
+        
+        sheet = client.worksheets[googleSheetIndex]
+    
+        if !sheet.nil?
+            lowReviews = reviews.select{ |review| review.rating < 5 }.reverse()
+            rows = []
+            lowReviews.each do |review|
+                rows.append(["商城評價",review.rating,"#{review.title}\n#{review.body}",review.appVersion,Time.at(review.createdDateTimestamp).getlocal(timeZoneOffset)])
+                # 商城評價, 3, 評價標題-評價內容, 4.5.0, 2022-08-08 10:00:05
+            end
+            
+            if rows.length > 0
+                sheet.insert_rows(0, rows)
+                sheet.save
+            end
+        end
+
+        return reviews
+    end
+end
+```
+
+#### apple/android.yml:
+
+```ruby
+platform: 'apple'
+appStoreConnectP8PrivateKeyFilePath: '/AuthKey_XXXXXX.p8'
+appStoreConnectP8PrivateKeyID: 'XXXXXX'
+appStoreConnectIssueID: 'XXXXXX-XXXXXX-XXXXXX-XXXXXX-XXXXXX'
+appID: 'XXXXXX'
+processors:
+    - FilterProcessor:
+        class: "FilterProcessor"
+        enable: true
+        keywordsInclude: []
+        ratingsInclude: []
+        territoriesInclude: []
+    - GoogleTranslateProcessor:
+        class: "GoogleTranslateProcessor"
+        enable: true
+        googleTranslateAPIKeyFilePath: '/gcp_key.json'
+        googleTranslateTargetLang: 'zh-TW'
+        googleTranslateTerritoriesExclude: ["TWN","CHN"]
+    - SlackProcessor:
+        class: "SlackProcessor"
+        enable: true
+        slackTimeZoneOffset: "+08:00"
+        slackAttachmentGroupByNumber: "1"
+        slackBotToken: "xoxb-XXXXXX-XXXXXX-XXXXXX"
+        slackBotTargetChannel: "CXXXXXX"
+        slackInCommingWebHookURL: null
+    - LogAppIssueProcessor:
+        class: "LogAppIssueProcessor"
+        enable: true
+        googleSheetAPIKeyFilePath: '/gcp_key.json'
+        googleSheetID: 'XXXXXX'
+        googleSheetIndex: 0
+        googleSheetTimeZoneOffset: "+08:00"
+```
+
 ### If you don't need Some Processor (like Google Translate Processor)
 
 - set `enable` to `false` or just remove that Processor Setting Block in config yml
@@ -174,32 +293,58 @@ ZReviewTender will use slackBotToken by default.
 
 if you're not install with Gems, you should use `bundle exec ruby bin/ZReviewTender` to excute.
 
+**Generate config yml file**
+```
+ZReviewTender -i
+```
+will generate apple.yml and android.yml in config/ folder.
+
 **Check Both Apple & Android App's latest Reviews**
 ```
 ZReviewTender -r
 ```
 will uses `apple.yml` and `android.yml` in `config` folder.
 
+**Check Both Apple & Android App's latest Reviews, specify Config YAML file path**
+```
+ZReviewTender --run=CONFIG_FOLDER
+```
+
 **Check Apple App's latest Reviews**
 ```
-bundle exec ruby bin/ZReviewTender -a
+ZReviewTender -a
 ```
 will uses `apple.yml` in `config` folder.
 
 **Check Apple App's latest Reviews, specify Config YAML file path**
 ```
-bundle exec ruby bin/ZReviewTender --apple=PATH_TO_APPLE_CONFIG_YAML_FILE
+ZReviewTender --apple=PATH_TO_APPLE_CONFIG_YAML_FILE
 ```
 
 **Check Android App's latest Reviews**
 ```
-bundle exec ruby bin/ZReviewTender -g
+ZReviewTender -g
 ```
 will uses `android.yml` in `config` folder.
 
 **Check Android App's latest Reviews, specify Config YAML file path**
 ```
-bundle exec ruby bin/ZReviewTender --googleAndroid=PATH_TO_ANDROID_CONFIG_YAML_FILE
+ZReviewTender --googleAndroid=PATH_TO_ANDROID_CONFIG_YAML_FILE
+```
+
+**Clean last check timestamp log(back to init state)**
+```
+ZReviewTender -d
+```
+
+**Show current ZReviewTender version**
+```
+ZReviewTender -v
+```
+
+**Upgrade ZReviewTender to latest release version(only RubyGem)**
+```
+ZReviewTender -n
 ```
 
 ## Init (first time execute)
@@ -214,6 +359,8 @@ you will received an init success message in your Slack Channel!
 ![1_U8vjWSHvY2RzUBcUbQoBvQ](https://user-images.githubusercontent.com/33706588/183839283-bd836917-f4a9-467e-97ff-238d947c2fad.png)
 
 ZReviewTender will also created latestCheckTimestamp/Apple, latestCheckTimestamp/Android to log ZReviewTender latest checked Review Timestamp and created execute.log for log excute error.
+
+![image](https://user-images.githubusercontent.com/33706588/184472442-3bc390d2-c4c0-4eec-8dc2-f8061124e870.png)
 
 # ⚠️️️️️ Attention
 ⚠️️️️️ MUST KEEP YOUR CREDENTIAL FILES SAFE, DO NOT EXPOSE ON THE INTERNET. ⚠️️️️️
