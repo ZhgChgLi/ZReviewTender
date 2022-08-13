@@ -4,6 +4,7 @@ ZReviewTender uses brand new App Store & Google Play API to fetch App reviews an
 
 - [\[CH Readme\] ZReviewTender - 免費開源的 App Reviews 監控機器人](https://medium.com/p/e36e48bb9265)
 
+[![ZReviewTender](https://badge.fury.io/rb/ZReviewTender.svg)](https://rubygems.org/gems/ZReviewTender)
 [![ZReviewTender](https://ruby-gem-downloads-badge.herokuapp.com/ZReviewTender?color=green&type=total&total_label=Total-downloads&label=ZReviewTender@RubyGem)](https://rubygems.org/gems/ZReviewTender)
 
 # Features
