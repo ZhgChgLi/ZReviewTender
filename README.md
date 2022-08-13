@@ -21,6 +21,20 @@ ZReviewTender uses brand new App Store & Google Play API to fetch App reviews an
 # Result
 ![1_wlGNbHopjPwFsP8j9LpKcw](https://user-images.githubusercontent.com/33706588/183830615-60f5ab30-0e61-4725-be6e-f917fb9589f8.jpeg)
 
+# Compare with similar services
+|                                      | ZReviewTender                | Appreviewbot.com | Reviewbot.io                     | Aappbot.co                       | Appfollow.io                    | Appfigures.com |
+|--------------------------------------|------------------------------|------------------|----------------------------------|----------------------------------|---------------------------------|----------------|
+| Pricing for 2 Apps (Android & iOS)   | Forever Free No limit        | $11.99/month     | $5/month                         | $39/month                        | $0                              | $7.99/month    |
+| Service Type                         | PaaS                         | SaaS             | SaaS                             | SaaS                             | SaaS                            | SaaS           |
+| Stability & Immediacy                | High                         | High             | untested                         | untested                         | Low                             | untested       |
+| Countries/Languages Limit            | No limit                     | No limit         | 5                                | No limit                         | No limit                        | No limit       |
+| Reviews Monitoring (resend to Slack) | ✅                            | ✅                | ✅                                | ✅                                | ✅                               | ✅              |
+| Reviews Auto-Translation             | ✅ Powered by GoogleTranslate | ✅                | ❌ (not available for basic plan) | ✅ (300 Reviews/month)            | ❌ (not available for free plan) | ✅              |
+| Reviews Monitoring Customized Filter | ✅                            | ❌                | ❌                                | ❌                                | ❌                               | ❌              |
+| Customized Integration               | ✅                            | ❌                | ❌                                | ❌                                | ❌                               | ❌              |
+| Reply to reviews                     | ❌                            | ✅                | ❌                                | ❌ (not available for small plan) | ❌ (not available for free plan) | ✅              |
+| Reviews Analytics or Reporting       | ❌                            | ❌                | ❌ (not available for basic plan) | ✅                                | ✅                               | ✅              |
+
 # Setup - Only need Default Proceesor(Slack/Filter/Google Translate)
 
 ## Strongly Recommended
