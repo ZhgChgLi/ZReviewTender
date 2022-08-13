@@ -18,16 +18,22 @@ class AppleFetcher < ReviewFetcher
         @logger = ZLogger.new(config.baseExecutePath)
         @platform = 'Apple'
         @token = generateJWT()
+
+        puts "[AppleFetcher] Init Success."
     end
 
     def execute()
 
         latestCheckTimestamp = getPlatformLatestCheckTimestamp()
 
+        puts "[AppleFetcher] Start execute(), latestCheckTimestamp: #{latestCheckTimestamp}"
+
         reviews = fetchReviews(latestCheckTimestamp)
 
         if reviews.length > 0
             reviews.sort! { |a, b|  a.createdDateTimestamp <=> b.createdDateTimestamp }
+
+            puts "[AppleFetcher] latest review: #{reviews.last.body}, #{reviews.last.createdDateTimestamp}"
             setPlatformLatestCheckTimestamp(reviews.last.createdDateTimestamp)
 
             # init first time, send welcome message
@@ -46,10 +52,14 @@ class AppleFetcher < ReviewFetcher
         customerReviewsLink = "https://api.appstoreconnect.apple.com/v1/apps/#{config.appID}/customerReviews?sort=-createdDate"
         reviews = []
 
+        puts "[AppleFetcher] Fetch reviews in #{config.appID}"
+
         loop do
             customerReviews = request(customerReviewsLink)
             customerReviewsLink = customerReviews&.dig("links", "next")
 
+            puts "[AppleFetcher] Fetch reviews, page url: #{customerReviewsLink}"
+            puts "[AppleFetcher] Fetch reviews, page's reviews count: #{customerReviews&.dig("data").length}"
             customerReviews&.dig("data").each do |customerReview|
 
                 customerReviewID = customerReview&.dig("id")
@@ -83,11 +93,18 @@ class AppleFetcher < ReviewFetcher
             break if customerReviewsLink.nil?
         end
 
+        puts "[AppleFetcher] Fetch reviews in #{config.appID}, total reviews count: #{reviews.length}"
+
         return reviews
     end
 
+    # because customerReviews, won't give us app version information
+    # so, we need to query it from appStoreVersions api and combine together
     private
     def fullfillAppInfo(reviews)
+
+        puts "[AppleFetcher] Full fill app version information."
+
         customerReviewWhichAppVersionIsNil = reviews.select{ |review| review.appVersion.nil? }.map.with_index { |review, index| {"id":review.id, "index": index} }
 
         appStoreVersionsLink = "https://api.appstoreconnect.apple.com/v1/apps/#{config.appID}/appStoreVersions"
@@ -96,6 +113,8 @@ class AppleFetcher < ReviewFetcher
             appStoreVersions = request(appStoreVersionsLink)
             appStoreVersionsLink = appStoreVersions&.dig("links", "next")
 
+            puts "[AppleFetcher] List app store version, page url: #{appStoreVersionsLink}"
+            puts "[AppleFetcher] List app store version, versions count: #{appStoreVersions&.dig("data").length}"
             appStoreVersions&.dig("data").each do |appStoreVersion|
                 applePlatform = appStoreVersion&.dig("attributes","platform")
                 versionString = appStoreVersion&.dig("attributes","versionString")
@@ -108,6 +127,8 @@ class AppleFetcher < ReviewFetcher
                         customerReviews = request(customerReviewsLink)
                         customerReviewsLink = customerReviews&.dig("links", "next")
 
+                        puts "[AppleFetcher] Fetch version reviews, page url: #{customerReviewsLink}"
+                        puts "[AppleFetcher] Fetch version reviews, reviews count: #{customerReviews&.dig("data").length}"
                         customerReviews&.dig("data").each do |customerReview|
                             customerReviewID = customerReview&.dig("id")
                             if customerReviewID.nil?
@@ -120,6 +141,8 @@ class AppleFetcher < ReviewFetcher
                                 reviews[findResult[:index]].platform = applePlatform
 
                                 customerReviewWhichAppVersionIsNil.delete_at(findIndex)
+
+                                puts "[AppleFetcher] Count of reviews need full fill app version: #{customerReviewWhichAppVersionIsNil.length}"
 
                                 if customerReviewWhichAppVersionIsNil.length < 1
                                     customerReviewsLink = nil
@@ -172,7 +195,9 @@ class AppleFetcher < ReviewFetcher
                 raise "Could not connect to api.appstoreconnect.apple.com, error message: #{response}"
             else
                 @token = generateJWT()
-                logger.logWarn("JWT Expired, refresh a new one. (#{retryCount + 1})")
+                message = "JWT Expired, refresh a new one. (#{retryCount + 1})"
+                logger.logWarn(message)
+                puts "[AppleFetcher] #{message}"
                 return request(url, retryCount + 1)
             end
         else

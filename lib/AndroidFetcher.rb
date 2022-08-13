@@ -17,16 +17,21 @@ class AndroidFetcher < ReviewFetcher
 
         @client = Google::Apis::AndroidpublisherV3::AndroidPublisherService.new
         @client.authorization = Google::Auth::ServiceAccountCredentials.make_creds(json_key_io: config.keyContent, scope: 'https://www.googleapis.com/auth/androidpublisher')
+
+        puts "[AndroidFetcher] Init Success."
     end
 
     def execute()
 
         latestCheckTimestamp = getPlatformLatestCheckTimestamp()
 
+        puts "[AndroidFetcher] Start execute(), latestCheckTimestamp: #{latestCheckTimestamp}"
+
         reviews = []
         
         # Google API Bug, couldn't specify limit/offse/pagination, google only return a few recent reviews.
         customerReviews = client.list_reviews(config.packageName).reviews
+        puts "[AndroidFetcher] Fetch reviews in #{config.packageName}, count: #{customerReviews.length}"
         customerReviews.each do |customerReview|
 
             customerReviewID = customerReview.review_id
@@ -53,9 +58,13 @@ class AndroidFetcher < ReviewFetcher
         end
 
         reviews = reviews.reject{ |review| latestCheckTimestamp >= review.createdDateTimestamp }.sort! { |a, b|  a.createdDateTimestamp <=> b.createdDateTimestamp }
-      
+        
+        puts "[AndroidFetcher] latest reviews count: #{reviews.length}"
+
         if reviews.length > 0
 
+            puts "[AndroidFetcher] latest review: #{reviews.last.body}, #{reviews.last.createdDateTimestamp}"
+            
             setPlatformLatestCheckTimestamp(reviews.last.createdDateTimestamp)
 
             # init first time, send welcome message

@@ -30,6 +30,8 @@ class GoogleTranslateProcessor < Processor
         if !config['googleTranslateTerritoriesExclude'].nil? && config['googleTranslateTerritoriesExclude'].length > 0
             @territoriesExclude = config['googleTranslateTerritoriesExclude']
         end
+
+        puts "[GoogleTranslateProcessor] Init Success."
     end
 
     def processReviews(reviews, platform)
@@ -41,6 +43,8 @@ class GoogleTranslateProcessor < Processor
             if territoriesExclude.include? reviews[index].territory
                 next
             end
+
+            puts "[GoogleTranslateProcessor] translate #{reviews[index].body} from #{reviews[index].territory} to #{targetLang}"
 
             if !reviews[index].title.nil?
                 reviews[index].title = "#{client.translate reviews[index].title, to: targetLang} (#{reviews[index].title})"

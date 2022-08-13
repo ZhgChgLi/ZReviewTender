@@ -33,6 +33,8 @@ class SlackProcessor < Processor
         elsif !botToken.nil? && botToken != "" && (targetChannel.nil? || targetChannel == "")
             raise "must specify slackBotTargetChannel in SlackProcessor."
         end
+
+        puts "[SlackProcessor] Init Success."
     end
 
     def processReviews(reviews, platform)
@@ -74,7 +76,7 @@ class SlackProcessor < Processor
 
         loop do
             payload = pendingPayloads.shift
-
+            
             result = request(payload)
             if !result[:ok]
                 logger.logError(payload)
@@ -85,6 +87,7 @@ class SlackProcessor < Processor
                 end
             end
 
+            puts "[SlackProcessor] Send new Review messages, rest: #{pendingPayloads.length}"
             break if pendingPayloads.length < 1
         end
 
@@ -109,6 +112,7 @@ class SlackProcessor < Processor
         
         payload.attachments.append(attachment)
 
+        puts "[SlackProcessor] sendWelcomMessage(#{title})"
         request(payload)
     end
 

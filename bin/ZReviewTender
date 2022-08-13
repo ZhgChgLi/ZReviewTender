@@ -7,17 +7,19 @@ $LOAD_PATH.unshift($lib)
 require "Models/AppleConfig"
 require "Models/AndroidConfig"
 require "Models/Processor"
+require "Models/Version"
 require "Helper"
 require "ZLogger"
 require "AppleFetcher"
 require "AndroidFetcher"
 require "optparse"
 require "yaml"
+require "fileutils"
 
 class Main
     def initialize
 
-        ARGV << '-r' if ARGV.empty?
+        ARGV << '-h' if ARGV.empty?
 
         OptionParser.new do |opts|
             opts.banner = "Usage: ZReviewTender [options]"
@@ -27,30 +29,41 @@ class Main
             defaultAppleConfigFileName = "apple.yml"
             defaultAndroidConfigFileName = "android.yml"
         
-            opts.on('-a', '--apple[=CONFIGYMLFILEPATH]', 'execute apple platform with config yml file') do |configYMLFilePath|
+            opts.on('-a', '--apple[=CONFIGYMLFILEPATH]', 'execute apple platform, default config yml file path: /config/apple.yml, use --apple=CONFIG_YML_FILE_PATH specify config yml file path') do |configYMLFilePath|
                 if configYMLFilePath.nil?
                     configYMLFilePath = "#{basePath}/#{defaultConfigDirName}/#{defaultAppleConfigFileName}"
                 end
                 configFileCheck(configYMLFilePath, "--apple=CONFIG_YML_FILE_PATH")
 
+                puts "[ZReviewTender] run -a/-apple config yml file path: #{configYMLFilePath}"
+
                 fetcher = parseConfigYMLFile(configYMLFilePath)
                 fetcher.execute()
+
+                checkLatestVersionOfZReviewTender()
             end 
 
-            opts.on('-g', '--googleAndroid[=CONFIGYMLFILEPATH]', 'execute android platform with config yml file') do |configYMLFilePath|
+            opts.on('-g', '--googleAndroid[=CONFIGYMLFILEPATH]', 'execute android platform, default config yml file path: /config/android.yml, use --googleAndroid=CONFIG_YML_FILE_PATH specify config yml file path') do |configYMLFilePath|
                 if configYMLFilePath.nil?
                     configYMLFilePath = "#{basePath}/#{defaultConfigDirName}/#{defaultAndroidConfigFileName}"
                 end
                 configFileCheck(configYMLFilePath, "--googleAndroid=CONFIG_YML_FILE_PATH")
 
+                puts "[ZReviewTender] run -g/-googleAndroid config yml file path: #{configYMLFilePath}"
+
                 fetcher = parseConfigYMLFile(configYMLFilePath)
                 fetcher.execute()
+
+                checkLatestVersionOfZReviewTender()
             end 
             
-            opts.on('-r', '--run=[=CONFIGFOLDERNAME]', 'execute both android and apple, specify an /config folder name') do |configFolderName|
+            opts.on('-r', '--run=[=CONFIGFOLDERNAME]', 'execute both android and apple, specify a /config folder path') do |configFolderName|
                 if configFolderName.nil?
                     configFolderName = defaultConfigDirName
                 end
+
+                puts "[ZReviewTender] run -r/--run config folder path: #{configFolderName}"
+
                 androidConfigFilePath = "#{basePath}/#{configFolderName}/#{defaultAndroidConfigFileName}"
                 configFileCheck(androidConfigFilePath, "--googleAndroid=CONFIG_YML_FILE_PATH")
                 
@@ -64,8 +77,59 @@ class Main
 
                 fetcher = parseConfigYMLFile(appleConfigFilePath)
                 fetcher.execute()
-            end 
+
+                checkLatestVersionOfZReviewTender()
+            end
+
+            opts.on('-i', '--init', 'init config yml file from template.') do
+                configTemplateFolder = "#{File.expand_path("..", __dir__)}/config"
+                appleSourceExampleYML = "#{configTemplateFolder}/apple.example.yml"
+                androidSourceExampleYML = "#{configTemplateFolder}/android.example.yml"
+                appleDestExampleYML = "#{configTemplateFolder}/apple.yml"
+                androidDestExampleYML = "#{configTemplateFolder}/android.yml"
+                
+                if File.exists?(appleSourceExampleYML)
+                    if File.exists?(appleDestExampleYML)
+                        puts "Failed! Config YML File Exists: #{appleDestExampleYML}"
+                    else
+                        FileUtils.cp(appleSourceExampleYML, appleDestExampleYML)
+                        puts "Init Apple Config YML File at:#{appleDestExampleYML} Success!"
+                    end
+                end
+                #
+                if File.exists?(androidSourceExampleYML)
+                    if File.exists?(androidDestExampleYML)
+                        puts "Failed! Config YML File Exists: #{androidDestExampleYML}"
+                    else
+                        FileUtils.cp(androidSourceExampleYML, androidDestExampleYML)
+                        puts "Init Android Config YML File at:#{androidDestExampleYML} Success!"
+                    end
+                end
+
+                checkLatestVersionOfZReviewTender()
+            end
+            
+            opts.on('-n', '--new', 'update to latest version of ZReviewTender by RubyGem') do
+                version = Version.new
+
+                if version.getRemoteVersion() > version.getLocalVersion()
+                    system('gem update ZReviewTender')
+                else
+                    puts "You're using the latest version of ZReviewTender!"
+                end
+            end
         end.parse!
+    end
+
+    private
+    def checkLatestVersionOfZReviewTender()
+        version = Version.new
+        if version.getRemoteVersion() > version.getLocalVersion()
+            puts "##########################################################"
+            puts "#####           New Version Available!!!             #####"
+            puts "#####   Please type `ZReviewTender -n` to update!!   #####"
+            puts "##########################################################"
+        end
     end
 
     private
@@ -120,8 +184,14 @@ class Main
     end
 end
 
-begin 
+begin
+    puts "#https://github.com/ZhgChgLi/ZReviewTender"
+    puts "You have read and agree with the Disclaimer."
     Main.new()
+    puts "Execute Successfully!!!"
+    puts "#https://github.com/ZhgChgLi/ZReviewTender"
+    puts "#Thanks for using this tool."
+    puts "#If this is helpful, please help to star the repo or recommend it to your friends."
 rescue => e
     logger = ZLogger.new(ENV['PWD'] || ::Dir.pwd)
     title = "#Error: #{e.class} #{e.message}"

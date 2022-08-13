@@ -27,6 +27,8 @@ class FilterProcessor < Processor
         if !config["territoriesInclude"].nil?
             @territoriesInclude = config["territoriesInclude"]
         end
+
+        puts "[FilterProcessor] Init Success."
     end
 
     def processReviews(reviews, platform)
@@ -35,17 +37,23 @@ class FilterProcessor < Processor
         end
         
         if ratingsInclude.length > 0
+            orgReviewsCount = reviews.length
             reviews = reviews.select{ |review| ratingsInclude.map{ |rating| rating.to_i }.include? review.rating }
+            puts "[FilterProcessor] filter out ratings from #{orgReviewsCount} to #{reviews.length}"
         end
 
         if territoriesInclude.length > 0
+            orgReviewsCount = reviews.length
             reviews = reviews.select{ |review| territoriesInclude.map{ |territory| territory.upcase }.include? review.territory.upcase }
+            puts "[FilterProcessor] filter out ratings from #{orgReviewsCount} to #{reviews.length}"
         end
 
         if keywordsInclude.length > 0
+            orgReviewsCount = reviews.length
             keywordsInclude.select{ |keywordsInclude| keywordsInclude != "" }.each do |keywordInclude|
                 reviews = reviews.select{ |review| review.body.include? keywordInclude }
             end
+            puts "[FilterProcessor] filter out ratings from #{orgReviewsCount} to #{reviews.length}"
         end
 
         return reviews
