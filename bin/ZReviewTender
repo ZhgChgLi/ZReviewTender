@@ -126,7 +126,17 @@ class Main
                 end
             end
 
-            opts.on('-v', '--versopm', 'show current version of ZReivewTender') do
+            opts.on('-d', '--delete', 'delete latest check timestamp log file.(factory reset)') do
+                FileUtils.rm_rf("#{basePath}/latestCheckTimestamp/")
+                Helper.createDirIfNotExist("#{basePath}/latestCheckTimestamp/")
+                if !File.exists?("#{basePath}/latestCheckTimestamp/.keep")
+                    File.open("#{basePath}/latestCheckTimestamp/.keep", 'w') { |file| file.write("") }
+                end
+
+                puts "Clean all  latest check timestamp log file in /latestCheckTimestamp success."
+            end
+
+            opts.on('-v', '--version', 'show current version of ZReivewTender') do
                 version = Version.new
                 puts "Current ZReviewTender Version: #{version.getLocalVersion()}"
 
