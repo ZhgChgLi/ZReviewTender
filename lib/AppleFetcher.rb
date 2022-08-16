@@ -79,7 +79,7 @@ class AppleFetcher < ReviewFetcher
                     customerReviewsLink = nil
                     break
                 else
-                    url = "https://appstoreconnect.apple.com/apps/#{config.appID}/appstore/activity/ios/ratingsResponses"
+                    url = "https://appstoreconnect.apple.com/WebObjects/iTunesConnect.woa/ra/ng/app/#{config.appID}/ios/ratingsResponses"
                     reviews.append(Review.new(nil, customerReviewID, customerReviewReviewerNickname, customerReviewRating, customerReviewTitle, customerReviewBody, customerReviewCreatedDateTimestamp, url, nil, customerReviewTerritory))
                     
                     # init first time, need first review to set as latestCheckTimestamp
