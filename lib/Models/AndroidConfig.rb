@@ -5,7 +5,7 @@ require "Helper"
 require "time"
 
 class AndroidConfig
-    attr_accessor :keyContent, :packageName, :accountID, :appID, :baseExecutePath
+    attr_accessor :keyContent, :keyID, :tokenURI, :clientEmail, :packageName, :accountID, :appID, :baseExecutePath
     def initialize(configYMLObj, configFilePath, baseExecutePath)
         keyFilePath = Helper.unwrapRequiredParameter(configYMLObj,"keyFilePath")
 
@@ -14,9 +14,14 @@ class AndroidConfig
             keyFilePath = "#{configDir}#{keyFilePath}"
         end
 
+        keyFileContent = JSON.parse(File.read(keyFilePath))
+
         @accountID = configYMLObj["playConsoleDeveloperAccountID"]
         @appID = configYMLObj["playConsoleAppID"]
-        @keyContent = File.open(keyFilePath)
+        @keyContent = Helper.unwrapRequiredParameter(keyFileContent,"private_key")
+        @keyID = Helper.unwrapRequiredParameter(keyFileContent,"private_key_id")
+        @clientEmail = Helper.unwrapRequiredParameter(keyFileContent,"client_email")
+        @tokenURI = Helper.unwrapRequiredParameter(keyFileContent,"token_uri")
         @baseExecutePath = baseExecutePath
         @packageName = Helper.unwrapRequiredParameter(configYMLObj,"packageName")
     end

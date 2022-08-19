@@ -369,13 +369,21 @@ ZReviewTender -n
 you will received an init success message in your Slack Channel!
 
 
-## latestCheckTimestamp folder & execute.log
+### latestCheckTimestamp folder & execute.log:
 
 ![1_U8vjWSHvY2RzUBcUbQoBvQ](https://user-images.githubusercontent.com/33706588/183839283-bd836917-f4a9-467e-97ff-238d947c2fad.png)
 
 ZReviewTender will also created latestCheckTimestamp/Apple, latestCheckTimestamp/Android to log ZReviewTender latest checked Review Timestamp and created execute.log for log excute error.
 
 ![image](https://user-images.githubusercontent.com/33706588/184472442-3bc390d2-c4c0-4eec-8dc2-f8061124e870.png)
+
+
+## Setup a crontab schedule job to excute(Check latest Review & Process) periodicity
+- You could use crontab or any schedule service to execute ZReviewTender periodicity
+- e.g. in crontab: `15 */6 * * * ZReviewTender -r`
+- please note that, google api only allow retrieve the reviews that users have created or modified within the last week, so could not set the time period more than one week.
+
+
 
 # ⚠️️️️️ Attention
 ⚠️️️️️ MUST KEEP YOUR CREDENTIAL FILES SAFE, DO NOT EXPOSE ON THE INTERNET. ⚠️️️️️

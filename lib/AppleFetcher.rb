@@ -175,7 +175,8 @@ class AppleFetcher < ReviewFetcher
             exp: Time.now.to_i + 60*20,
             aud: 'appstoreconnect-v1'
         }
-        token = JWT.encode payload, config.keyContent, 'ES256', header_fields={kid:config.keyID, typ:"JWT"}
+        
+        return JWT.encode payload, config.keyContent, 'ES256', header_fields={kid:config.keyID, typ:"JWT"}
     end
 
     private

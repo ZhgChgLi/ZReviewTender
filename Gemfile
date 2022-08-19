@@ -1,5 +1,3 @@
 source 'https://rubygems.org'
 gem 'net-http', '~> 0.1.0'
 gem 'jwt', '~> 2.4.1'
-gem 'google-cloud-translate-v2', '~> 0.3.0'
-gem 'google-apis-androidpublisher_v3', '~> 0.25.0'
