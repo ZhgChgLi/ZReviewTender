@@ -12,6 +12,7 @@ GEM
 
 PLATFORMS
   x86_64-darwin-21
+  x86_64-linux
 
 DEPENDENCIES
   jwt (~> 2.4.1)
