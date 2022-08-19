@@ -1,0 +1,25 @@
+
+name: ZReviewTender
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "15 */3 * * *" # At 01:10 on day-of-month 15.
+
+jobs:
+  ZMediumToMarkdown:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: 2.6.5
+      - run: bundle install
+        shell: bash
+      - run: bundle exec bin/ZReviewTender
+        shell: bash
+      - uses: stefanzweifel/git-auto-commit-action@v4
+        with:
+          commit_message: "Update cache."
+          commit_user_name: "ZReviewTender"
+          commit_user_email: "zhgchgli@gmail.com"
+          commit_author: ZReviewTender <zhgchgli@gmail.com>
