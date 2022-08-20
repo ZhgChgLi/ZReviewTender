@@ -316,6 +316,25 @@ ZReviewTender will also created latestCheckTimestamp/Apple, latestCheckTimestamp
 
 ![image](https://user-images.githubusercontent.com/33706588/185638179-39d9fc09-e0c7-4164-864a-0f13e1b7df3f.png)
 
+## Github Action
+```
+name: ZReviewTender
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "15 */6 * * *" #check new review every 6 hour.
+
+jobs:
+  ZReviewTender:
+    runs-on: ubuntu-latest
+    steps:
+    - name: ZReviewTender Automatic Bot
+      uses: ZhgChgLi/ZReviewTender@main
+      with:
+        command: '-r'
+```
+you can change command to others ZReviewTender's command.
+
 # ⚠️️️️️ Attention
 ⚠️️️️️ MUST KEEP YOUR CREDENTIAL FILES SAFE, DO NOT EXPOSE ON THE INTERNET. ⚠️️️️️
 
