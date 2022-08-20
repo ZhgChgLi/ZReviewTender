@@ -41,7 +41,7 @@ class GoogleTranslateProcessor < Processor
         
         reviews.each_index do |index|
             if territoriesExclude.include? reviews[index].territory
-                #next
+                next
             end
 
             puts "[GoogleTranslateProcessor] translate #{reviews[index].body} from #{reviews[index].territory} to #{targetLang}"
