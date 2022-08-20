@@ -45,14 +45,21 @@ class GoogleAPI < Processor
         result = JSON.parse(response)
 
         if !result["error"].nil?
-            if retryCount >= 10
-                raise "Could not connect to #{tokenURI}, key id: #{keyID}, error message: #{response}"
+            # Quota exceeded for quota metric 'Write requests' and limit 'Write requests per minute per user
+            if result["error"]["code"] == 429
+                puts "[GoogleAPI] Reached Rate Limited, sleep 30 secs..."
+                sleep(30)
+                return request(url, method, data, 0)
             else
-                @token = generateJWT()
-                message = "JWT Invalid, retry. (#{retryCount + 1})"
-                logger.logWarn(message)
-                puts "[GoogleAPI] #{message}"
-                return request(url, method, data, retryCount + 1)
+                if retryCount >= 10
+                    raise "Could not connect to #{tokenURI}, key id: #{keyID}, error message: #{response}"
+                else
+                    @token = generateJWT()
+                    message = "JWT Invalid, retry. (#{retryCount + 1})"
+                    logger.logWarn(message)
+                    puts "[GoogleAPI] #{message}"
+                    return request(url, method, data, retryCount + 1)
+                end
             end
         else
             return result

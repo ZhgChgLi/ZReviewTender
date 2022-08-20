@@ -73,6 +73,7 @@ class GoogleSheetProcessor < Processor
             end
         end
 
+        values = []
         filterReviews.each do |review|
             cols = []
             formatValues.each do |formatValue|
@@ -89,10 +90,15 @@ class GoogleSheetProcessor < Processor
 
                 cols.append(formatValue)
             end
-            
-            puts "[GoogleSheetProcessor] insert #{cols} to #{sheetID}-#{sheetName}"
+            values.append(cols)
+        end
 
-            googleAPI.request("https://sheets.googleapis.com/v4/spreadsheets/#{sheetID}/values/#{sheetName}:append?valueInputOption=RAW", "POST", {:values => [cols]})
+        page = 1
+        limit = 500
+        values.each_slice(limit) do |value|
+            puts "[GoogleSheetProcessor] Insert rows(#{page}/#{(values.length/limit).ceil + 1}) to #{sheetID}-#{sheetName}"
+            page += 1
+            googleAPI.request("https://sheets.googleapis.com/v4/spreadsheets/#{sheetID}/values/#{sheetName}!A1:append?valueInputOption=RAW", "POST", {:values => value})
         end
 
         return reviews

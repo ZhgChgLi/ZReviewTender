@@ -82,6 +82,7 @@ class SlackProcessor < Processor
                 logger.logError(payload)
                 logger.logError(result)
                 if result[:message] == "ratelimited"
+                    puts "[SlackProcessor] Reached Rate Limited, sleep 1 sec..."
                     sleep(1)
                     pendingPayloads.insert(0, payload)
                 end
