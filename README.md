@@ -9,12 +9,14 @@ ZReviewTender uses brand new App Store & Google Play API to fetch App reviews an
 
 # Features
 - [x] Support fetch App Store (iOS App/Mac OS App...) Reviews
+- [x] Support fetch Google Play Console Android App Reviews
 - [x] [Default Processor] Resend newst Reviews to specify Slack Channel
-- [x] [Default Processor] Auto-translate Review's content to your language by Google Translate
+- [x] [Default Processor] Support Auto-translate Review's content to your language by Google Translate
+- [x] [Default Processor] Support Auto-Log Review to Google Sheet
 - [x] Flexible extension, you can develop your own Processor(a.k.a plugin) for suit your workflow.
 - [x] Lightweight implementation, only log latest review timestamp, not save all reviews in local storage.
 - [x] Support Filter, you can add custom filter condition to filter out which reviews you need
-- [x] Based on Official API(AndroidpublisherV3 & [Brand New AppStoreConnect API](https://developer.apple.com/news/?id=yqf4kgwb)), no more workaround or [session expired](https://docs.fastlane.tools/getting-started/ios/authentication/)
+- [x] Based on Official API(AndroidpublisherV3 & [Brand New AppStoreConnect API](https://developer.apple.com/news/?id=yqf4kgwb)), no more workaround or [session expired problem](https://docs.fastlane.tools/getting-started/ios/authentication/)
 - [x] Quick depoly with Github Repo Template/Github Action
 - [x] 100% Ruby@RubyGem
 
@@ -114,6 +116,11 @@ appID: [App Store Connect](https://appstoreconnect.apple.com/apps) -> App Store 
 
 3. after filled out configuration in yaml file, rename `apple.example.yml` to `apple.yml`
 
+## Use Authenticating as a service accountAuthenticating as a service account for Google Releated Service
+
+- follow the steps of [Creating a service account](https://cloud.google.com/docs/authentication/production#create_service_account) in offcial documentation, to create a service account of GCP and download the **GCP JSON Private Key**.
+- make sure the service account have the right access you need (e.g. Google Translate/Google Ancdroid Publisher API/Google Sheet...)
+
 ## Google Play Console (Android App)
 
 1. Download the [android.example.yml](https://github.com/ZhgChgLi/ZReviewTender/blob/main/config/android.example.yml) config yaml file. (Please rename `android.example.yml` to `android.yml` if you've downloaded from reference.)
@@ -133,11 +140,13 @@ https://play.google.com/console/developers/**playConsoleDeveloperAccountID**/app
 
 **keyFilePath:**
 
-Follow the [GCP Started Document](https://developers.google.com/android-publisher/getting_started) to created a Google Cloud Project and linked it to your Google Play Console, enable Google Play Android Developer API in Google Play Console -> Setup -> API Access.
+Follow the [GCP Started Document](https://developers.google.com/android-publisher/getting_started) to created a Google Cloud Project Service Account and linked it to your Google Play Console, enable Google Play Android Developer API in Google Play Console -> Setup -> API Access.
 
 ![1_yQhAVOuF_CvM49Vayl40zA](https://user-images.githubusercontent.com/33706588/183833645-b2071d6b-d3c5-4841-8293-ce6c07a69098.png)
 
 ![1_-AKvlk9P6R0YkuZwsXJaLA](https://user-images.githubusercontent.com/33706588/183833654-b0889e82-c8d0-4b2b-92ab-0f8f953d5c5b.png)
+
+- make sure the service account have the right access
 
 keyFilePath: `/gcp_key.json` the key path of GCP JSON Private Key, placed it to /config/ folder (releated path with config yml file).
 
@@ -152,7 +161,8 @@ keyFilePath: `/gcp_key.json` the key path of GCP JSON Private Key, placed it to 
 ### GoogleTranslateProcessor
 - class: `GoogleTranslateProcessor`, no need to chane, it's point to lib/Processors/`GoogleTranslateProcessor`.rb
 - enable: true/false enable this Processor or Not
-- googleTranslateAPIKeyFilePath: `/gcp_key.json` Google Translate GCP JSON Private Key File Path `*.json`,placed it to /config/ folder (releated path with config yml file)
+- googleTranslateAPIKeyFilePath: `/gcp_key.json` Google Translate GCP Service Account JSON Private Key File Path `*.json`,placed it to /config/ folder (releated path with config yml file)
+- make sure the service account have the right access(Google Translate API)
 - googleTranslateTargetLang: `zh-TW` Target translated language
 - googleTranslateTerritoriesExclude: ["zh-hant","TWN"…] (Territor(TWN/JPN...) for Apple or Language(zh-hant,en...) For Android review that didn't need to translate.
 
@@ -172,6 +182,33 @@ ZReviewTender will use slackBotToken by default.
 ![1_D1kt_6jH0UaJo2kvf9l5Qw (1)](https://user-images.githubusercontent.com/33706588/183836286-2a8d8bce-432e-4962-a24c-d6e09e6601ea.png)
 
 ![1_UjE_LxtZ0adwS6tr2-vgbw](https://user-images.githubusercontent.com/33706588/183836304-a968b42a-c9ed-4edc-a8f1-34e458d5ab26.png)
+
+### GoogleSheetProcessor
+- class: `GoogleSheetProcessor`, no need to chane, it's point to lib/Processors/`GoogleSheetProcessor`.rb
+- enable: true/false enable this Processor or Not
+- googleSheetAPIKeyFilePath: `/gcp_key.json` Google Sheet GCP Service Account JSON Private Key File Path `*.json`,placed it to /config/ folder (releated path with config yml file)
+- make sure the service account have the right access(Google Translate API)
+- googleSheetTimeZoneOffset: `+08:00` timezone of display review created time
+- googleSheetID: Google Sheet ID, you can get it on google sheet url: e.g. https://docs.google.com/spreadsheets/d/`googleSheetID`/
+- googleSheetName: Sheet Name, e.g. `Sheet1`
+- values: [] # Columns Data you can uses magic variable below to compose string.
+```
+%TITLE% for review's title
+%BODY% for review's content
+%RATING% for review's rating 1~5
+%PLATFORM% for review's platform Apple or Android
+%ID% for review's ID
+%USERNAME% for review's reviewer username
+%URL% for link to review
+%TERRITORY% for review's territory (language for android e.g. zh-Hant, en)
+%APPVERSION% for review's reviewer app version
+%CREATEDDATE% for review's created date
+```
+- keywordsInclude: ["KEYWORD1","KEYWORD2"…] filter out the Review that contains those keywords you want's log to google sheet
+- ratingsInclude: [1,2…] 1~5 filter out the Review that contains rating you want's log to google sheet
+- territoriesInclude: ["zh-hant","TWN"…] filter out the Review that from those territories you want's log to google sheet (Territor(TWN/JPN...) for Apple / Language(zh-hant,en...) For Android)
+
+*make sure you have add service account to your google sheet collaborate with edit permission.
 
 ### Custom Processor
 1. Clone this repo project (due to ZReviewTedner is a completely Gem, you can't modify it dynamically)
@@ -193,112 +230,6 @@ ZReviewTender will use slackBotToken by default.
 5. Done!
 
 *processors are data flow chain and sort sensitive.
-
-### \[Demo Custom Processor\] LogAppIssueProcessor
-
-#### /lib/Processors/LogAppIssueProcessor.rb:
-
-Goal: log review that rating is less than 5 to google sheet.
-
-```ruby
-#$lib = File.expand_path('../lib', File.dirname(__FILE__))
-
-require "Models/Review"
-require "Models/Processor"
-require "Helper"
-require "ZLogger"
-
-require "pathname"
-require "google_drive"
-
-
-class LogAppIssueProcessor < Processor
-
-    attr_accessor :client, :googleSheetIndex, :timeZoneOffset
-
-    def initialize(config, configFilePath, baseExecutePath)
-        # init Processor
-        # get paraemter from config e.g. config["parameter1"]
-        # configFilePath: file path of config file (apple.yml/android.yml)
-        # baseExecutePath: user excute path
-
-
-        keyFilePath = Helper.unwrapRequiredParameter(config, "googleSheetAPIKeyFilePath")
-        googleSheetKey = Helper.unwrapRequiredParameter(config, "googleSheetID")
-        
-        if Pathname.new(keyFilePath).absolute?
-            configDir = File.dirname(configFilePath)
-            keyFilePath = "#{configDir}#{keyFilePath}"
-        end
-        
-        @timeZoneOffset = Helper.unwrapRequiredParameter(config, "googleSheetTimeZoneOffset")
-        @googleSheetIndex = Helper.unwrapRequiredParameter(config, "googleSheetIndex")
-        @client = GoogleDrive::Session.from_service_account_key(keyFilePath).spreadsheet_by_key(googleSheetKey)
-    end
-
-    def processReviews(reviews, platform)
-        if reviews.length < 1
-            return reviews
-        end
-        
-        sheet = client.worksheets[googleSheetIndex]
-    
-        if !sheet.nil?
-            lowReviews = reviews.select{ |review| review.rating < 5 }.reverse()
-            rows = []
-            lowReviews.each do |review|
-                rows.append(["商城評價",review.rating,"#{review.title}\n#{review.body}",review.appVersion,Time.at(review.createdDateTimestamp).getlocal(timeZoneOffset)])
-                # 商城評價, 3, 評價標題-評價內容, 4.5.0, 2022-08-08 10:00:05
-            end
-            
-            if rows.length > 0
-                sheet.insert_rows(0, rows)
-                sheet.save
-            end
-        end
-
-        return reviews
-    end
-end
-```
-
-#### apple/android.yml:
-
-```ruby
-platform: 'apple'
-appStoreConnectP8PrivateKeyFilePath: '/AuthKey_XXXXXX.p8'
-appStoreConnectP8PrivateKeyID: 'XXXXXX'
-appStoreConnectIssueID: 'XXXXXX-XXXXXX-XXXXXX-XXXXXX-XXXXXX'
-appID: 'XXXXXX'
-processors:
-    - FilterProcessor:
-        class: "FilterProcessor"
-        enable: true
-        keywordsInclude: []
-        ratingsInclude: []
-        territoriesInclude: []
-    - GoogleTranslateProcessor:
-        class: "GoogleTranslateProcessor"
-        enable: true
-        googleTranslateAPIKeyFilePath: '/gcp_key.json'
-        googleTranslateTargetLang: 'zh-TW'
-        googleTranslateTerritoriesExclude: ["TWN","CHN"]
-    - SlackProcessor:
-        class: "SlackProcessor"
-        enable: true
-        slackTimeZoneOffset: "+08:00"
-        slackAttachmentGroupByNumber: "1"
-        slackBotToken: "xoxb-XXXXXX-XXXXXX-XXXXXX"
-        slackBotTargetChannel: "CXXXXXX"
-        slackInCommingWebHookURL: null
-    - LogAppIssueProcessor:
-        class: "LogAppIssueProcessor"
-        enable: true
-        googleSheetAPIKeyFilePath: '/gcp_key.json'
-        googleSheetID: 'XXXXXX'
-        googleSheetIndex: 0
-        googleSheetTimeZoneOffset: "+08:00"
-```
 
 ### If you don't need Some Processor (like Google Translate Processor)
 

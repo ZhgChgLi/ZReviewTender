@@ -1,21 +1,20 @@
 $lib = File.expand_path('../lib', File.dirname(__FILE__))
 
-require "Models/Review"
 require "Helper"
+require "GoogleAPI"
+require "Models/Review"
 require "Models/ReviewFetcher"
-require "jwt"
-require "time"
 
 class AndroidFetcher < ReviewFetcher
 
-    attr_accessor :token
+    attr_accessor :token, :googleAPI
 
     def initialize(config)
         @processors = []
         @config = config
         @platform = 'Android'
         @logger = ZLogger.new(config.baseExecutePath)
-        @token = generateJWT()
+        @googleAPI = GoogleAPI.new(config.keyFilePath, config.baseExecutePath, ["https://www.googleapis.com/auth/androidpublisher"])
 
         puts "[AndroidFetcher] Init Success."
     end
@@ -36,7 +35,7 @@ class AndroidFetcher < ReviewFetcher
         puts "[AndroidFetcher] Fetch reviews in #{config.packageName}"
 
         loop do
-            reviewsInfo = request(reviewsInfoLink)
+            reviewsInfo = googleAPI.request(reviewsInfoLink)
             reviewsInfoLink = reviewsInfo&.dig("tokenPagination", "nextPageToken")
 
             customerReviews = reviewsInfo["reviews"]
@@ -96,7 +95,7 @@ class AndroidFetcher < ReviewFetcher
                     end
 
                     if deviceInfo.length > 0
-                        customerReviewTitle = "#{deviceInfo.join("/")}"
+                        customerReviewReviewerNickname = "#{customerReviewReviewerNickname} - #{deviceInfo.join("/")}"
                     end
                 end
 
@@ -137,59 +136,5 @@ class AndroidFetcher < ReviewFetcher
 
             processReviews(reviews, platform)
         end
-    end
-
-    private
-    def generateJWT()
-        payload = {
-            iss: config.clientEmail,
-            sub: config.clientEmail,
-            scope: "https://www.googleapis.com/auth/androidpublisher",
-            aud: config.tokenURI,
-            iat: Time.now.to_i,
-            exp: Time.now.to_i + 60*20
-        }
-
-        rsa_private = OpenSSL::PKey::RSA.new(config.keyContent)
-        token = JWT.encode payload, rsa_private, 'RS256', header_fields = {kid:config.keyID, typ:"JWT"}
-
-        uri = URI(config.tokenURI)
-        https = Net::HTTP.new(uri.host, uri.port)
-        https.use_ssl = true
-        request = Net::HTTP::Post.new(uri)
-        request.body = "grant_type=urn%3Aietf%3Aparams%3Aoauth%3Agrant-type%3Ajwt-bearer&assertion=#{token}"
-
-        response = https.request(request).read_body
-        result = JSON.parse(response)
-        
-        return result["access_token"]
-    end
-
-    private
-    def request(url, retryCount = 0)
-        uri = URI(url)
-        https = Net::HTTP.new(uri.host, uri.port)
-        https.use_ssl = true
-        
-        request = Net::HTTP::Get.new(uri)
-        request['Authorization'] = "Bearer #{token}";
-        
-        response = https.request(request).read_body
-        
-        result = JSON.parse(response)
-        if result["reviews"].nil?
-            if retryCount >= 10
-                raise "Could not connect to androidpublisher.googleapis.com, error message: #{response}"
-            else
-                @token = generateJWT()
-                message = "JWT Expired, refresh a new one. (#{retryCount + 1})"
-                logger.logWarn(message)
-                puts "[AndroidFetcher] #{message}"
-                return request(url, retryCount + 1)
-            end
-        else
-            return result
-        end
-
     end
 end

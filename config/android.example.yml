@@ -1,6 +1,6 @@
 platform: 'android'
 packageName: '' # Android App Package Name
-keyFilePath: '' # Google Android Publisher API Credential .json File Path
+keyFilePath: '' # Google Android Publisher API Service Account Credential .json File Path
 playConsoleDeveloperAccountID: '' # Google Console Developer Account ID
 playConsoleAppID: '' # Google Console App ID
 processors:
@@ -13,7 +13,7 @@ processors:
     - GoogleTranslateProcessor: # Google Translate Processor, will translate review text to your language, you can remove whole block if you don't needed it.
         class: "GoogleTranslateProcessor"
         enable: false # enable
-        googleTranslateAPIKeyFilePath: '' # Google Translate API Credential .json File Path
+        googleTranslateAPIKeyFilePath: '' # Google Translate API Service Account Credential .json File Path
         googleTranslateTargetLang: 'zh-TW' # Translate to what Language
         googleTranslateTerritoriesExclude: ["zh-Hant","zh-Hans"] # Review origin Territory (language) that you don't want to translate. (language for android e.g. zh-Hant, en)
     - SlackProcessor: # Slack Processor, resend App Review to Slack.
@@ -24,3 +24,25 @@ processors:
         slackBotToken: "" # Slack Bot Token, send slack message throught Slack Bot.
         slackBotTargetChannel: "" # Slack Bot Token, send slack message throught Slack Bot. (recommended, first priority)
         slackInCommingWebHookURL: "" # Slack In-Comming WebHook URL, Send slack message throught In-Comming WebHook, not recommended, deprecated.
+    - GoogleSheetProcessor: # Google Sheet Processor, log review to google sheet
+        class: "GoogleSheetProcessor"
+        enable: false # enable
+        googleSheetAPIKeyFilePath: "" # Google Translate API Service Account Credential .json File Path
+        googleSheetTimeZoneOffset: "+08:00" # Review Created Date TimeZone
+        googleSheetID: "" # Google Sheet ID, you can get it on google sheet url: e.g. https://docs.google.com/spreadsheets/d/googleSheetID/
+        googleSheetName: "Sheet1" # Sheet Name
+        values: ["%RATING%","%TITLE%\n%BODY%","%APPVERSION%","%CREATEDDATE%"] # Columns Data, you can uses magic variable below to compose string.
+        # %TITLE% for review's title
+        # %BODY% for review's content
+        # %RATING% for review's rating 1~5
+        # %PLATFORM% for review's platform Apple or Android
+        # %ID% for review's ID
+        # %USERNAME% for review's reviewer username
+        # %URL% for link to review
+        # %TERRITORY% for review's territory (language for android e.g. zh-Hant, en)
+        # %APPVERSION% for review's reviewer app version
+        # %CREATEDDATE% for review's created date
+        
+        keywordsInclude: [] # keywords you want to filter out
+        ratingsInclude: [] # ratings you want to filter out
+        territoriesInclude: [] # territories you want to filter out(language for android e.g. zh-Hant, en)
