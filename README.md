@@ -314,9 +314,13 @@ ZReviewTender will also created latestCheckTimestamp/Apple, latestCheckTimestamp
 - e.g. in crontab: `15 */6 * * * ZReviewTender -r`
 - please note that, google api only allow retrieve the reviews that users have created or modified within the last week, so could not set the time period more than one week.
 
-![image](https://user-images.githubusercontent.com/33706588/185638179-39d9fc09-e0c7-4164-864a-0f13e1b7df3f.png)
+[![image](https://user-images.githubusercontent.com/33706588/185638179-39d9fc09-e0c7-4164-864a-0f13e1b7df3f.png)](https://github.com/marketplace/actions/zreviewtender-app-reviews-automatic-bot)
 
 ## Github Action
+![image](https://user-images.githubusercontent.com/33706588/185739638-25f145b8-e2a8-4146-9b4d-688c7ddc75ac.png)
+
+[ZReviewTender App Reviews Automatic Bot](https://github.com/marketplace/actions/zreviewtender-app-reviews-automatic-bot)
+
 ```
 name: ZReviewTender
 on:
