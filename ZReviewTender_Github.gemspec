@@ -23,6 +23,4 @@ Gem::Specification.new do |gem|
   
     gem.add_dependency 'net-http', '~> 0.1.0'
     gem.add_dependency 'jwt', '~> 2.4.1'
-    gem.add_dependency 'google-cloud-translate-v2', '~> 0.3.0'
-    gem.add_dependency 'google-apis-androidpublisher_v3', '~> 0.25.0'
 end
