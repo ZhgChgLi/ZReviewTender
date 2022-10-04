@@ -31,6 +31,17 @@ class ReviewFetcher
         end
     end
 
+    def setSentWelcomeMessage()
+        basePath = "#{config.baseExecutePath}/latestCheckTimestamp/"
+        Helper.createDirIfNotExist(basePath)
+        File.open("#{basePath}/#{platform}Welcome", 'w') { |file| file.write("") }
+    end
+
+    def isSentWelcomeMessage()
+        filePath = "#{config.baseExecutePath}/latestCheckTimestamp/#{platform}Welcome"
+        return File.exists?(filePath)
+    end
+
     def setPlatformLatestCheckTimestamp(timestamp)
         basePath = "#{config.baseExecutePath}/latestCheckTimestamp/"
         Helper.createDirIfNotExist(basePath)

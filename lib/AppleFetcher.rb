@@ -38,8 +38,9 @@ class AppleFetcher < ReviewFetcher
         end
 
         # init first time, send welcome message
-        if latestCheckTimestamp == 0 
+        if latestCheckTimestamp == 0 && isSentWelcomeMessage() == false
             sendWelcomMessage()
+            setSentWelcomeMessage()
         elsif reviews.length > 0
             reviews = fullfillAppInfo(reviews)
             processReviews(reviews, platform)
