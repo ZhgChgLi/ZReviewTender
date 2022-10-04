@@ -35,13 +35,12 @@ class AppleFetcher < ReviewFetcher
 
             puts "[AppleFetcher] latest review: #{reviews.last.body}, #{reviews.last.createdDateTimestamp}"
             setPlatformLatestCheckTimestamp(reviews.last.createdDateTimestamp)
+        end
 
-            # init first time, send welcome message
-            if latestCheckTimestamp == 0 
-                sendWelcomMessage()
-                return;
-            end
-
+        # init first time, send welcome message
+        if latestCheckTimestamp == 0 
+            sendWelcomMessage()
+        elsif reviews.length > 0
             reviews = fullfillAppInfo(reviews)
             processReviews(reviews, platform)
         end

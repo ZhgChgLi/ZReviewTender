@@ -132,13 +132,13 @@ class AndroidFetcher < ReviewFetcher
 
             puts "[AndroidFetcher] latest review: #{reviews.last.body}, #{reviews.last.createdDateTimestamp}"
             setPlatformLatestCheckTimestamp(reviews.last.createdDateTimestamp)
+        end
 
-            # init first time, send welcome message
-            if latestCheckTimestamp == 0 
-                sendWelcomMessage()
-                return
-            end
 
+        # init first time, send welcome message
+        if latestCheckTimestamp == 0 
+            sendWelcomMessage()
+        elsif reviews.length > 0
             processReviews(reviews, platform)
         end
     end
