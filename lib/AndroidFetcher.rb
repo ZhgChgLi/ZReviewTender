@@ -39,6 +39,11 @@ class AndroidFetcher < ReviewFetcher
             reviewsInfoLink = reviewsInfo&.dig("tokenPagination", "nextPageToken")
 
             customerReviews = reviewsInfo["reviews"]
+
+            if customerReviews.nil?
+                break
+            end
+
             puts "[AndroidFetcher] Fetch reviews in #{config.packageName}, count: #{customerReviews.length}"
             customerReviews.each do |customerReview|
 

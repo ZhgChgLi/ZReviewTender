@@ -1,5 +1,5 @@
 versionFilePath = ".version"
-version = '1.1.1'
+version = '1.1.2'
 if File.exists?(versionFilePath)
     version = File.read(versionFilePath)
 end
