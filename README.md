@@ -189,8 +189,10 @@ ZReviewTender will use slackBotToken by default.
 - googleSheetAPIKeyFilePath: `/gcp_key.json` Google Sheet GCP Service Account JSON Private Key File Path `*.json`,placed it to /config/ folder (releated path with config yml file)
 - make sure the service account have the right access(Google Translate API)
 - googleSheetTimeZoneOffset: `+08:00` timezone of display review created time
-- googleSheetID: Google Sheet ID, you can get it on google sheet url: e.g. https://docs.google.com/spreadsheets/d/`googleSheetID`/
-- googleSheetName: Sheet Name, e.g. `Sheet1`
+- googleSheetInsertStyle.type: "append" # Google Sheet Insert type, append or insert
+- googleSheetInsertStyle.at: 0 # required if type is insert, where index should insert at
+- googleSheetInsertStyle.sheetID: null # required if type is insert, the sheet ID, you can get it on google sheet url: e.g. https://docs.google.com/spreadsheets/d/googleSpreadsheetID/edit#gid=sheetID
+- googleSheetInsertStyle.sheetName: "Sheet1" # required if type is append, a.k.a google sheet tab name
 - values: [] # Columns Data you can uses magic variable below to compose string.
 ```
 %TITLE% for review's title
