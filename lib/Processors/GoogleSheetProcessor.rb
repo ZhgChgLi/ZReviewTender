@@ -8,7 +8,7 @@ require "GoogleAPI"
 
 class GoogleSheetProcessor < Processor
 
-    attr_accessor :keywordsInclude, :ratingsInclude, :territoriesInclude, :logger, :googleAPI, :sheetID, :sheetName, :formatValues, :timeZoneOffset
+    attr_accessor :keywordsInclude, :ratingsInclude, :territoriesInclude, :logger, :googleAPI, :spreadsheetID, :sheetInsertType, :sheetId, :sheetName, :sheetInsertAt, :formatValues, :timeZoneOffset
 
     def initialize(config, configFilePath, baseExecutePath)
         @config = config
@@ -41,8 +41,31 @@ class GoogleSheetProcessor < Processor
         end
 
         @timeZoneOffset = Helper.unwrapRequiredParameter(config, "googleSheetTimeZoneOffset")
-        @sheetID = Helper.unwrapRequiredParameter(config, "googleSheetID")
-        @sheetName = Helper.unwrapRequiredParameter(config, "googleSheetName")
+        @spreadsheetID = Helper.unwrapRequiredParameter(config, "googleSpreadsheetID")
+        
+        sheetInsertStyle = Helper.unwrapRequiredParameter(config, "googleSheetInsertStyle")
+        if !sheetInsertStyle.is_a? Array
+            raise "googleSheetInsertStyle must specify as Array in GoogleSheetProcessor."
+        end
+
+        sheetInsertStyles = {}
+        sheetInsertStyle.each do |value|
+            value.keys.each do |key|
+                sheetInsertStyles[key] = value[key]
+            end
+        end
+
+        @sheetInsertType = Helper.unwrapRequiredParameter(sheetInsertStyles, "type")
+
+        if sheetInsertType != "insert" && sheetInsertType != "append"
+            raise "googleSheetInsertStyle.type only accept insert or append in GoogleSheetProcessor."
+        elsif sheetInsertType == "insert"
+            @sheetInsertAt = Helper.unwrapRequiredParameter(sheetInsertStyles, "at").to_i
+            @sheetId = Helper.unwrapRequiredParameter(sheetInsertStyles, "sheetID")
+        elsif sheetInsertType == "append"
+            @sheetName = Helper.unwrapRequiredParameter(sheetInsertStyles, "sheetName")
+        end
+        
         @formatValues = []
         if !config["values"].nil?
             @formatValues = config["values"]
@@ -74,7 +97,12 @@ class GoogleSheetProcessor < Processor
         end
 
         values = []
-        filterReviews.each do |review|
+        sortedFilterReviews = filterReviews
+        if sheetInsertType == "insert"
+            sortedFilterReviews = sortedFilterReviews.sort! { |a, b|  b.createdDateTimestamp <=> a.createdDateTimestamp }
+        end
+
+        sortedFilterReviews.each do |review|
             cols = []
             formatValues.each do |formatValue|
                 formatValue = formatValue.gsub("%TITLE%", review.title || "")
@@ -94,13 +122,53 @@ class GoogleSheetProcessor < Processor
         end
 
         page = 1
-        limit = 500
+        limit = 100
         values.each_slice(limit) do |value|
-            puts "[GoogleSheetProcessor] Insert rows(#{page}/#{(values.length/limit).ceil + 1}) to #{sheetID}-#{sheetName}"
+            puts "[GoogleSheetProcessor] Insert rows page:(#{page}/#{(values.length/limit).ceil + 1}) #{sheetInsertType} to #{spreadsheetID}"
             page += 1
-            googleAPI.request("https://sheets.googleapis.com/v4/spreadsheets/#{sheetID}/values/#{sheetName}!A1:append?valueInputOption=RAW", "POST", {:values => value})
+            if sheetInsertType == "insert"
+                googleAPI.request("https://sheets.googleapis.com/v4/spreadsheets/#{spreadsheetID}:batchUpdate", "POST", {
+                    "requests": [
+                        {
+                            "insertRange": {
+                                "range": {
+                                    "sheetId": sheetId,
+                                    "startRowIndex": sheetInsertAt,
+                                    "endRowIndex": sheetInsertAt + value.length
+                                },
+                                "shiftDimension": "ROWS"
+                            }
+                        },
+                        {
+                            "pasteData": {
+                                "data": rowsToString(value),
+                                "type": "PASTE_NORMAL",
+                                "delimiter": ",",
+                                "coordinate": {
+                                    "sheetId": sheetId,
+                                    "rowIndex": sheetInsertAt,
+                                }
+                            }
+                        }
+                    ]
+                })
+            elsif sheetInsertType == "append"
+                googleAPI.request("https://sheets.googleapis.com/v4/spreadsheets/#{spreadsheetID}/values/#{sheetName}!A1:append?valueInputOption=RAW", "POST", {:values => value})
+            end
         end
 
         return reviews
+    end
+
+    private
+    def rowsToString(rows)
+        string = ""
+        rows.each do |row|
+            if string != "" 
+                string += "\n"
+            end
+            string += "\"#{row.map{ |v| v.gsub('"','\"') }.join('","')}\""
+        end
+        return string
     end
 end

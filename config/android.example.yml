@@ -29,8 +29,11 @@ processors:
         enable: false # enable
         googleSheetAPIKeyFilePath: "" # Google Translate API Service Account Credential .json File Path
         googleSheetTimeZoneOffset: "+08:00" # Review Created Date TimeZone
-        googleSheetID: "" # Google Sheet ID, you can get it on google sheet url: e.g. https://docs.google.com/spreadsheets/d/googleSheetID/
-        googleSheetName: "Sheet1" # Sheet Name
+        googleSheetInsertStyle:
+            - type: "append" # Google Sheet Insert type, append or insert
+            - at: 0 # required if type is insert, where index should insert at
+            - sheetID: null # required if type is insert, the sheet ID, you can get it on google sheet url: e.g. https://docs.google.com/spreadsheets/d/googleSpreadsheetID/edit#gid=sheetID
+            - sheetName: "Sheet1" # required if type is append, a.k.a google sheet tab name
         values: ["%RATING%","%TITLE%\n%BODY%","%APPVERSION%","%CREATEDDATE%"] # Columns Data, you can uses magic variable below to compose string.
         # %TITLE% for review's title
         # %BODY% for review's content
