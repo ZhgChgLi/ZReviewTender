@@ -50,3 +50,27 @@ processors:
         keywordsInclude: [] # keywords you want to filter out
         ratingsInclude: [] # ratings you want to filter out
         territoriesInclude: [] # territories you want to filter out (territory for Apple e.g. TWN)
+    - AsanaProcessor:
+        class: "AsanaProcessor"
+        enable: false # enable
+        asanaTimeZoneOffset: "+08:00"
+        asanaToken: "" # Asana Personal Access Token, get it here -> https://app.asana.com/0/my-apps
+        asanaProjectID: "" # Asana Project ID, get it in project url -> https://app.asana.com/0/asanaProjectID/list
+        asanaSectionName: "" # Task Target Project - Section Name, optional
+        asanaTaskTitleTemplate: "%PLATFORM% - %RATING% ⭐️ - %TITLE%" # Asana Task Title Template
+        asanaTaskBodyTemplate: "Title: %TITLE%\n---\nBody:\n%BODY%\n---\n- UserName: %USERNAME%\n- App Version:  %APPVERSION%\n- Date:%CREATEDDATE%" # Asana Task Body Template
+        # you can uses magic variable below to compose string.
+        # %TITLE% for review's title
+        # %BODY% for review's content
+        # %RATING% for review's rating 1~5
+        # %PLATFORM% for review's platform Apple or Android
+        # %ID% for review's ID
+        # %USERNAME% for review's reviewer username
+        # %URL% for link to review
+        # %TERRITORY% for review's territory (territory for Apple e.g. TWN)
+        # %APPVERSION% for review's reviewer app version
+        # %CREATEDDATE% for review's created date
+
+        keywordsInclude: [] # keywords you want to filter out
+        ratingsInclude: [] # ratings you want to filter out
+        territoriesInclude: [] # territories you want to filter out (territory for Apple e.g. TWN)

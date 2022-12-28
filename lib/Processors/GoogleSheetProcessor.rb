@@ -105,17 +105,7 @@ class GoogleSheetProcessor < Processor
         sortedFilterReviews.each do |review|
             cols = []
             formatValues.each do |formatValue|
-                formatValue = formatValue.gsub("%TITLE%", review.title || "")
-                formatValue = formatValue.gsub("%BODY%", review.body || "")
-                formatValue = formatValue.gsub("%RATING%", review.rating.nil? ? "" :review.rating.to_s)
-                formatValue = formatValue.gsub("%PLATFORM%", review.platform || "")
-                formatValue = formatValue.gsub("%ID%", review.id || "")
-                formatValue = formatValue.gsub("%USERNAME%", review.userName || "")
-                formatValue = formatValue.gsub("%URL%", review.url || "")
-                formatValue = formatValue.gsub("%TERRITORY%", review.territory || "")
-                formatValue = formatValue.gsub("%APPVERSION%", review.appVersion || "")
-                formatValue = formatValue.gsub("%CREATEDDATE%", review.createdDateTimestamp.nil? ? "" : Time.at(review.createdDateTimestamp).getlocal(timeZoneOffset).to_s)
-
+                formatValue = renderReview(formatValue, review, timeZoneOffset)
                 cols.append(formatValue)
             end
             values.append(cols)

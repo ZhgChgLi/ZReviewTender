@@ -20,7 +20,15 @@ class ReviewFetcher
 
     def processReviews(reviews, platform)
         processors.each do |processor|
-            reviews = processor.processReviews(reviews, platform)
+            begin
+                reviews = processor.processReviews(reviews, platform)
+            rescue => e
+                errorMessage = "# Processor Error"
+                errorMessage += "#Error Message:  #{e.message}\n"
+                errorMessage += "#Error Class: #{e.class}\n"
+                errorMessage += "#Backtrace Start#\n#{e.backtrace.join("\n")}\n#Backtrace End#\n"
+                logger.logError(errorMessage)
+            end
         end
     end
 
