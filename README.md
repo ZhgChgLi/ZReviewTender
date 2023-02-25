@@ -351,8 +351,11 @@ This repository is for research purposes only, the use of this code is your resp
 - ALL files available here are for EDUCATION and/or RESEARCH purposes ONLY.
 
 
-## List of companies that use ZReviewTender
-[![ZhgChgLi_2022-08-07_22-09-59](https://user-images.githubusercontent.com/33706588/183295003-6ba388d3-86a3-4dd1-a1ed-a122deebda0e.jpg)](https://www.pinkoi.com)
+## Who is using
+[![pinkoi](https://user-images.githubusercontent.com/33706588/221343295-3e3831e6-f76d-430a-87e3-4daf9815297d.jpg)](https://en.pinkoi.com)
+
+[Pinkoi.com](https://en.pinkoi.com) is Asia's leading online marketplace for original design goods, digital creations, and workshop experiences.
+
 
 ## More Tools
 - [ZMediumToMarkdown](https://github.com/ZhgChgLi/ZMediumToMarkdown) lets you download Medium post and convert it to markdown format easily.
