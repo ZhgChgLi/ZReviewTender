@@ -367,6 +367,6 @@ This repository is for research purposes only, the use of this code is your resp
 
 [![Buy Me A Coffe](https://img.buymeacoffee.com/button-api/?text=Buy%20me%20a%20beer!&emoji=%F0%9F%8D%BA&slug=zhgchgli&button_colour=FFDD00&font_colour=000000&font_family=Bree&outline_colour=000000&coffee_colour=ffffff)](https://www.buymeacoffee.com/zhgchgli)
 
-If this is helpful, please help to star the repo or recommend it to your friends.
+If you find this library helpful, please consider starring the repo or recommending it to your friends.
 
-Please feel free to open an Issue or submit a fix/contribution via Pull Request. :)
+Feel free to open an issue or submit a fix/contribution via pull request. :)
