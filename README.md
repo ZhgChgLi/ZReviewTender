@@ -1,22 +1,22 @@
 ![ZReviewTender](https://user-images.githubusercontent.com/33706588/184416535-7085e6be-65a1-4bfd-af86-40ec77b0a709.png)
 
-ZReviewTender uses brand new App Store & Google Play API to fetch App reviews and integration your workflow.
+ZReviewTender uses a brand new API from the App Store and Google Play to fetch app reviews and integrate with your workflow.
 
 - [\[CH Readme\] ZReviewTender - 免費開源的 App Reviews 監控機器人](https://medium.com/p/e36e48bb9265)
 
 [![ZReviewTender](https://badge.fury.io/rb/ZReviewTender.svg)](https://rubygems.org/gems/ZReviewTender)
 
 # Features
-- [x] Support fetch App Store (iOS App/Mac OS App...) Reviews
-- [x] Support fetch Google Play Console Android App Reviews
-- [x] [Default Processor] Resend newst Reviews to specify Slack Channel
-- [x] [Default Processor] Support Auto-translate Review's content to your language by Google Translate
-- [x] [Default Processor] Support Auto-Log Review to Google Sheet
-- [x] Flexible extension, you can develop your own Processor(a.k.a plugin) for suit your workflow.
-- [x] Lightweight implementation, only log latest review timestamp, not save all reviews in local storage.
-- [x] Support Filter, you can add custom filter condition to filter out which reviews you need
-- [x] Based on Official API(AndroidpublisherV3 & [Brand New AppStoreConnect API](https://developer.apple.com/news/?id=yqf4kgwb)), no more workaround or [session expired problem](https://docs.fastlane.tools/getting-started/ios/authentication/)
-- [x] Quick depoly with Github Repo Template/Github Action
+- [x] Supports fetching App Store reviews for iOS apps and Mac OS apps
+- [x] Supports fetching Google Play Console reviews for Android apps
+- [x] Resends the newest reviews to a specified Slack channel
+- [x] Supports auto-translating review content to your language using Google Translate
+- [x] Supports auto-logging reviews to Google Sheets or Asana task
+- [x] Offers flexible extensions so you can develop your own processor (a.k.a. plugin) to suit your workflow
+- [x] Provides a lightweight implementation that only logs the latest review timestamp, rather than saving all reviews in local storage
+- [x] Supports filtering, allowing you to add custom filter conditions to filter out the reviews you don't need
+- [x] Based on official APIs (AndroidpublisherV3 and the brand new AppStoreConnect API), eliminating the need for workarounds or dealing with session expired problems
+- [x] Quickly deployable with the Github Repo Template/Github Action
 - [x] 100% Ruby@RubyGem
 
 # Result
