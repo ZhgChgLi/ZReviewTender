@@ -2,7 +2,7 @@
 
 ZReviewTender uses a brand new API from the App Store and Google Play to fetch app reviews and integrate with your workflow.
 
-- [\[CH Readme\] ZReviewTender - 免費開源的 App Reviews 監控機器人](https://medium.com/p/e36e48bb9265)
+- [中文 - 免費開源的 App Reviews 監控機器人](https://medium.com/p/e36e48bb9265)
 
 [![ZReviewTender](https://badge.fury.io/rb/ZReviewTender.svg)](https://rubygems.org/gems/ZReviewTender)
 
@@ -356,14 +356,16 @@ This repository is for research purposes only, the use of this code is your resp
 
 [Pinkoi.com](https://en.pinkoi.com) is Asia's leading online marketplace for original design goods, digital creations, and workshop experiences.
 
+## About
+- [ZhgChg.Li](https://zhgchg.li/)
+- [ZhgChgLi's Medium](https://blog.zhgchg.li/)
 
-## More Tools
-- [ZMediumToMarkdown](https://github.com/ZhgChgLi/ZMediumToMarkdown) lets you download Medium post and convert it to markdown format easily.
+## Other works
+- [ZMarkupParser](https://github.com/ZhgChgLi/ZMarkupParser) is a pure-Swift library that helps you convert HTML strings into NSAttributedString with customized styles and tags.
+- [ZReviewTender](https://github.com/ZhgChgLi/ZReviewTender) is a tool for fetching app reviews from the App Store and Google Play Console and integrating them into your workflow.
+- [ZMediumToMarkdown](https://github.com/ZhgChgLi/ZMediumToMarkdown) is a powerful tool that allows you to effortlessly download and convert your Medium posts to Markdown format. 
 
-## Made In Taiwan 🇹🇼🇹🇼🇹🇼
-- [ZhgChg.Li (CH)](https://zhgchg.li/)
-- [ZhgChgLi's Medium (CH)](https://blog.zhgchg.li/)
-
+# Donate
 
 [![Buy Me A Coffe](https://img.buymeacoffee.com/button-api/?text=Buy%20me%20a%20beer!&emoji=%F0%9F%8D%BA&slug=zhgchgli&button_colour=FFDD00&font_colour=000000&font_family=Bree&outline_colour=000000&coffee_colour=ffffff)](https://www.buymeacoffee.com/zhgchgli)
 
