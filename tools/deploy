@@ -7,7 +7,3 @@ version = File.read(versionFilePath).strip
 system("gem build #{File.expand_path("..", __dir__)}/ZReviewTender.gemspec")
 system("gem push #{File.expand_path("..", __dir__)}/ZReviewTender-#{version}.gem")
 File.delete("#{File.expand_path("..", __dir__)}/ZReviewTender-#{version}.gem")
-
-system("gem build ZReviewTender_Github.gemspec")
-system("gem push --key github --host https://rubygems.pkg.github.com/ZhgChgLi ZReviewTender-#{version}.gem")
-File.delete("#{File.expand_path("..", __dir__)}/ZReviewTender-#{version}.gem")
