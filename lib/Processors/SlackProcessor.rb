@@ -42,7 +42,7 @@ class SlackProcessor < Processor
             return reviews
         end
 
-        pendingPayloads = []
+        pendingRequests = []
 
         # Slack Message Limit: posting one message per second per channel
         reviews.each_slice(attachmentGroupByNumber) do |reviewGroup|
@@ -71,12 +71,16 @@ class SlackProcessor < Processor
                 payload.attachments.append(attachment)
             end
 
-            pendingPayloads.append(payload)
+            pendingRequests.append({"payload" => payload, "reviewGroup" => reviewGroup})
         end
+        
+        resultReviews = []
 
         loop do
-            payload = pendingPayloads.shift
-            
+            pendingRequest = pendingRequests.shift
+            payload = pendingRequest["payload"]
+            reviewGroup = pendingRequest["reviewGroup"]
+
             result = request(payload)
             if !result[:ok]
                 logger.logError(payload)
@@ -84,12 +88,17 @@ class SlackProcessor < Processor
                 if result[:message] == "ratelimited"
                     puts "[SlackProcessor] Reached Rate Limited, sleep 1 sec..."
                     sleep(1)
-                    pendingPayloads.insert(0, payload)
+                    pendingRequests.insert(0, pendingRequest)
+                end
+            elsif !result[:ts].nil?
+                reviewGroup.each do |review|
+                    review.tempData["slackTS"] = result[:ts]
+                    review.tempData["slackChannelID"] = targetChannel
                 end
             end
 
-            puts "[SlackProcessor] Send new Review messages, rest: #{pendingPayloads.length}"
-            break if pendingPayloads.length < 1
+            puts "[SlackProcessor] Send new Review messages, rest: #{pendingRequests.length}"
+            break if pendingRequests.length < 1
         end
 
         return reviews
@@ -140,10 +149,10 @@ class SlackProcessor < Processor
         res = http.request(req)
 
         if isInCommingWebHook
-            return {"ok":res.body == "ok", "message":nil}
+            return {"ok":res.body == "ok", "message":nil, "ts": result['ts']}
         else
             result = JSON.parse(res.body)
-            return {"ok":result["ok"] == true, "message":result['error']}
+            return {"ok":result["ok"] == true, "message":result['error'], "ts": result['ts']}
         end
         
     end
