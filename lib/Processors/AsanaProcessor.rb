@@ -84,6 +84,8 @@ class AsanaProcessor < Processor
 
             taskData = asanaAPI("/tasks", "POST", requestTaskData)
             taskData = taskData["data"]
+
+            review.tempData["asanaTaskGID"] = taskData["gid"]
             
             if !sectionID.nil? && !taskData.nil?
                 asanaAPI("/sections/#{sectionID}/addTask", "POST", {"task": taskData["gid"]})

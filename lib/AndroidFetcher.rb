@@ -112,7 +112,7 @@ class AndroidFetcher < ReviewFetcher
                     if !config.accountID.nil? && !config.appID.nil?
                         url = "https://play.google.com/console/developers/#{config.accountID}/app/#{config.appID}/user-feedback/review-details?reviewId=#{customerReviewID}"
                     end
-                    reviews.append(Review.new(customerReviewPlatform, customerReviewID, customerReviewReviewerNickname, customerReviewRating, customerReviewTitle, customerReviewBody, customerReviewCreatedDateTimestamp, url, customerReviewVersionString, customerReviewTerritory))
+                    reviews.append(Review.new(customerReviewPlatform, customerReviewID, customerReviewReviewerNickname, customerReviewRating, customerReviewTitle, customerReviewBody, customerReviewCreatedDateTimestamp, url, customerReviewVersionString, customerReviewTerritory, {}))
                     
                     # init first time, need first review to set as latestCheckTimestamp
                     if latestCheckTimestamp == 0
