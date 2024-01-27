@@ -56,7 +56,7 @@ ZReviewTender will cost ~= 30s per time, default run every 6 hours will cost 4 t
 
 ⚠️️️️️ MUST CREATE PRIVATE REPO, TO KEEP YOUR CREDENTIAL FILES SAFE. ⚠️️️️️
 
-## [2024 Update]: Docker
+## 2024/01/27 Update: Docker 🎉
 1. make sure has [Docker](https://www.docker.com/products/docker-desktop/) on your system.
 2. git clone this repo `git clone https://github.com/ZhgChgLi/ZReviewTender`
 3. `cd /ZReviewTender`
