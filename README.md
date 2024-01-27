@@ -56,6 +56,17 @@ ZReviewTender will cost ~= 30s per time, default run every 6 hours will cost 4 t
 
 ⚠️️️️️ MUST CREATE PRIVATE REPO, TO KEEP YOUR CREDENTIAL FILES SAFE. ⚠️️️️️
 
+## [2024 Update]: Docker
+1. make sure has [Docker](https://www.docker.com/products/docker-desktop/) on your system.
+2. git clone this repo `git clone https://github.com/ZhgChgLi/ZReviewTender`
+3. `cd /ZReviewTender`
+4. build docker image `docker build -t zreviewtender:latest --build-arg CRON_SETTING="*/30 * * * *" --build-arg ZREVIEWTENDER_COMMAND="-r" .`
+   - CRON_SETTING = crontab schedule setting
+   - ZREVIEWTENDER_COMMAND = ZReviewTender Command (Refer to the configuration block down below.)
+6. Refer to the configuration block down below and finish the configuration.
+7. run docker `docker run -v ./:/usr/src/app zreviewtender`
+8. have fun!
+
 ## Using Gem
 ### If you are familiar with ruby:
 1. make sure you have Ruby in your environment (I use `2.6.5p114`)
