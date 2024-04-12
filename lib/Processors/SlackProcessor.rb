@@ -149,7 +149,7 @@ class SlackProcessor < Processor
         res = http.request(req)
 
         if isInCommingWebHook
-            return {"ok":res.body == "ok", "message":nil, "ts": result['ts']}
+            return {"ok":res.body == "ok", "message":nil, "ts": res['ts']}
         else
             result = JSON.parse(res.body)
             return {"ok":result["ok"] == true, "message":result['error'], "ts": result['ts']}
