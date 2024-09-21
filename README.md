@@ -6,6 +6,8 @@ ZReviewTender is a tool for fetching app reviews from the App Store and Google P
 
 [![ZReviewTender](https://badge.fury.io/rb/ZReviewTender.svg)](https://rubygems.org/gems/ZReviewTender)
 
+[![Follow My Medium ZhgChgLi](https://github.com/user-attachments/assets/b64fb10f-23ae-481b-ac12-867ee7cde3f9)](https://medium.com/@zhgchgli)
+
 # Features
 - [x] Supports fetching App Store reviews for iOS apps and Mac OS apps
 - [x] Supports fetching Google Play Console reviews for Android apps
