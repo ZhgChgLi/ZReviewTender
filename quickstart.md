@@ -2,6 +2,9 @@
 
 Create a free, stable, and secure App review bot in three simple steps to keep track of the latest user reviews in real-time.
 
+- [👉👉👉點此查看中文版，Quick Start! Github Action x ZReviewTender 免費快速部署你的 App 商城評價監控機器人
+](https://medium.com/zrealm-ios-dev/quick-start-github-action-x-zreviewtender-%E5%85%8D%E8%B2%BB%E5%BF%AB%E9%80%9F%E9%83%A8%E7%BD%B2%E4%BD%A0%E7%9A%84-app-%E5%95%86%E5%9F%8E%E8%A9%95%E5%83%B9%E7%9B%A3%E6%8E%A7%E6%A9%9F%E5%99%A8%E4%BA%BA-0095528cf875)
+
 ![[ZReviewTender](https://github.com/ZhgChgLi/ZReviewTender)](assets/0095528cf875/1*k8RswW3es9L19jIgbRDLpQ.png)
 
 ## [ZReviewTender](https://github.com/ZhgChgLi/ZReviewTender)
