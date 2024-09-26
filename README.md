@@ -6,8 +6,6 @@ ZReviewTender is a tool for fetching app reviews from the App Store and Google P
 
 [![ZReviewTender](https://badge.fury.io/rb/ZReviewTender.svg)](https://rubygems.org/gems/ZReviewTender)
 
-[![Follow My Medium ZhgChgLi](https://github.com/user-attachments/assets/b64fb10f-23ae-481b-ac12-867ee7cde3f9)](https://medium.com/@zhgchgli)
-
 # Features
 - [x] Supports fetching App Store reviews for iOS apps and Mac OS apps
 - [x] Supports fetching Google Play Console reviews for Android apps
@@ -48,6 +46,14 @@ ZReviewTender is a tool for fetching app reviews from the App Store and Google P
 - [👉👉👉 Click here to view the complete Quick Start configuration steps document (2024 Latest Edition).](./quickstart.md)
 
 [The entire setup process takes about 30 minutes, but only needs to be set up once. Unless the credentials and keys are changed, it can run stably and for free forever. 🚀🚀🚀🚀🚀](./quickstart.md)
+
+---
+
+# Buy me coffee ❤️❤️❤️
+
+<a href="https://www.buymeacoffee.com/zhgchgli" target="_blank"><img width="545" alt="bmc-button" src="https://github.com/user-attachments/assets/5983bfc9-27fd-49e0-a7f4-eb07657c6e31"></a>
+
+[**If this project has helped you, feel free to sponsor me a cup of coffee, thank you.**](https://www.buymeacoffee.com/zhgchgli)
 
 ---
 
