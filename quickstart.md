@@ -63,11 +63,9 @@ You no longer need to risk leaking important credentials and keys by uploading t
 
 # Buy me coffee ❤️❤️❤️
 
-![[https://www.buymeacoffee.com/zhgchgli](https://www.buymeacoffee.com/zhgchgli)](assets/0095528cf875/1*QCQqlZr6doDP-cszzpaSpw.png)
+<a href="https://www.buymeacoffee.com/zhgchgli" target="_blank"><img width="545" alt="bmc-button" src="https://github.com/user-attachments/assets/5983bfc9-27fd-49e0-a7f4-eb07657c6e31"></a>
 
-[https://www.buymeacoffee.com/zhgchgli](https://www.buymeacoffee.com/zhgchgli)
-
-> [**_If this project has helped you, feel free to sponsor me a cup of coffee, thank you._**](https://www.buymeacoffee.com/zhgchgli)
+[**If this project has helped you, feel free to sponsor me a cup of coffee, thank you.**](https://www.buymeacoffee.com/zhgchgli)
 
 # Quick Start! 🚀
 
@@ -522,13 +520,12 @@ We can manually run it once to confirm the setup is correct.
 ![](assets/0095528cf875/1*HMMyU5jwY9iAMyiKmNgVJQ.png)
 
 Now you can rely on this free and reliable App review bot to keep track of the latest user reviews at all times!
-#### Buy me coffee ❤️❤️❤️
 
-![[https://www.buymeacoffee.com/zhgchgli](https://www.buymeacoffee.com/zhgchgli)](assets/0095528cf875/1*QCQqlZr6doDP-cszzpaSpw.png)
+# Buy me coffee ❤️❤️❤️
 
-[https://www.buymeacoffee.com/zhgchgli](https://www.buymeacoffee.com/zhgchgli)
+<a href="https://www.buymeacoffee.com/zhgchgli" target="_blank"><img width="545" alt="bmc-button" src="https://github.com/user-attachments/assets/5983bfc9-27fd-49e0-a7f4-eb07657c6e31"></a>
 
-> [**_If this project has helped you, feel free to sponsor me a cup of coffee, thank you._**](https://www.buymeacoffee.com/zhgchgli)
+[**If this project has helped you, feel free to sponsor me a cup of coffee, thank you.**](https://www.buymeacoffee.com/zhgchgli)
 
 ## Other Settings
 ### Adding Filter Function
