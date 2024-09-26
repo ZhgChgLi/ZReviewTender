@@ -40,7 +40,19 @@ ZReviewTender is a tool for fetching app reviews from the App Store and Google P
 
 # Setup - Only need Default Proceesor(Slack/Filter/Google Translate)
 
-## Strongly Recommended
+# [Quick Start! 🚀](./quickstart.md)
+
+
+- [👉👉👉 Click here to view the complete Quick Start configuration steps document (2024 Latest Edition).](./quickstart.md)
+- [👉👉👉 Click here to view the complete Quick Start configuration steps document (2024 Latest Edition).](./quickstart.md)
+- [👉👉👉 Click here to view the complete Quick Start configuration steps document (2024 Latest Edition).](./quickstart.md)
+
+[The entire setup process takes about 30 minutes, but only needs to be set up once. Unless the credentials and keys are changed, it can run stably and for free forever. 🚀🚀🚀🚀🚀](./quickstart.md)
+
+---
+
+
+## Deploy With Github Action
 
 [![image](https://user-images.githubusercontent.com/33706588/184472064-1cd36b40-9e6f-481a-bce3-164dfb379771.png)](https://github.com/ZhgChgLi/ZReviewTender-deploy-with-github-action)
 
@@ -58,7 +70,7 @@ ZReviewTender will cost ~= 30s per time, default run every 6 hours will cost 4 t
 
 ⚠️️️️️ MUST CREATE PRIVATE REPO, TO KEEP YOUR CREDENTIAL FILES SAFE. ⚠️️️️️
 
-## 2024/01/27 Update: Docker 🎉
+## Docker
 1. make sure has [Docker](https://www.docker.com/products/docker-desktop/) on your system.
 2. git clone this repo `git clone https://github.com/ZhgChgLi/ZReviewTender`
 3. `cd /ZReviewTender`
