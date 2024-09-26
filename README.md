@@ -49,7 +49,7 @@ ZReviewTender is a tool for fetching app reviews from the App Store and Google P
 
 ---
 
-# Buy me coffee ❤️❤️❤️
+# Buy me a coffee ❤️❤️❤️
 
 <a href="https://www.buymeacoffee.com/zhgchgli" target="_blank"><img width="545" alt="bmc-button" src="https://github.com/user-attachments/assets/5983bfc9-27fd-49e0-a7f4-eb07657c6e31"></a>
 
