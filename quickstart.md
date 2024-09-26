@@ -61,7 +61,7 @@ You don't need to spend money every month to buy App Review Bot or similar month
 You no longer need to risk leaking important credentials and keys by uploading them to third-party services; [ZReviewTender](https://github.com/ZhgChgLi/ZReviewTender) is an open-source project, and all operations can withstand public scrutiny.
 - **Reliable**: [ZReviewTender](https://github.com/ZhgChgLi/ZReviewTender) uses the latest official API to fetch review information, which is more accurate, stable, and reliable compared to other services that used to fetch reviews via RSS.
 
-# Buy me coffee ❤️❤️❤️
+# Buy me a coffee ❤️❤️❤️
 
 <a href="https://www.buymeacoffee.com/zhgchgli" target="_blank"><img width="545" alt="bmc-button" src="https://github.com/user-attachments/assets/5983bfc9-27fd-49e0-a7f4-eb07657c6e31"></a>
 
@@ -521,7 +521,7 @@ We can manually run it once to confirm the setup is correct.
 
 Now you can rely on this free and reliable App review bot to keep track of the latest user reviews at all times!
 
-# Buy me coffee ❤️❤️❤️
+# Buy me a coffee ❤️❤️❤️
 
 <a href="https://www.buymeacoffee.com/zhgchgli" target="_blank"><img width="545" alt="bmc-button" src="https://github.com/user-attachments/assets/5983bfc9-27fd-49e0-a7f4-eb07657c6e31"></a>
 
