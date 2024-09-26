@@ -1,41 +1,22 @@
----
-title: "Quick Start! Github Action x ZReviewTender Free and Fast Deployment of Your App Store Review Monitoring Bot"
-author: "ZhgChgLi"
-date: 2024-09-26T20:42:21.606+0800
-last_modified_at: 2024-09-26T20:42:21.606+0800
-categories: "ZRealm Dev."
-tags: ["ios-app-development","app-review","app-store","google-play","android"]
-description: "Create a free, stable, and secure App review bot in three simple steps to keep track of the latest user reviews in real-time."
-image:
-  path: /assets/0095528cf875/1*k8RswW3es9L19jIgbRDLpQ.png
----
-
-### \[Quick Start\! \] Github Action x ZReviewTender Free and Fast Deployment of Your App Store Review Monitoring Bot
+# \[Quick Start\! \] Github Action x ZReviewTender Free and Fast Deployment of Your App Store Review Monitoring Bot
 
 Create a free, stable, and secure App review bot in three simple steps to keep track of the latest user reviews in real-time.
 
-
-
 ![[ZReviewTender](https://github.com/ZhgChgLi/ZReviewTender)](assets/0095528cf875/1*k8RswW3es9L19jIgbRDLpQ.png)
 
-[ZReviewTender](https://github.com/ZhgChgLi/ZReviewTender)
-### [ZReviewTender](https://github.com/ZhgChgLi/ZReviewTender)
-
-
-[![](https://repository-images.githubusercontent.com/516425682/1cc1a829-d87d-4d4a-925b-60471b912b23)](https://github.com/ZhgChgLi/ZReviewTender)
-
+## [ZReviewTender](https://github.com/ZhgChgLi/ZReviewTender)
 
 ZReviewTender — is an open-source App store review bot I created in 2022/08. It automatically fetches user reviews from the iOS App Store and Android Google Play Store and forwards them to a specified Slack Channel.
 
 Additionally, it allows you to specify review fetching rules, integrate with Google Translate, Asana, Google Sheets, and supports custom operations.
-### [Github Action](https://docs.github.com/en/actions)
+## [Github Action](https://docs.github.com/en/actions)
 
 Github Action is a CI/CD automation integration tool provided by Github. We can use our own machines as servers (Github Runner) or directly use the machines provided by Github to execute CI/CD and automation scripts.
-#### Costs and Limitations
+
+### Costs and Limitations
 - Using your own machines (Github Runner):
 [No special costs, only maximum execution numbers, concurrency limits, and some API short-term maximum request limits.](https://docs.github.com/en/actions/hosting-your-own-runners/managing-self-hosted-runners/about-self-hosted-runners#usage-limits)
 - [Using Github-provided machines:](https://docs.github.com/en/billing/managing-billing-for-github-actions/about-billing-for-github-actions#included-storage-and-minutes)
-
 
 
 ![](assets/0095528cf875/1*QyhxZ98B20NV18-W5vKJDg.png)
@@ -58,26 +39,26 @@ For detailed pricing calculations, please refer to the [official pricing calcula
 
 > _No use of Artifact storage, so there is no storage cost._ 
 
-### [Slack](https://slack.com/)
+## [Slack](https://slack.com/)
 
 The internal communication software used by the company, a Slack App will be created and through this Slack App identity, the App Store review notifications will be forwarded to the designated channel.
 
 ![](assets/0095528cf875/1*HMMyU5jwY9iAMyiKmNgVJQ.png)
 
-### [ZReviewTender](https://github.com/ZhgChgLi/ZReviewTender) x [Github Action](https://docs.github.com/en/actions) x [Slack](https://slack.com/)
+## [ZReviewTender](https://github.com/ZhgChgLi/ZReviewTender) x [Github Action](https://docs.github.com/en/actions) x [Slack](https://slack.com/)
 
 > _We use Github Action to execute the ZReviewTender script and forward the results to Slack. The Github Repo (Action) is just used as a carrier, so even if your main project does not use Github for hosting, you can still easily complete the ZReviewTender deployment by following the steps below. 🎉🎉🎉_
 
 > **_I have successfully deployed it in different Apps of 5 different companies and it has been running stably and for free for at least 2 years._**
 
-#### Advantages:
+### Advantages:
 - **Free**: [ZReviewTender](https://github.com/ZhgChgLi/ZReviewTender) is an open-source free service I created, deployed on [Github Action](https://docs.github.com/en/actions) using the free quota is more than enough. 
 You don't need to spend money every month to buy App Review Bot or similar monthly review bot services.
 - **Secure**: The credentials and keys used to fetch reviews are securely stored in your Github Private Repo, no one else has access to them. 
 You no longer need to risk leaking important credentials and keys by uploading them to third-party services; [ZReviewTender](https://github.com/ZhgChgLi/ZReviewTender) is an open-source project, and all operations can withstand public scrutiny.
 - **Reliable**: [ZReviewTender](https://github.com/ZhgChgLi/ZReviewTender) uses the latest official API to fetch review information, which is more accurate, stable, and reliable compared to other services that used to fetch reviews via RSS.
 
-#### Buy me coffee ❤️❤️❤️
+# Buy me coffee ❤️❤️❤️
 
 ![[https://www.buymeacoffee.com/zhgchgli](https://www.buymeacoffee.com/zhgchgli)](assets/0095528cf875/1*QCQqlZr6doDP-cszzpaSpw.png)
 
@@ -85,15 +66,15 @@ You no longer need to risk leaking important credentials and keys by uploading t
 
 > [**_If this project has helped you, feel free to sponsor me a cup of coffee, thank you._**](https://www.buymeacoffee.com/zhgchgli)
 
-### Quick Start! 🚀
+# Quick Start! 🚀
 
 > **_The entire setup process takes about 30 minutes, but only needs to be set up once. Unless the credentials and keys are changed, it can run stably and for free forever._** 🚀🚀🚀🚀🚀
 
-#### Step 1. Create a Slack App
+## Step 1. Create a Slack App
 
 If your organization already has a Slack App with `chat:write` or similar message sending permissions, you can reuse it without creating a new one.
 
-[**Go to the Slack Apps homepage:**](https://api.slack.com/apps)
+### [**Go to the Slack Apps homepage:**](https://api.slack.com/apps)
 
 ![[https://api.slack.com/apps](https://api.slack.com/apps)](assets/0095528cf875/1*JDaxmORRL3ipdeA0ZaHW3w.png)
 
@@ -110,7 +91,7 @@ Click "Create New App" in the upper right corner.
 3. Select the target Slack Workspace: Make sure you have the permission to add a Slack App in the chosen Workspace.
 4. Create App
 
-**Add OAuth & Permissions Scopes:**
+### **Add OAuth & Permissions Scopes:**
 After creating the Slack app, go to the "OAuth & Permissions" tab to set up Scopes.
 
 ![](assets/0095528cf875/1*VjXVtAkVN8PLtCAOHocAmA.png)
@@ -127,7 +108,7 @@ chat:write.public
 links:write
 ```
 
-**Install App**
+### **Install App**
 Go back to the Install App tab to install the Slack App into the Workspace.
 
 ![](assets/0095528cf875/1*qItvJK5tZ-i8vE5bNUZIKQ.png)
@@ -142,7 +123,7 @@ Go back to the Install App tab to install the Slack App into the Workspace.
 
 After installation, return to the Install App page to find the `Slack App Bot User OAuth Token`. Click "Copy" to copy it, **note it down for later use**.
 
-**Create a channel to receive review notifications:**
+### **Create a channel to receive review notifications:**
 
 ![](assets/0095528cf875/1*vwILile0Y52PgjQAYLqGjQ.png)
 
@@ -157,7 +138,7 @@ After installation, return to the Install App page to find the `Slack App Bot Us
 - Public: Open to everyone, no further action needed.
 - **Private: Private channel,** ⭐️⭐️⭐️ **you need to add the newly created Slack App:**
 
-**How to add Slack App to the channel:**
+#### **How to add Slack App to the channel:**
 
 ![](assets/0095528cf875/1*AgCjAYb94XOmlIJ7VV6gaw.png)
 
@@ -178,7 +159,7 @@ A prompt will appear in the channel indicating success. `ZReviewTender joined.`
 
 > **_⭐️⭐️⭐️There is a known Slack Bug here. The newly created Slack App might not appear in the search immediately; you may need to wait a while. You can use a Public Channel first, as Public Channels do not require adding the Slack App to use._**
 
-**Get Channel ID:**
+### **Get Channel ID:**
 The final and most important step is to get the Channel ID for later configuration.
 
 ![](assets/0095528cf875/1*CmQtV9QibdOb8zHuiYJS2Q.png)
@@ -193,7 +174,7 @@ The final and most important step is to get the Channel ID for later configurati
 
 — — —
 
-**Additional Information:**
+### **Additional Information:**
 
 **You can edit the Slack App name and icon in "Basic Information" \-\> "Display Information":**
 
@@ -205,19 +186,19 @@ Remember to click "Save Changes" at the bottom right corner to save your changes
 
 ![](assets/0095528cf875/1*pUdxf_G1uoHcq22VGjHOzw.png)
 
-#### Step 2. Generate Apple App Store Connect API & Google Play Android Developer API credentials
-#### Apple App Store Connect API credentials
+## Step 2. Generate Apple App Store Connect API & Google Play Android Developer API credentials
+### Apple App Store Connect API credentials
 
 **iOS is relatively easier, we only need to get the following four pieces of information from App Store Connect:**
 
-**Issuer ID:**
+#### **Issuer ID:**
 
 ![](assets/0095528cf875/0*eHn-LMnUlS-04d70.png)
 
 - App Store Connect \-\> Keys \-\> [App Store Connect API](https://appstoreconnect.apple.com/access/api)
 - **Note down the `Issuer ID` for later configuration**
 
-**Private Key ID & Private Key:**
+#### **Private Key ID & Private Key:**
 
 Click the "+" button to add:
 
@@ -231,14 +212,14 @@ Click the "+" button to add:
 - `Key ID` **for later configuration**
 - **Click "Download API Key" to save and download the " `AuthKey_XXXXXXXXXX.p8` " file for later configuration.**
 
-**App ID: \(The target App ID for fetching reviews\)**
+#### **App ID: \(The target App ID for fetching reviews\)**
 
 ![](assets/0095528cf875/1*zCgRRm0-nDwvcGOv26Aprw.png)
 
 App ID can be found in [App Store Connect](https://appstoreconnect.apple.com/apps) \-\> App Store \-\> General \-\> App Information \-\> `App ID`.
 - **Note down the `App ID` for later configuration**
 
-#### Google Play Android Developer API credentials
+### Google Play Android Developer API credentials
 
 Android is more complex, requiring you to first enable the API & create a Service Account in the Google Cloud Project associated with the App project, and then add the Service Account to Google Play Console and grant App permissions.
 
@@ -246,7 +227,7 @@ Android is more complex, requiring you to first enable the API & create a Servic
 
 Select the Google Cloud Project associated with the App project or create a new Project.
 
-**Enable "Android Developer API":**
+#### **Enable "Android Developer API":**
 
 ![](assets/0095528cf875/1*zvWFDBuPRq9a6bizjqrx4Q.png)
 
@@ -266,7 +247,7 @@ Select the Google Cloud Project associated with the App project or create a new 
 - **Please note: Cloud Translation API is not free, and there will be charges for language detection and translation!**
 - **Please note: Cloud Translation API is not free, and there will be charges for language detection and translation!**
 
-**Create Service Account:**
+#### **Create Service Account:**
 
 ![](assets/0095528cf875/1*_WZ_lwp1TjG5cRoI1rH_7g.png)
 
@@ -304,7 +285,7 @@ Select the Google Cloud Project associated with the App project or create a new 
 5. Click "Create"
 6. **Save the downloaded `XXXX-XXXX.json` file for later use**
 
-**Add the Service Account to Google Play Console and grant permissions to the target app:**
+#### **Add the Service Account to Google Play Console and grant permissions to the target app:**
 
 [**Go to Google Play Console:**](https://play.google.com/console/)
 
@@ -335,11 +316,11 @@ Copy the Dashboard URL and find:
 
 > **_Credential setup complete._**
 
-#### Step 3. Github Action Deployment and Configuration
+## Step 3. Github Action Deployment and Configuration
 
 The exciting news is that I have packaged the tedious Github Repo and Github Action setup process into a Repo Template & Marketplace Github Action. You can complete the work by following these steps.
 
-**Go to: [ZReviewTender-deploy-with-github-action](https://github.com/ZhgChgLi/ZReviewTender-deploy-with-github-action):**
+### **Go to: [ZReviewTender-deploy-with-github-action](https://github.com/ZhgChgLi/ZReviewTender-deploy-with-github-action):**
 
 ![[https://github.com/ZhgChgLi/ZReviewTender-deploy-with-github-action](https://github.com/ZhgChgLi/ZReviewTender-deploy-with-github-action)](assets/0095528cf875/1*LXuZQnLMsH-_ULX-DEiL9w.png)
 
@@ -367,7 +348,7 @@ The exciting news is that I have packaged the tedious Github Repo and Github Act
 - **Private**: Since the Repo will store access keys, **be sure to set it as a Private Repo ⭐️⭐️⭐️**
 - **Private**: Since the Repo will store access keys, **be sure to set it as a Private Repo ⭐️⭐️⭐️**
 
-**Enable Github Actions permissions:**
+### **Enable Github Actions permissions:**
 After the Repo is created, due to Github security settings, you need to go to Repo Settings to allow Github Actions to execute.
 
 ![](assets/0095528cf875/1*VRYwO-rh8bjJQUoaDDa2rw.png)
@@ -388,7 +369,7 @@ After the Repo is created, due to Github security settings, you need to go to Re
 4. Click "Run workflow"
 5. Refresh the page
 
-**Wait for** `init ZReviewTender` **Action to complete:**
+### **Wait for** `init ZReviewTender` **Action to complete:**
 
 ![](assets/0095528cf875/1*XxopQjcyvVPOWuGwC4czyA.png)
 
@@ -398,7 +379,7 @@ After the Repo is created, due to Github security settings, you need to go to Re
 
 ![](assets/0095528cf875/1*sr69yq6hw3y4PpeHuykc5w.png)
 
-**Upload the required certificate files:**
+### **Upload the required certificate files:**
 
 ![](assets/0095528cf875/1*2pIncX5nVRPy2BkOOf2qxg.png)
 
@@ -414,7 +395,7 @@ After the Repo is created, due to Github security settings, you need to go to Re
 3. Select "Commit directly to the main branch"
 4. Click "Commit changes"
 
-**Setting Apple (iOS):**
+### **Setting Apple (iOS):**
 
 
 ![](assets/0095528cf875/1*2pIncX5nVRPy2BkOOf2qxg.png)
@@ -466,7 +447,7 @@ Enter `./config/AuthKey_XXXXXXXXXX.p8` (Step 2. App Store Connect saved `AuthKey
 3. Click "Commit changes"
 
 
-**Setting Android:**
+### **Setting Android:**
 
 
 ![](assets/0095528cf875/1*2pIncX5nVRPy2BkOOf2qxg.png)
@@ -511,7 +492,7 @@ processors:
 
 > **_Setup complete!_** 🚀🚀🚀🚀
 
-**Verify if the setup is successful:**
+## **Verify if the setup is successful:**
 
 We can manually run it once to confirm the setup is correct.
 
@@ -527,13 +508,13 @@ We can manually run it once to confirm the setup is correct.
 
 ![](assets/0095528cf875/1*VHCX5ppMzCUf-Fxvflo7OA.png)
 
-**Verification successful 🎉🎉🎉🎉**
+### **Verification successful 🎉🎉🎉🎉**
 
 ![](assets/0095528cf875/1*hSETSIooRcYLH1YS5ssyxA.png)
 
 > _If ❌ Error occurs, or Slack Channel does not receive the activation message: please recheck the previous configuration file content for correctness._
 
-#### Completed **🎉🎉🎉**
+## Completed **🎉🎉🎉**
 
 ![](assets/0095528cf875/1*HMMyU5jwY9iAMyiKmNgVJQ.png)
 
@@ -546,8 +527,8 @@ Now you can rely on this free and reliable App review bot to keep track of the l
 
 > [**_If this project has helped you, feel free to sponsor me a cup of coffee, thank you._**](https://www.buymeacoffee.com/zhgchgli)
 
-### Other Settings
-#### Adding Filter Function
+## Other Settings
+### Adding Filter Function
 
 Only forward reviews that meet the criteria.
 ```yaml
@@ -560,7 +541,7 @@ Only forward reviews that meet the criteria.
 ```
 - Just add the `FilterProcessor` settings in the `processors` section of `/config/apple.yml` or `/config/android.yml`.
 
-#### Adding Auto-Translation Function
+### Adding Auto-Translation Function
 
 Automatically translate reviews that are not in your language using the Google Cloud Translation API (costs may apply).
 - **Please ensure that the GCP Project associated with the Service Account created in Step 2 has the "Cloud Translation API" enabled**
@@ -588,7 +569,7 @@ Automatically translate reviews that are not in your language using the Google C
 ```
 - `./config/XXXX-XXXX.json` (Step 2. GCP IAM saved `XXXX-XXXX.json` Service Account key file name)
 
-**Complete Combination Example:**
+#### **Complete Combination Example:**
 ```yaml
 platform: 'android'
 packageName: '' # Android App Package Name
@@ -693,12 +674,3 @@ Adjust the settings in `command: "-r"`.
 [![](https://repository-images.githubusercontent.com/516425682/1cc1a829-d87d-4d4a-925b-60471b912b23)](https://github.com/ZhgChgLi/ZReviewTender)
 
 If you have any feature suggestions or issues, please go to the above Github Repo to create an Issue report, thank you.
-### Advanced Usage and Development Stories
-- [**ZReviewTender — Free and Open Source App Reviews Monitoring Bot**](https://medium.com/zrealm-ios-dev/zreviewtender-%E5%85%8D%E8%B2%BB%E9%96%8B%E6%BA%90%E7%9A%84-app-reviews-%E7%9B%A3%E6%8E%A7%E6%A9%9F%E5%99%A8%E4%BA%BA-e36e48bb9265)
-- [App Store Connect API Now Supports Reading and Managing Customer Reviews](https://medium.com/zrealm-ios-dev/app-store-connect-api-%E7%8F%BE%E5%B7%B2%E6%94%AF%E6%8F%B4-%E8%AE%80%E5%8F%96%E5%92%8C%E7%AE%A1%E7%90%86-customer-reviews-f1365e51902c)
-- [ZReviewsBot — Slack App Review Notification Bot](https://medium.com/zrealm-ios-dev/zreviewsbot-slack-app-review-%E9%80%9A%E7%9F%A5%E6%A9%9F%E5%99%A8%E4%BA%BA-33f6aabb744f)
-- [AppStore APP’s Reviews Slack Bot Stories](https://medium.com/zrealm-ios-dev/appstore-apps-reviews-bot-%E9%82%A3%E4%BA%9B%E4%BA%8B-cb0c68c33994)
-
-If you have any questions or suggestions, feel free to [contact me](https://www.zhgchg.li/contact).
-
-_[Post](https://medium.com/zrealm-ios-dev/quick-start-github-action-x-zreviewtender-%E5%85%8D%E8%B2%BB%E5%BF%AB%E9%80%9F%E9%83%A8%E7%BD%B2%E4%BD%A0%E7%9A%84-app-%E5%95%86%E5%9F%8E%E8%A9%95%E5%83%B9%E7%9B%A3%E6%8E%A7%E6%A9%9F%E5%99%A8%E4%BA%BA-0095528cf875) converted from Medium by [ZMediumToMarkdown](https://github.com/ZhgChgLi/ZMediumToMarkdown)._
