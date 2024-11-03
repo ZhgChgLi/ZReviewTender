@@ -1,6 +1,6 @@
 ![ZReviewTender](https://user-images.githubusercontent.com/33706588/184416535-7085e6be-65a1-4bfd-af86-40ec77b0a709.png)
 
-ZReviewTender is a tool for fetching app reviews from the App Store and Google Play Console using the brand new official Stability API, and seamlessly integrating them into your workflow.
+ZReviewTender fetches app reviews from the App Store and Google Play Console using the new Stability API, and resends them to Slack or integrates with your workflow.
 
 - [中文 - 免費開源的 App Reviews 監控機器人](https://medium.com/p/e36e48bb9265)
 
