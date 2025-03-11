@@ -1,0 +1,23 @@
+# .github/workflows/gpt-translate.yml
+name: GPT Translate
+
+on:
+  issue_comment:
+    types: [ created ]
+
+jobs:
+  gpt_translate:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Run GPT Translate
+        if: |
+          contains(github.event.comment.body, '/gpt-translate') || 
+          contains(github.event.comment.body, '/gt')
+        uses: 3ru/gpt-translate@master
+        with:
+          apikey: ${{ secrets.OPENAI_API_KEY }}
+          model: ${{ secrets.OPENAI_API_MODEL }}
+          systemPrompt: "If the input is already in English, refine it to make it more engaging and natural. Otherwise, translate the text into fluent, native-sounding English while strictly preserving the original Markdown structure. Follow these rules for the output:   - Retain all Markdown image sources (`![]()`).   - Do not translate or modify any URL links.   - Properly translate the **Markdown link title** (text inside `[ ]`) while keeping the original link (`(URL)`). - Ensure the final output maintains valid Markdown syntax."
