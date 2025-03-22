@@ -19,7 +19,7 @@ class Helper
         begin
             dir = dirs.shift
             currentDir = "#{currentDir}/#{dir}"
-            Dir.mkdir(currentDir) unless File.exists?(currentDir)
+            Dir.mkdir(currentDir) unless File.exist?(currentDir)
         end while dirs.length > 0
     end
 end

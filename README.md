@@ -86,7 +86,7 @@ ZReviewTender will take approximately 30 seconds per run; with a default schedul
 
 ## Using Gem
 ### If you are familiar with Ruby:
-1. Ensure Ruby is installed in your environment (I use `2.6.5p114`).
+1. Ensure Ruby is installed in your environment (I use `3.4.2`).
 2. Ensure Bundler is installed in your environment (I use `2.3.13`).
 3. Type `gem install ZReviewTender` in the terminal.
 

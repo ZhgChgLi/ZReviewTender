@@ -15,7 +15,7 @@ runs:
     - uses: actions/checkout@v3
     - uses: ruby/setup-ruby@v1
       with:
-        ruby-version: 2.6.5
+        ruby-version: 3.4.2
     - run: gem install ZReviewTender
       shell: bash
     - run: ZReviewTender ${{ inputs.command }}

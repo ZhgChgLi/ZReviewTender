@@ -91,12 +91,12 @@ class Main
                 appleDestExampleYML = "#{basePath}/#{defaultConfigDirName}/#{defaultAppleConfigFileName}"
                 androidDestExampleYML = "#{basePath}/#{defaultConfigDirName}/#{defaultAndroidConfigFileName}"
                 
-                if !File.exists?("#{basePath}/latestCheckTimestamp/.keep")
+                if !File.exist?("#{basePath}/latestCheckTimestamp/.keep")
                     File.open("#{basePath}/latestCheckTimestamp/.keep", 'w') { |file| file.write("") }
                 end
                 #
-                if File.exists?(appleSourceExampleYML)
-                    if File.exists?(appleDestExampleYML)
+                if File.exist?(appleSourceExampleYML)
+                    if File.exist?(appleDestExampleYML)
                         puts "Failed! Config YML File Exists: #{appleDestExampleYML}"
                     else
                         FileUtils.cp(appleSourceExampleYML, appleDestExampleYML)
@@ -104,8 +104,8 @@ class Main
                     end
                 end
                 #
-                if File.exists?(androidSourceExampleYML)
-                    if File.exists?(androidDestExampleYML)
+                if File.exist?(androidSourceExampleYML)
+                    if File.exist?(androidDestExampleYML)
                         puts "Failed! Config YML File Exists: #{androidDestExampleYML}"
                     else
                         FileUtils.cp(androidSourceExampleYML, androidDestExampleYML)
@@ -129,7 +129,7 @@ class Main
             opts.on('-d', '--delete', 'delete latest check timestamp log file.(factory reset)') do
                 FileUtils.rm_rf("#{basePath}/latestCheckTimestamp/")
                 Helper.createDirIfNotExist("#{basePath}/latestCheckTimestamp/")
-                if !File.exists?("#{basePath}/latestCheckTimestamp/.keep")
+                if !File.exist?("#{basePath}/latestCheckTimestamp/.keep")
                     File.open("#{basePath}/latestCheckTimestamp/.keep", 'w') { |file| file.write("") }
                 end
 
@@ -160,7 +160,7 @@ class Main
 
     private
     def configFileCheck(path, command)
-        if !File.exists? path
+        if !File.exist? path
             puts "Make sure you have vaild config file at #{path}"
             puts "Or use ZReviewTender #{command} specify config.yml file path"
             raise "Config file not found: #{path}"

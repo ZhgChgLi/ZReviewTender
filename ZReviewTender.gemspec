@@ -1,6 +1,6 @@
 versionFilePath = ".version"
 version = '1.1.2'
-if File.exists?(versionFilePath)
+if File.exist?(versionFilePath)
     version = File.read(versionFilePath)
 end
 
@@ -22,5 +22,5 @@ Gem::Specification.new do |gem|
     gem.license       = "MIT"
   
     gem.add_dependency 'net-http', '~> 0.1.0'
-    gem.add_dependency 'jwt', '~> 2.4.1'
+    gem.add_dependency 'jwt', '~> 2.10.0'
 end

@@ -1,14 +1,16 @@
 GEM
   remote: https://rubygems.org/
   specs:
-    jwt (2.4.1)
+    base64 (0.2.0)
+    jwt (2.10.1)
+      base64
     net-http (0.1.1)
       net-protocol
       uri
     net-protocol (0.1.3)
       timeout
     timeout (0.3.0)
-    uri (0.12.2)
+    uri (1.0.3)
 
 PLATFORMS
   ruby
@@ -16,8 +18,9 @@ PLATFORMS
   x86_64-linux
 
 DEPENDENCIES
-  jwt (~> 2.4.1)
+  jwt (~> 2.10.0)
   net-http (~> 0.1.0)
+  uri (>= 0.12.4)
 
 BUNDLED WITH
    2.3.13

@@ -47,7 +47,7 @@ class ReviewFetcher
 
     def isSentWelcomeMessage()
         filePath = "#{config.baseExecutePath}/latestCheckTimestamp/#{platform}Welcome"
-        return File.exists?(filePath)
+        return File.exist?(filePath)
     end
 
     def setPlatformLatestCheckTimestamp(timestamp)
@@ -58,7 +58,7 @@ class ReviewFetcher
 
     def getPlatformLatestCheckTimestamp()
         filePath = "#{config.baseExecutePath}/latestCheckTimestamp/#{platform}"
-        if File.exists?(filePath)
+        if File.exist?(filePath)
             return File.read(filePath).to_i
         else
             return 0
