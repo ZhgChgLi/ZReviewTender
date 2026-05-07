@@ -3,36 +3,35 @@ $lib = File.expand_path('../lib', File.dirname(__FILE__))
 require "Models/Review"
 require "Models/Processor"
 require "Helper"
-require "ZLogger"
 
-# Add to config.yml:
+# Reference template for writing your own Processor.
 #
-# processors:
-#   - ProcessorTemplate:
-#       class: "ProcessorTemplate"
+# In your YAML config:
+#
+#   processors:
+#     - type: "ProcessorTemplate"      # registry key (class name or alias)
+#       enable: true
+#       require: "my_gem/cool_processor" # optional — load an external gem
 #       parameter1: "value"
 #       parameter2: "value"
-#       parameter3: "value"
-#       ...
 #
-
+# Override #validate_config! for fail-fast config checks at boot.
+# Override #process_reviews to transform / filter / dispatch reviews. Always
+# return the (possibly modified) reviews array so downstream processors get
+# the result.
 class ProcessorTemplate < Processor
 
-    def initialize(config, configFilePath, baseExecutePath)
-        # init Processor
-        # get paraemter from config e.g. config["parameter1"]
-        # configFilePath: file path of config file (apple.yml/android.yml)
-        # baseExecutePath: user excute path
+    register "template"   # short alias for the new flat YAML format
+
+    def validate_config!
+        # @param1 = Helper.unwrapRequiredParameter(config, "parameter1")
     end
 
-    def processReviews(reviews, platform)
-        if reviews.length < 1
-            return reviews
-        end
+    def process_reviews(reviews, platform)
+        return reviews if reviews.empty?
 
-        ## do what your want to do with reviews...
-        
-        ## return result reviews
-        return reviews
+        # ... do something with reviews ...
+
+        reviews
     end
 end

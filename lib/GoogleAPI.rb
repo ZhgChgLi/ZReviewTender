@@ -2,8 +2,16 @@ $lib = File.expand_path('../lib', File.dirname(__FILE__))
 
 require "jwt"
 require "time"
+require "json"
+require "net/http"
+require "openssl"
+require "ZLogger"
+require "Helper"
 
-class GoogleAPI < Processor
+# Utility wrapper around Google service-account JWT auth + HTTP requests.
+# This is NOT a Processor — earlier versions accidentally inherited from
+# Processor, which auto-registered it into the Processor registry.
+class GoogleAPI
 
     attr_accessor :keyContent, :keyID, :tokenURI, :clientEmail, :logger, :scopes, :token
 

@@ -2,8 +2,8 @@
 $lib = File.expand_path('../lib', File.dirname(__FILE__))
 
 
-require "Processors/SlackProcessor"
 require "Models/Processor"
+require "Models/WelcomeMessageCapable"
 require "time"
 
 class ReviewFetcher
@@ -21,7 +21,7 @@ class ReviewFetcher
     def processReviews(reviews, platform)
         processors.each do |processor|
             begin
-                reviews = processor.processReviews(reviews, platform)
+                reviews = processor.process_reviews(reviews, platform)
             rescue => e
                 errorMessage = "# Processor Error"
                 errorMessage += "#Error Message:  #{e.message}\n"
@@ -33,10 +33,8 @@ class ReviewFetcher
     end
 
     def sendWelcomMessage()
-        slackProcessor = processors.find { |processor| processor.is_a?(SlackProcessor) }
-        if !slackProcessor.nil?
-            slackProcessor.sendWelcomMessage(platform)
-        end
+        capable = processors.find { |processor| processor.is_a?(WelcomeMessageCapable) }
+        capable&.send_welcome_message(platform)
     end
 
     def setSentWelcomeMessage()

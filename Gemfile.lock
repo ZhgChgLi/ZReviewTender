@@ -1,7 +1,15 @@
 GEM
   remote: https://rubygems.org/
   specs:
+    addressable (2.9.0)
+      public_suffix (>= 2.0.2, < 8.0)
     base64 (0.2.0)
+    bigdecimal (4.1.2)
+    crack (1.0.1)
+      bigdecimal
+      rexml
+    diff-lcs (1.6.2)
+    hashdiff (1.2.1)
     jwt (2.10.1)
       base64
     net-http (0.1.1)
@@ -9,8 +17,27 @@ GEM
       uri
     net-protocol (0.1.3)
       timeout
+    public_suffix (7.0.5)
+    rexml (3.4.4)
+    rspec (3.13.2)
+      rspec-core (~> 3.13.0)
+      rspec-expectations (~> 3.13.0)
+      rspec-mocks (~> 3.13.0)
+    rspec-core (3.13.6)
+      rspec-support (~> 3.13.0)
+    rspec-expectations (3.13.5)
+      diff-lcs (>= 1.2.0, < 2.0)
+      rspec-support (~> 3.13.0)
+    rspec-mocks (3.13.8)
+      diff-lcs (>= 1.2.0, < 2.0)
+      rspec-support (~> 3.13.0)
+    rspec-support (3.13.7)
     timeout (0.3.0)
     uri (1.0.3)
+    webmock (3.26.2)
+      addressable (>= 2.8.0)
+      crack (>= 0.3.2)
+      hashdiff (>= 0.4.0, < 2.0.0)
 
 PLATFORMS
   ruby
@@ -20,7 +47,9 @@ PLATFORMS
 DEPENDENCIES
   jwt (~> 2.10.0)
   net-http (~> 0.1.0)
+  rspec (~> 3.13)
   uri (>= 0.12.4)
+  webmock (~> 3.23)
 
 BUNDLED WITH
    2.3.13

@@ -240,23 +240,58 @@ ZReviewTender will use `slackBotToken` by default.
 *Make sure you add the service account to your Google Sheet with edit permissions.
 
 ### Custom Processor
-1. Clone this project (since ZReviewTender is a complete Gem, you can't modify it dynamically).
-2. Refer to [Processor.rb](https://github.com/ZhgChgLi/ZReviewTender/blob/main/lib/Processors/ProcessorTemplate.rb), make a copy, and develop the features you want.
 
-`initialize`
-- `config`: config YAML parameters
-- `configFilePath`: config YAML file path
-- `baseExecutePath`: the path from which the user executes ZReviewTender
+You can ship a processor as a separate file or even a separate gem — there's
+no need to fork ZReviewTender any more.
 
-`processReviews(reviews, platform)`
-- Input Function 
-- You will receive the latest reviews list, and you can decide what to do with it, e.g., transform or filter...
-- Review Struct: [lib/Models/Review.rb](https://github.com/ZhgChgLi/ZReviewTender/blob/main/lib/Models/Review.rb)
-- Remember to return the resulting reviews for the next Processor to use.
+1. Define a subclass of `Processor`:
 
-3. Add your Processor & any necessary Processor parameters to the `config.yml` in the `processors:` section.
-4. Test & Run!
-5. Done!
+    ```ruby
+    require "Models/Processor"
+
+    class MyProcessor < Processor
+      register "my_processor"   # registry key for use in YAML
+
+      def validate_config!
+        @api_key = Helper.unwrapRequiredParameter(config, "apiKey")
+      end
+
+      def process_reviews(reviews, platform)
+        return reviews if reviews.empty?
+        # transform / filter / dispatch...
+        reviews
+      end
+    end
+    ```
+
+2. Reference it from your YAML (recommended flat format):
+
+    ```yaml
+    processors:
+      - type: "my_processor"          # registry key
+        enable: true
+        require: "my_gem/my_processor" # optional: load from an external gem/path
+        apiKey: "..."
+    ```
+
+The base class gives you `@config`, `@configFilePath`, `@baseExecutePath`,
+and `@logger` for free, plus `render_review(template, review, tz_offset)`
+for `%TITLE%`/`%BODY%`/etc. substitution.
+
+#### Legacy YAML format (still supported, deprecated)
+
+The pre-1.x format keeps working but prints a deprecation warning each run:
+
+```yaml
+processors:
+  - MyProcessor:
+      class: "MyProcessor"
+      enable: true
+      apiKey: "..."
+```
+
+Likewise, processors that override `processReviews` (camelCase) instead of
+`process_reviews` keep working and print a one-line deprecation notice.
 
 *Processors are sensitive to data flow chain and order.
 
