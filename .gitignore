@@ -8,3 +8,5 @@
 .DS_Store
 execute.log
 *.gem
+.rspec_status
+.bundle/

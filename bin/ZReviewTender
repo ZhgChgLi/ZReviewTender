@@ -7,6 +7,7 @@ $LOAD_PATH.unshift($lib)
 require "Models/AppleConfig"
 require "Models/AndroidConfig"
 require "Models/Processor"
+require "Models/ProcessorLoader"
 require "Models/Version"
 require "Helper"
 require "ZLogger"
@@ -181,27 +182,19 @@ class Main
             raise "unknow platform #{platform} in yml file #{configFilePath}."
         end
 
-        processors = Helper.unwrapRequiredParameter(configYMLObj, 'processors')
-        if processors.nil?
-            processors = []
-        end
-
-        if processors.length < 1
+        processors = configYMLObj['processors']
+        if processors.nil? || processors.empty?
             raise "must specify/enable at least one processor."
         end
 
-        processors.each do |processor|
-            processor.each do |key, value|
-                if value["enable"] != true
-                    next
-                end
-                processorClass = Helper.unwrapRequiredParameter(value, "class")
-                require "Processors/#{processorClass}"
-                fetcher.registerProcessor(eval("#{processorClass}.new(#{value}, '#{configFilePath}', '#{ENV['PWD'] || ::Dir.pwd}')"))
-            end
+        loaded = ProcessorLoader.load(processors, configFilePath, ENV['PWD'] || ::Dir.pwd)
+        loaded.each { |p| fetcher.registerProcessor(p) }
+
+        if fetcher.processors.empty?
+            raise "must specify/enable at least one processor."
         end
 
-        return fetcher  
+        return fetcher
     end
 end
 

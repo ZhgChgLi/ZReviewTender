@@ -23,4 +23,7 @@ Gem::Specification.new do |gem|
   
     gem.add_dependency 'net-http', '~> 0.1.0'
     gem.add_dependency 'jwt', '~> 2.10.0'
+
+    gem.add_development_dependency 'rspec',   '~> 3.13'
+    gem.add_development_dependency 'webmock', '~> 3.23'
 end

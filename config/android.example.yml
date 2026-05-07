@@ -1,3 +1,21 @@
+# Two processor formats are supported:
+#
+# Recommended (new, flat) format:
+#   processors:
+#     - type: "SlackProcessor"           # registry key
+#       enable: true
+#       require: "my_gem/cool_proc"      # optional: load an external gem
+#       slackBotToken: "..."
+#       ...
+#
+# Legacy format (still supported, prints a deprecation warning):
+#   processors:
+#     - SlackProcessor:
+#         class: "SlackProcessor"
+#         enable: true
+#         ...
+#
+# This file uses the legacy format below for backward compatibility.
 platform: 'android'
 packageName: '' # Android App Package Name
 keyFilePath: '' # Google Android Publisher API Service Account Credential .json File Path
